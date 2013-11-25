@@ -15,6 +15,5 @@ public class LieferantenAnzeigePanel extends JPanel {
 	public void addLieferant(String anzahl, String zutat){
 		this.add(new JLabel(anzahl));
 		this.add(new JLabel(zutat));
-		//this.repaint();
 	}
 }
