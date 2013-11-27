@@ -17,4 +17,10 @@ public class AlternativLieferant extends AbstractLieferant {
 		return null;
 	}
 
+	@Override
+	protected void zutatAbladen(Zutat z) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

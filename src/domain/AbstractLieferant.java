@@ -6,8 +6,8 @@ import java.util.Random;
 
 public abstract class AbstractLieferant extends Thread{
 	private int anzahl;
-	private ZutatTypEnum zutatTyp;
-	private List<Zutat> gelieferteZutaten = new ArrayList<Zutat>();
+	protected ZutatTypEnum zutatTyp;
+	protected List<Zutat> gelieferteZutaten = new ArrayList<Zutat>();
 	
 	public AbstractLieferant(int anzahl, ZutatTypEnum zutatTyp){
 		this.anzahl = anzahl;
@@ -27,13 +27,14 @@ public abstract class AbstractLieferant extends Thread{
 		for(int i = 0; i< anzahl ; i++){
 			Zutat zutat = createZutatFromEnum(zutatTyp);
 			Thread.sleep(abladeZeit);
-			zutat.abladen();
+			zutatAbladen(zutat);
 			gelieferteZutaten.add(zutat);
 		}
 		
 	}
 	
 	protected abstract Zutat createZutatFromEnum(ZutatTypEnum zutatTypEnum);
+	protected abstract void zutatAbladen(Zutat z);
 	
 
 }

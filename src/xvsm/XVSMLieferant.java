@@ -15,4 +15,9 @@ public class XVSMLieferant extends AbstractLieferant {
 		return ZutatXVSMImpl.createInstance(zutatTypEnum,this);
 	}
 
+	@Override
+	protected void zutatAbladen(Zutat z) {
+		System.out.println("Lieferant " + getId() + ";" + z.getZutatTypEnum() + "#" + z.getId());
+	}
+
 }

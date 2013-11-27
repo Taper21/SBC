@@ -1,5 +1,9 @@
 package xvsm;
 
+import org.mozartspaces.core.Capi;
+import org.mozartspaces.core.DefaultMzsCore;
+import org.mozartspaces.core.MzsCore;
+
 import domain.AbstractLieferant;
 import domain.Zutat;
 import domain.ZutatTypEnum;
@@ -11,7 +15,7 @@ public class ZutatXVSMImpl implements Zutat {
 	private ZutatTypEnum zutatTypEnum;
 	private AbstractLieferant lieferant;
 	
-	public static ZutatXVSMImpl createInstance(ZutatTypEnum zutatTypEnum, AbstractLieferant lieferant){
+	public static synchronized ZutatXVSMImpl createInstance(ZutatTypEnum zutatTypEnum, AbstractLieferant lieferant){
 		return new ZutatXVSMImpl(idSequenz++,zutatTypEnum, lieferant);
 	}
 
@@ -29,12 +33,6 @@ public class ZutatXVSMImpl implements Zutat {
 	@Override
 	public AbstractLieferant getLieferant() {
 		return lieferant;
-	}
-
-	@Override
-	public void abladen() {
-		System.out.println("Lieferant " + lieferant.getId() + ";" + zutatTypEnum + "#" + getId());
-
 	}
 
 	@Override
