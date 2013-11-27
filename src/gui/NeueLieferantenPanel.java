@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import alternativ.AlternativLieferant;
+import alternativ.mitarbeiter.AlternativLieferant;
 
 import xvsm.XVSMLieferant;
 
