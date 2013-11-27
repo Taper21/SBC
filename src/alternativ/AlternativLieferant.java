@@ -1,10 +1,15 @@
 package alternativ;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import domain.AbstractLieferant;
 import domain.Zutat;
 import domain.ZutatTypEnum;
 
 public class AlternativLieferant extends AbstractLieferant {
+	Logger logger = LoggerFactory.getLogger(AlternativLieferant.class);
+
 
 	public AlternativLieferant(int anzahl, ZutatTypEnum zutatTyp) {
 		super(anzahl, zutatTyp);
@@ -13,7 +18,7 @@ public class AlternativLieferant extends AbstractLieferant {
 
 	@Override
 	protected Zutat createZutatFromEnum(ZutatTypEnum zutatTypEnum) {
-		//Zu implementieren
+		logger.info("generated: " + zutatTypEnum);
 		return null;
 	}
 

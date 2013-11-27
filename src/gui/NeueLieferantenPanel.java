@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import alternativ.AlternativLieferant;
+
 import xvsm.XVSMLieferant;
 
 import domain.Lieferant;
@@ -74,7 +76,8 @@ public class NeueLieferantenPanel extends JPanel {
 						XVSMLieferant lieferant = new XVSMLieferant(l.getAnzahl(), l.getZutatTypEnum());
 						lieferant.start();
 					}else{
-					
+						AlternativLieferant lieferant = new AlternativLieferant(l.getAnzahl(), l.getZutatTypEnum());
+						lieferant.start();
 					}
 				}
 			}
