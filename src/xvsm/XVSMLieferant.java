@@ -1,6 +1,5 @@
 package xvsm;
 
-import org.mozartspaces.core.ContainerReference;
 import org.mozartspaces.core.Entry;
 import org.mozartspaces.core.MzsCoreException;
 
@@ -14,15 +13,16 @@ public class XVSMLieferant extends AbstractLieferant {
 		super(anzahl, zutatTyp);
 	}
 
-	@Override
-	protected Zutat createZutatFromEnum(ZutatTypEnum zutatTypEnum) {
+	private Zutat createZutatFromEnum(ZutatTypEnum zutatTypEnum) {
 		return ZutatXVSMImpl.createInstance(zutatTypEnum,this);
 	}
 
 	@Override
-	protected void zutatAbladen(Zutat z) {
+	protected void zutatAbladen(ZutatTypEnum zutatTypEnum) {
+		Zutat z = createZutatFromEnum(zutatTypEnum);
 		System.out.println("Lieferant " + getId() + ";" + z.getZutatTypEnum() + "#" + z.getId());
 		Standort targetLager;
+		
 		switch(z.getZutatTypEnum()){
 			case EI:targetLager = Standort.EIERLAGER;
 				break;
@@ -38,6 +38,7 @@ public class XVSMLieferant extends AbstractLieferant {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 }
