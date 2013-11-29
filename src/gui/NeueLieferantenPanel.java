@@ -79,7 +79,10 @@ public class NeueLieferantenPanel extends JPanel {
 						AlternativLieferant lieferant = new AlternativLieferant(l.getAnzahl(), l.getZutatTypEnum());
 						lieferant.start();
 					}
+					
 				}
+				lieferanten.clear();
+				anzeigePanel.clear();
 			}
 		});
 	}
