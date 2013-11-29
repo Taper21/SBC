@@ -3,11 +3,13 @@ package alternativ.domain;
 import domain.AbstractLieferant;
 import domain.Zutat;
 import domain.ZutatTypEnum;
+
+import java.io.Serializable;
 import java.rmi.server.UID;
 
-public class AlternativZutat implements Zutat {
-
+public class AlternativZutat implements Zutat, Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private ZutatTypEnum typ;
 	private UID id;
 	private long lieferant; 
