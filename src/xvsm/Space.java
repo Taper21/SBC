@@ -24,6 +24,7 @@ import org.mozartspaces.core.MzsCoreException;
 import org.mozartspaces.core.config.Configuration;
 
 import domain.Zutat;
+import domain.ZutatTypEnum;
 
 import gui.MainFrame;
 
@@ -34,6 +35,10 @@ public class Space {
 	
 	 public static ContainerReference lookUpOrCreateContainer(String name) throws MzsCoreException{
 		 return CapiUtil.lookupOrCreateContainer(name, null,null , null, getCapi());
+	 }
+	 
+	 public static MzsCore getCore(){
+		 return core;
 	 }
 	 
 	 private static MzsCore createSpace(){
@@ -143,7 +148,20 @@ public class Space {
 		 
 		 // shutdown the core 
 		 core.shutdown(true); 
-
+	}
+	
+	public static Standort getLager(ZutatTypEnum zutatTypEnum){
+		Standort targetLager;
+		switch(zutatTypEnum){
+			case EI:targetLager = Standort.EIERLAGER;
+				break;
+			case HONIG:targetLager = Standort.HONIGLAGER;
+				break;
+			case MEHL:targetLager = Standort.MEHLLAGER;
+				break;
+			default: targetLager = Standort.MEHLLAGER;
+		}
+		return targetLager;
 	}
 
 }

@@ -1,9 +1,13 @@
 package domain;
 
+import gui.ZutatenLagerAnzeige;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.JPanel;
 
 public abstract class AbstractLieferant extends Thread implements Serializable{
 	private int anzahl;
