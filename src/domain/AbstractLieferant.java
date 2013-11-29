@@ -1,10 +1,11 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class AbstractLieferant extends Thread{
+public abstract class AbstractLieferant extends Thread implements Serializable{
 	private int anzahl;
 	protected ZutatTypEnum zutatTyp;
 	protected List<Zutat> gelieferteZutaten = new ArrayList<Zutat>();
