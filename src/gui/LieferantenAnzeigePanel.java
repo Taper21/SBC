@@ -16,4 +16,9 @@ public class LieferantenAnzeigePanel extends JPanel {
 		this.add(new JLabel(anzahl));
 		this.add(new JLabel(zutat));
 	}
+	
+	public void clear(){
+		this.removeAll();
+		this.repaint();
+	}
 }
