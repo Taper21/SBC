@@ -2,4 +2,5 @@
 .classpath
 .setting/
 *.class
+*.pdf
 target/
