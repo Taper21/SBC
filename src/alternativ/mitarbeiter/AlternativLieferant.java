@@ -7,13 +7,14 @@ import java.rmi.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alternativ.anlagen.rmi.Anlage;
+import alternativ.anlagen.Anlage;
 import alternativ.domain.AlternativZutat;
 
 import domain.AbstractLieferant;
 import domain.ZutatTypEnum;
 
 public class AlternativLieferant extends AbstractLieferant {
+	private static final long serialVersionUID = 1L;
 	Logger logger = LoggerFactory.getLogger(AlternativLieferant.class);
 
 	public AlternativLieferant(int anzahl, ZutatTypEnum zutatTyp) {
@@ -26,12 +27,9 @@ public class AlternativLieferant extends AbstractLieferant {
 		AlternativZutat zutat = new AlternativZutat(zutatTypEnum, getId());
 		logger.info("Lieferant " + getId() + " abgeladen typ: " +zutat.getZutatTypEnum()+" id: " +zutat.getStringId() );
 	
-		 if (System.getSecurityManager() == null) {
-	            System.setSecurityManager(new SecurityManager());
-	        }
 	        try {
 	            String name = "ZutatenLager";
-	            Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+	            Registry registry = LocateRegistry.getRegistry(null);
 	            Anlage comp = (Anlage) registry.lookup(name);
 	            comp.objectLiefern(zutat);
 	            

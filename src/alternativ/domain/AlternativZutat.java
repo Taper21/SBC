@@ -7,7 +7,7 @@ import domain.ZutatTypEnum;
 import java.io.Serializable;
 import java.rmi.server.UID;
 
-public class AlternativZutat implements Zutat, Serializable {
+public class AlternativZutat implements Zutat, Serializable, Resource {
 	
 	private static final long serialVersionUID = 1L;
 	private ZutatTypEnum typ;
