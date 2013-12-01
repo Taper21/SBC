@@ -21,19 +21,8 @@ public class XVSMLieferant extends AbstractLieferant {
 	protected void zutatAbladen(ZutatTypEnum zutatTypEnum) {
 		Zutat z = createZutatFromEnum(zutatTypEnum);
 		System.out.println("Lieferant " + getId() + ";" + z.getZutatTypEnum() + "#" + z.getId());
-		Standort targetLager;
-		
-		switch(z.getZutatTypEnum()){
-			case EI:targetLager = Standort.EIERLAGER;
-				break;
-			case HONIG:targetLager = Standort.HONIGLAGER;
-				break;
-			case MEHL:targetLager = Standort.MEHLLAGER;
-				break;
-			default: targetLager = Standort.MEHLLAGER;
-		}
 		try {
-			Space.getCapi().write(new Entry(z), Space.createOrLookUpContainer(targetLager));
+			Space.getCapi().write(new Entry(z), Space.createOrLookUpContainer(Space.getLager(zutatTypEnum)));
 		} catch (MzsCoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

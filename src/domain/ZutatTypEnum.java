@@ -15,6 +15,5 @@ public enum ZutatTypEnum {
 	
 	public String toString(){
 		return name;
-		
 	}
 }
