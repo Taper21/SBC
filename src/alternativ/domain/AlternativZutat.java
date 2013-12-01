@@ -7,22 +7,21 @@ import domain.ZutatTypEnum;
 import java.io.Serializable;
 import java.rmi.server.UID;
 
-public class AlternativZutat implements Zutat, Serializable, Resource {
+public class AlternativZutat extends Resource implements Zutat  {
 	
 	private static final long serialVersionUID = 1L;
 	private ZutatTypEnum typ;
-	private UID id;
 	private long lieferant; 
 	
 	public AlternativZutat(ZutatTypEnum typ, long lieferantId){
+		super();
 		this.typ = typ;
-		this.id = new UID();
-		this.lieferant = lieferant;
+		this.lieferant = lieferantId;
 		
 	}
 	
 	public String getStringId() {
-		return id.toString();
+		return uid.toString();
 	}
 
 	@Override

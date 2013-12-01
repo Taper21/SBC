@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import alternativ.anlagen.Anlage;
+import alternativ.anlagen.AnlageInterface;
 import alternativ.domain.AlternativZutat;
 
 import domain.AbstractLieferant;
@@ -30,7 +31,7 @@ public class AlternativLieferant extends AbstractLieferant {
 	        try {
 	            String name = "ZutatenLager";
 	            Registry registry = LocateRegistry.getRegistry(null);
-	            Anlage comp = (Anlage) registry.lookup(name);
+	            AnlageInterface comp = (AnlageInterface) registry.lookup(name);
 	            comp.objectLiefern(zutat);
 	            
 	        } catch (Exception e) {

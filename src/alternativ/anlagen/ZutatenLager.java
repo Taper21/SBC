@@ -23,7 +23,7 @@ import domain.Zutat;
 import domain.ZutatTypEnum;
 
 
-public class ZutatenLager implements Anlage, Serializable{
+public class ZutatenLager extends Anlage implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	Logger logger = LoggerFactory.getLogger(ZutatenLager.class);
@@ -33,56 +33,48 @@ public class ZutatenLager implements Anlage, Serializable{
 	private Queue<AlternativZutat> ei  = new ConcurrentLinkedQueue<AlternativZutat>();
 
 	 public ZutatenLager() {
-	        super();
+	        super("ZutatenLager");
 	    }
 	
 	@Override
-	public void objectLiefern(Resource resource) throws RemoteException {
-		if(!(resource instanceof AlternativZutat)){
-			throw new IllegalArgumentException("Resource supposed to be AlternativZutat");
+	public boolean objectLiefern(Resource resource) throws RemoteException {
+		if(checkInstance(AlternativZutat.class, resource)){
+			AlternativZutat zutat = (AlternativZutat) resource;
+			logger.info(zutat + " received of type : " + zutat.getZutatTypEnum());
+			switch(zutat.getZutatTypEnum()){
+			case EI: ei.add(zutat);
+			break;
+			case HONIG: honig.add(zutat);
+			break;
+			case MEHL: mehl.add(zutat);
+			break;	
+			}
+			return true;
 		}
-		AlternativZutat zutat = (AlternativZutat) resource;
-		logger.info(zutat + " received of type : " + zutat.getZutatTypEnum());
-		switch(zutat.getZutatTypEnum()){
-		case EI: ei.add(zutat);
-			break;
-		case HONIG: honig.add(zutat);
-			break;
-		case MEHL: mehl.add(zutat);
-			break;
-		}
+		return false;
 	}
 
 
     public static void main(String[] args) {
-    	Logger logger = LoggerFactory.getLogger(ZutatenLager.class);
-        try {
-        	Registry createRegistry = LocateRegistry.createRegistry(1099);
-            String name = "ZutatenLager";
-            Anlage engine = new ZutatenLager();
-            UnicastRemoteObject.exportObject(engine,0);
-            createRegistry.rebind(name,  engine);
-            logger.info("ZutatenLager bound");
-        } catch (Exception e) {
-            logger.error("ZutatenLager exception:");
-            e.printStackTrace();
-        }
+    	new ZutatenLager();
     }
 
 	@Override
 	public Resource objectHolen(Object requestedType) throws RemoteException {
-		if(!(requestedType instanceof ZutatTypEnum)){
-			throw new IllegalArgumentException("Parameter supposed to be ZutatTypEnum");
-		}
-		ZutatTypEnum zutat = (ZutatTypEnum) requestedType;
 		Resource returnValue = null;
-		switch(zutat){
-		case EI: returnValue = ei.poll();
-		case HONIG: returnValue = honig.poll();
-		case MEHL: returnValue = mehl.poll();
-		}
-		if(returnValue!=null){
-			logger.info(zutat + "erfolgreich transmitted of type : " + zutat);
+		if(checkInstance(ZutatTypEnum.class, requestedType)){
+			ZutatTypEnum zutat = (ZutatTypEnum) requestedType;
+			switch(zutat){
+			case EI: returnValue = ei.poll();
+				break;
+			case HONIG: returnValue = honig.poll();
+				break;
+			case MEHL: returnValue = mehl.poll();
+				break;
+			}
+			if(returnValue!=null){
+				logger.info(zutat + "erfolgreich transmitted of type : " + zutat);
+			}
 		}
 		return returnValue;
 	}
