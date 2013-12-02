@@ -27,13 +27,11 @@ public class AlternativLieferant extends AbstractLieferant {
 	protected void zutatAbladen(ZutatTypEnum zutatTypEnum) {
 		AlternativZutat zutat = new AlternativZutat(zutatTypEnum, getId());
 		logger.info("Lieferant " + getId() + " abgeladen typ: " +zutat.getZutatTypEnum()+" id: " +zutat.getStringId() );
-	
 	        try {
 	            String name = "ZutatenLager";
 	            Registry registry = LocateRegistry.getRegistry(null);
 	            AnlageInterface comp = (AnlageInterface) registry.lookup(name);
-	            comp.objectLiefern(zutat);
-	            
+	            comp.objectLiefern(zutat); 
 	        } catch (Exception e) {
 	            logger.error("AlternativZutat exception:");
 	            e.printStackTrace();

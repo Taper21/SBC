@@ -6,6 +6,8 @@ import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.text.TabExpander;
 
 import alternativ.mitarbeiter.AlternativZutatenManager;
 
@@ -17,12 +19,10 @@ public class MainFrame extends JFrame {
 		super("Lebkuchenfabrik");
 		this.setLayout(new GridLayout(3, 1));
 		this.add(new LieferantenPanel());
-		
-		JPanel zutatenPanel = new JPanel(new GridLayout(1, 2));
-		zutatenPanel.add(new ZutatenLagerAnzeige(new ZutatenMangerXVSMImpl(), "XVSM Zutaten:"));
-		zutatenPanel.add(new ZutatenLagerAnzeige(new AlternativZutatenManager(), "Alternativ Zutaten:"));
-		
-		this.add(zutatenPanel);
+		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
+		tabs.add("Spaced", new ZutatenLagerAnzeige(new ZutatenMangerXVSMImpl(), "XVSM Zutaten:"));
+		tabs.add("Alternativ", new ZutatenLagerAnzeige(new AlternativZutatenManager(), "Alternativ Zutaten:"));	
+		this.add(tabs);
 		this.pack();
 		this.setVisible(true);
 	}
