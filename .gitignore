@@ -1,6 +1,6 @@
 .project
 .classpath
-.setting/
+.settings/
 *.class
 *.pdf
 target/
