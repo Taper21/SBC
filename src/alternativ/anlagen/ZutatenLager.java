@@ -80,4 +80,16 @@ public class ZutatenLager extends Anlage implements Serializable{
 		return returnValue;
 	}
 
+	public List<Zutat> getAllMehl() {
+		return new ArrayList<Zutat>(mehl);
+	}
+
+	public List<Zutat> getAllEier() {
+		return new ArrayList<Zutat>(ei);
+	}
+
+	public List<Zutat> getAllHonig() {
+		return new ArrayList<Zutat>(honig);
+	}
+
 }
