@@ -13,6 +13,8 @@ public class Charge extends Resource implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	List<Lebkuchen> charge = new ArrayList<Lebkuchen>();
+
+	private Status status;
 	
 	public boolean add(Lebkuchen lebkuchen) {
 		if(isVoll()){
@@ -38,6 +40,31 @@ public class Charge extends Resource implements Serializable {
 
 	public boolean isLeer() {
 		return size()==0;
+	}
+
+	public Lebkuchen takeRandomLebkuchen() {
+		int i = Math.abs((new Random().nextInt()%MAX_SIZE));
+		return charge.remove(i);
+	}
+
+	public void setSchmecktSchlecht() {
+		setStatus(Charge.Status.ABFALL);
+	}
+	
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public enum Status {
+		ABFALL,NICHT_KONTROLLIERT,OK;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public List<Lebkuchen> getAll() {
+		return charge;
 	}
 
 }

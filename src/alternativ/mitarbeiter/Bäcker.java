@@ -6,6 +6,9 @@ import java.rmi.server.UID;
 
 import domain.ZutatTypEnum;
 
+import alternativ.anlagen.Ofen;
+import alternativ.anlagen.Qualitaetskontrolle;
+import alternativ.anlagen.ZutatenLager;
 import alternativ.domain.Charge;
 import alternativ.domain.Lebkuchen;
 import alternativ.domain.Resource;
@@ -25,7 +28,7 @@ public class Bäcker extends Mitarbeiter {
 	private UID chargeZumAbholen;;
 
 	public Bäcker(String id){
-		super("ZutatenLager", "Ofen", id);
+		super(ZutatenLager.ZUTATEN_LAGER, Ofen.OFEN, Qualitaetskontrolle.QUALITAETSKONTROLLE,id);
 	}
 	
 	
@@ -54,6 +57,7 @@ public class Bäcker extends Mitarbeiter {
 				try {
 					fertigeLebkuchen = (Charge) ziel.objectHolen(chargeZumAbholen);
 					if(fertigeLebkuchen != null){
+						weiteresZiel.objectLiefern(fertigeLebkuchen);
 						logger.info("Charge fertig gebacken: " + fertigeLebkuchen.getUID() );
 					}
 				} catch (RemoteException e) {

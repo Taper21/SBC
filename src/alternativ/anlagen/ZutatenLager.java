@@ -31,9 +31,10 @@ public class ZutatenLager extends Anlage implements Serializable{
 	private Queue<AlternativZutat> honig = new ConcurrentLinkedQueue<AlternativZutat>();
 	private Queue<AlternativZutat> mehl = new ConcurrentLinkedQueue<AlternativZutat>();
 	private Queue<AlternativZutat> ei  = new ConcurrentLinkedQueue<AlternativZutat>();
+	public static final String ZUTATEN_LAGER = "ZutatenLager";
 
 	 public ZutatenLager() {
-	        super("ZutatenLager");
+	        super(ZUTATEN_LAGER);
 	    }
 	
 	@Override

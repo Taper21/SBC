@@ -18,9 +18,11 @@ public class Ofen extends Anlage {
 	
 	private AtomicInteger lebkuchenAnzahl = new AtomicInteger(0);
 	private Map<UID, Charge> charges = new ConcurrentHashMap<UID,Charge>(MAX_LEBKUCHEN);
+
+	public static final String OFEN = "Ofen";
 	
 	public Ofen() {
-		super("Ofen");
+		super(OFEN);
 	}
 	
 	public static void main(String[] args) {
@@ -29,9 +31,9 @@ public class Ofen extends Anlage {
 
 	@Override
 	public boolean objectLiefern(Resource t) throws RemoteException {
-		logger.info("ofen bekommt eine Charge");
 		if(checkInstance(Charge.class, t)){
 			Charge charge = (Charge) t;
+			logger.info("ofen bekommt eine Charge id: " + charge.getUID());
 			synchronized (charges) {
 			if(MAX_LEBKUCHEN-charges.size()<charge.size()){
 				logger.info("Ofen hat keinen platz fuer den charge("+ charge.size()+") hat gerade "+lebkuchenAnzahl.get()+".");

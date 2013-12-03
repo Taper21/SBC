@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,10 +18,11 @@ public abstract class Mitarbeiter {
 	
 	protected AnlageInterface quelle;
 	protected AnlageInterface ziel;
+	protected AnlageInterface weiteresZiel;
 
 	private String id;
 	
-	public Mitarbeiter(String quelle, String ziel, String id){
+	public Mitarbeiter(String quelle, String ziel, String weiteresZiel ,String id){
 		this.id = id;
 		try{
 			Registry registry = null;
@@ -33,6 +35,9 @@ public abstract class Mitarbeiter {
         	}
 	        this.quelle = (AnlageInterface) registry.lookup(quelle);
 	        this.ziel = (AnlageInterface) registry.lookup(ziel);
+	        if(!StringUtils.isEmpty(weiteresZiel)){
+	        	this.weiteresZiel = (AnlageInterface) registry.lookup(weiteresZiel);
+	        }
 	    } catch (Exception e) {
 	        logger.error("Mitarbeiter exception:");
 	        e.printStackTrace();
@@ -66,5 +71,16 @@ public abstract class Mitarbeiter {
 	
 	public String getId(){
 		return this.id;
+	}
+	
+	public  boolean checkInstance(Class<?> type, Object param){
+		if(param==null){
+			return false;
+		}
+		boolean returnValue = type == param.getClass();
+		if(!returnValue){
+			logger.error("expected type. " + type +" got type: " + param.getClass());
+		}
+		return returnValue;
 	}
 }
