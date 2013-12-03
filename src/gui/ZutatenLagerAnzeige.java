@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import domain.Notification;
 import domain.Zutat;
 import domain.ZutatTypEnum;
-import domain.ZutatenManager;
+import domain.GUIDataManager;
 
 public class ZutatenLagerAnzeige extends JPanel {
 	
@@ -21,11 +21,12 @@ public class ZutatenLagerAnzeige extends JPanel {
 	String [][] data =new String[][]{{"","",""}};
 	private JTable zutatenTable = new JTable(data,columnames);
 	JScrollPane scrollpane =new JScrollPane(zutatenTable);
-	HashMap<Long,Zutat> angezeigteZutaten = new HashMap<Long,Zutat>();
+	HashMap<String,Zutat> angezeigteZutaten = new HashMap<String,Zutat>();
 
-	public ZutatenLagerAnzeige(ZutatenManager zutatenManager, String name) {
+	public ZutatenLagerAnzeige(GUIDataManager zutatenManager, String name) {
 		super(new GridLayout(0, 1));
 		refreshpanel();
+		new ZutatenLagerAnzeigenThread(zutatenManager, this);
 	}
 	
 	private void refreshpanel(){
@@ -34,9 +35,8 @@ public class ZutatenLagerAnzeige extends JPanel {
 		scrollpane =new JScrollPane(zutatenTable);
 		zutatenTable.setEnabled(false);
 		this.add(scrollpane);
-		this.repaint();
+		this.setVisible(false);
 		this.setVisible(true);
-		
 	}
 	
 	public void addZutat(Zutat z){
@@ -58,6 +58,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 			newData[row][0] = z.getId()+"";
 			newData[row][1] = z.getZutatTypEnum().toString();
 			newData[row][2] = z.getLieferant().getId()+"";
+			row++;
 		}
 		return newData;
 	}

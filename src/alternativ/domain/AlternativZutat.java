@@ -35,8 +35,8 @@ public class AlternativZutat extends Resource implements Zutat  {
 	}
 
 	@Override
-	public long getId() {
-		throw new UnsupportedOperationException("use StringId instead");
+	public String getId() {
+		return "";
 	}
 
 }

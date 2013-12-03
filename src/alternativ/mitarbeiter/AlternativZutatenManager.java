@@ -5,13 +5,27 @@ import java.util.List;
 
 import domain.Zutat;
 import domain.ZutatTypEnum;
-import domain.ZutatenManager;
+import domain.GUIDataManager;
 
-public class AlternativZutatenManager implements ZutatenManager {
+public class AlternativZutatenManager implements GUIDataManager {
 
 	@Override
-	public List<Zutat> getAllZutatenByTyp(ZutatTypEnum zutatTypEnum) {
-		return new ArrayList<Zutat>();
+	public List<Zutat> getAllMehl() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public List<Zutat> getAllEier() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Zutat> getAllHonig() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

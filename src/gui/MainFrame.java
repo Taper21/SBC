@@ -11,7 +11,7 @@ import javax.swing.text.TabExpander;
 
 import alternativ.mitarbeiter.AlternativZutatenManager;
 
-import xvsm.ZutatenMangerXVSMImpl;
+import xvsm.GUIDataMangerXVSMImpl;
 
 public class MainFrame extends JFrame {
 
@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
 		this.setLayout(new GridLayout(3, 1));
 		this.add(new LieferantenPanel());
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
-		tabs.add("Spaced", new ZutatenLagerAnzeige(new ZutatenMangerXVSMImpl(), "XVSM Zutaten:"));
+		tabs.add("Spaced", new ZutatenLagerAnzeige(new GUIDataMangerXVSMImpl(), "XVSM Zutaten:"));
 		tabs.add("Alternativ", new ZutatenLagerAnzeige(new AlternativZutatenManager(), "Alternativ Zutaten:"));	
 		this.add(tabs);
 		this.pack();

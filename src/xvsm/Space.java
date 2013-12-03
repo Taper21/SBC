@@ -33,9 +33,9 @@ public class Space {
 	 private static MzsCore core = null;
 	 private static Capi capi = null;
 	
-	 public static ContainerReference lookUpOrCreateContainer(String name) throws MzsCoreException{
-		 return CapiUtil.lookupOrCreateContainer(name, null,null , null, getCapi());
-	 }
+//	 public static ContainerReference lookUpOrCreateContainer(String name) throws MzsCoreException{
+//		 return CapiUtil.lookupOrCreateContainer(name, null,null , null, getCapi());
+//	 }
 	 
 	 public static MzsCore getCore(){
 		 return core;
@@ -95,7 +95,7 @@ public class Space {
 		 URI uri;
 		try {
 			uri = new URI("xvsm://localhost:9876");
-			return getCapi().lookupContainer(name, uri, 5000,null);
+			return getCapi().lookupContainer(name, uri, 200,null);
 		} catch (Exception e) {
 			return null;
 		} 

@@ -26,8 +26,8 @@ public class ZutatXVSMImpl implements Zutat {
 	}
 
 	@Override
-	public long getId() {
-		return id;
+	public String getId() {
+		return id+"";
 	}
 
 	@Override
