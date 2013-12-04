@@ -11,12 +11,12 @@ public class AlternativZutat extends Resource implements Zutat  {
 	
 	private static final long serialVersionUID = 1L;
 	private ZutatTypEnum typ;
-	private AbstractLieferant abstractLieferant; 
+	private long abstractLieferantId; 
 	
-	public AlternativZutat(ZutatTypEnum typ, AbstractLieferant lieferant){
+	public AlternativZutat(ZutatTypEnum typ, long l){
 		super();
 		this.typ = typ;
-		this.abstractLieferant = lieferant;
+		this.abstractLieferantId = l;
 		
 	}
 	
@@ -25,8 +25,8 @@ public class AlternativZutat extends Resource implements Zutat  {
 	}
 
 	@Override
-	public AbstractLieferant getLieferant() {
-		return abstractLieferant;
+	public long getLieferant() {
+		return abstractLieferantId;
 	}
 
 	@Override

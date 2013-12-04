@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
@@ -17,12 +18,12 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() throws HeadlessException {
 		super("Lebkuchenfabrik");
-		this.setLayout(new GridLayout(3, 1));
-		this.add(new LieferantenPanel());
+		this.setLayout(new BorderLayout());
+		this.add(new LieferantenPanel(), BorderLayout.NORTH);
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
 		tabs.add("Spaced", new ZutatenLagerAnzeige(new GUIDataMangerXVSMImpl(), "XVSM Zutaten:"));
-		//tabs.add("Alternativ", new ZutatenLagerAnzeige(new AlternativZutatenManager(), "Alternativ Zutaten:"));	
-		this.add(tabs);
+		tabs.add("Alternativ", new ZutatenLagerAnzeige(new AlternativZutatenManager(), "Alternativ Zutaten:"));	
+		this.add(tabs, BorderLayout.CENTER);
 		this.pack();
 		this.setVisible(true);
 	}

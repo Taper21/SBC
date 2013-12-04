@@ -25,7 +25,7 @@ public class AlternativLieferant extends AbstractLieferant {
 
 	@Override
 	protected void zutatAbladen(ZutatTypEnum zutatTypEnum) {
-		AlternativZutat zutat = new AlternativZutat(zutatTypEnum, this);
+		AlternativZutat zutat = new AlternativZutat(zutatTypEnum, getId());
 		logger.info("Lieferant " + getId() + " abgeladen typ: " +zutat.getZutatTypEnum()+" id: " +zutat.getStringId() );
 	        try {
 	            String name = "ZutatenLager";

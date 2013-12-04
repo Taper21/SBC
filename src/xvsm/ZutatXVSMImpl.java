@@ -17,16 +17,16 @@ public class ZutatXVSMImpl implements Zutat,Serializable {
 	private static long idSequenz =0;
 	private long id;
 	private ZutatTypEnum zutatTypEnum;
-	private AbstractLieferant lieferant;
+	private long lieferantId;
 	
-	public static synchronized ZutatXVSMImpl createInstance(ZutatTypEnum zutatTypEnum, AbstractLieferant lieferant){
-		return new ZutatXVSMImpl(idSequenz++,zutatTypEnum, lieferant);
+	public static synchronized ZutatXVSMImpl createInstance(ZutatTypEnum zutatTypEnum, long lieferantId){
+		return new ZutatXVSMImpl(idSequenz++,zutatTypEnum, lieferantId);
 	}
 
-	public ZutatXVSMImpl(long id, ZutatTypEnum zutatTypEnum,AbstractLieferant lieferant) {
+	public ZutatXVSMImpl(long id, ZutatTypEnum zutatTypEnum,long lieferantId2) {
 		this.id = id;
 		this.zutatTypEnum = zutatTypEnum;
-		this.lieferant = lieferant;
+		this.lieferantId = lieferantId2;
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class ZutatXVSMImpl implements Zutat,Serializable {
 	}
 
 	@Override
-	public AbstractLieferant getLieferant() {
-		return lieferant;
+	public long getLieferant() {
+		return lieferantId;
 	}
 
 	@Override
