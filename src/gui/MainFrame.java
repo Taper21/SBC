@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
 		this.add(new LieferantenPanel());
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
 		tabs.add("Spaced", new ZutatenLagerAnzeige(new GUIDataMangerXVSMImpl(), "XVSM Zutaten:"));
-		tabs.add("Alternativ", new ZutatenLagerAnzeige(new AlternativZutatenManager(), "Alternativ Zutaten:"));	
+		//tabs.add("Alternativ", new ZutatenLagerAnzeige(new AlternativZutatenManager(), "Alternativ Zutaten:"));	
 		this.add(tabs);
 		this.pack();
 		this.setVisible(true);

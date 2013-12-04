@@ -1,5 +1,9 @@
 package xvsm;
 
+import java.io.Serializable;
+
+import javax.sql.rowset.serial.SerialArray;
+
 import org.mozartspaces.core.Capi;
 import org.mozartspaces.core.DefaultMzsCore;
 import org.mozartspaces.core.MzsCore;
@@ -8,7 +12,7 @@ import domain.AbstractLieferant;
 import domain.Zutat;
 import domain.ZutatTypEnum;
 
-public class ZutatXVSMImpl implements Zutat {
+public class ZutatXVSMImpl implements Zutat,Serializable {
 	
 	private static long idSequenz =0;
 	private long id;

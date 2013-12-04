@@ -1,7 +1,9 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import domain.Zutat;
 import domain.ZutatTypEnum;
@@ -41,11 +43,15 @@ public class ZutatenLagerAnzeigenThread extends Thread {
 			}
 			spaceZutatenIds.add(z.getId());
 		}
-		for(String zid : zutatenLagerAnzeige.angezeigteZutaten.keySet()){
+		Set<String> alleCurrent =new HashSet<String>();
+		alleCurrent.addAll(zutatenLagerAnzeige.angezeigteZutaten.keySet());
+		for(String zid : alleCurrent){
 			if(!spaceZutatenIds.contains(zid)){
 				zutatenLagerAnzeige.deleteZutat(zutatenLagerAnzeige.angezeigteZutaten.get(zid));
 			}
 		}
 	}
+	
+	
 
 }
