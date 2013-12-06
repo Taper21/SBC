@@ -33,15 +33,15 @@ public class Baecker extends Mitarbeiter {
 	
 	
 	public static void main(String[] args) {
-		Baecker bäcker = new Baecker(args[0]);
-		bäcker.getLogger().info("Bäcker started mit id: " + bäcker.getId());
+		Baecker baecker = new Baecker(args[0]);
+		baecker.getLogger().info("Bäcker started mit id: " + baecker.getId());
 		for(;;){
-			bäcker.getResources();
+			baecker.getResources();
 //			bäcker.getLogger().info("Bäcker " + bäcker.getId() + "hat alle Zutaten");
-			bäcker.teigMischen();
+			baecker.teigMischen();
 //			bäcker.getLogger().info("Bäcker " + bäcker.getId() + "mischt einen Lebkuchen ");
-			bäcker.versucheZuBacken();
-			bäcker.holeChargeVonOfen();
+			baecker.versucheZuBacken();
+			baecker.holeChargeVonOfen();
 		}
 	}
 
