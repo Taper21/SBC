@@ -31,6 +31,11 @@ public class ZutatenLagerAnzeige extends JPanel {
 	private JTable zutatenTable = new JTable(model);
 	JScrollPane scrollpane =new JScrollPane(zutatenTable);
 	List<Zutat> angezeigteZutaten = new ArrayList<Zutat>();
+	String[] lebkuchenColumnames = new String[]{"ID","Status","Charge-ID", "Mehl-ID", "Honig-ID", "Ei1-ID", "Ei2-ID", "Bäcker-ID", ""};
+	String [][] lebkuchenData =new String[][]{{"","",""}};
+	private DefaultTableModel lebkuchenModel = new DefaultTableModel(lebkuchenData,columnames);
+	private JTable lebkuchenTable = new JTable(lebkuchenModel);
+	
 
 	public ZutatenLagerAnzeige(GUIDataManager zutatenManager, String name) {
 		super(new GridLayout(2, 1), true);
