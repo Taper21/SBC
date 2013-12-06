@@ -13,7 +13,7 @@ import alternativ.domain.Charge;
 import alternativ.domain.Lebkuchen;
 import alternativ.domain.Resource;
 
-public class Bäcker extends Mitarbeiter {
+public class Baecker extends Mitarbeiter {
 
 
 
@@ -27,13 +27,13 @@ public class Bäcker extends Mitarbeiter {
 	private boolean warteAufCharge;
 	private UID chargeZumAbholen;;
 
-	public Bäcker(String id){
+	public Baecker(String id){
 		super(ZutatenLager.ZUTATEN_LAGER, Ofen.OFEN, Qualitaetskontrolle.QUALITAETSKONTROLLE,id);
 	}
 	
 	
 	public static void main(String[] args) {
-		Bäcker bäcker = new Bäcker(args[0]);
+		Baecker bäcker = new Baecker(args[0]);
 		bäcker.getLogger().info("Bäcker started mit id: " + bäcker.getId());
 		for(;;){
 			bäcker.getResources();
