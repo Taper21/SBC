@@ -81,18 +81,28 @@ public class ZutatenLagerAnzeige extends JPanel {
 		return newData;
 	}
 
-	public void setData(List<Zutat> zutaten, int mehlcount, int honigcount, int eiercount, List<ILebkuchen> lebkuchen) {
-		data = zutatenMapToDataArray(zutaten);
-		columnames = new String[]{"ID","Mehl("+mehlcount+") Honig("+honigcount+") Eier("+eiercount+")","ID Lieferant ("+")"};
-		model.setDataVector(data, columnames);
-		model.fireTableDataChanged();
-		lebkuchenModel.setDataVector(lebkuchenMapToDataArray(lebkuchen), lebkuchenColumnames);
-		lebkuchenModel.fireTableDataChanged();
-//		zutatenTable = new JTable(data,columnames);
-//		scrollpane =new JScrollPane(zutatenTable);
-//		this.removeAll();
-//		this.add(scrollpane);
-//		scrollpane.repaint();
+	public void setData(final List<Zutat> zutaten,final int mehlcount,final int honigcount,final int eiercount,final List<ILebkuchen> lebkuchen) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				data = zutatenMapToDataArray(zutaten);
+				columnames = new String[]{"ID","Mehl("+mehlcount+") Honig("+honigcount+") Eier("+eiercount+")","ID Lieferant ("+")"};
+				model.setDataVector(data, columnames);
+				model.fireTableDataChanged();
+				lebkuchenModel.setDataVector(lebkuchenMapToDataArray(lebkuchen), lebkuchenColumnames);
+//				lebkuchenModel = new DefaultTableModel(lebkuchenMapToDataArray(lebkuchen), lebkuchenColumnames);
+//				lebkuchenTable.setModel(lebkuchenModel);
+				lebkuchenModel.fireTableDataChanged();
+//				zutatenTable = new JTable(data,columnames);
+//				scrollpane =new JScrollPane(zutatenTable);
+//				this.removeAll();
+//				this.add(scrollpane);
+//				scrollpane.repaint();
+			}
+		});
+		
 	}
 
 }

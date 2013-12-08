@@ -32,9 +32,9 @@ public class ZutatenLager extends Anlage implements Serializable{
 	private static final long serialVersionUID = 1L;
 	Logger logger = LoggerFactory.getLogger(ZutatenLager.class);
 	
-	private Queue<AlternativZutat> honig = new ConcurrentLinkedQueue<AlternativZutat>();
-	private Queue<AlternativZutat> mehl = new ConcurrentLinkedQueue<AlternativZutat>();
-	private Queue<AlternativZutat> ei  = new ConcurrentLinkedQueue<AlternativZutat>();
+	private ConcurrentLinkedQueue<AlternativZutat> honig = new ConcurrentLinkedQueue<AlternativZutat>();
+	private ConcurrentLinkedQueue<AlternativZutat> mehl = new ConcurrentLinkedQueue<AlternativZutat>();
+	private ConcurrentLinkedQueue<AlternativZutat> ei  = new ConcurrentLinkedQueue<AlternativZutat>();
 	public static final String ZUTATEN_LAGER = "ZutatenLager";
 
 	 public ZutatenLager() {
@@ -43,15 +43,28 @@ public class ZutatenLager extends Anlage implements Serializable{
 	
 	@Override
 	public boolean objectLiefern(Resource resource) throws RemoteException {
+		logger.info("lager bekommt ein object");
 		if(checkInstance(AlternativZutat.class, resource)){
 			AlternativZutat zutat = (AlternativZutat) resource;
 			logger.info(zutat + " received of type : " + zutat.getZutatTypEnum());
 			switch(zutat.getZutatTypEnum()){
-			case EI: ei.add(zutat);
+			case EI:
+				synchronized(ei){
+					ei.add(zutat);
+					ei.notify();
+				}
 			break;
-			case HONIG: honig.add(zutat);
+			case HONIG: 
+				synchronized(honig){
+					honig.add(zutat);
+					honig.notify();
+				}
 			break;
-			case MEHL: mehl.add(zutat);
+			case MEHL: 
+				synchronized(mehl){
+					mehl.add(zutat);
+					mehl.notify();
+				}
 			break;	
 			}
 			return true;
@@ -65,16 +78,19 @@ public class ZutatenLager extends Anlage implements Serializable{
     }
 
 	@Override
-	public Resource objectHolen(Object requestedType) throws RemoteException {
+	synchronized public Resource objectHolen(Object requestedType) throws RemoteException, InterruptedException {
 		Resource returnValue = null;
 		if(checkInstance(ZutatTypEnum.class, requestedType)){
 			ZutatTypEnum zutat = (ZutatTypEnum) requestedType;
 			switch(zutat){
 			case EI: returnValue = ei.poll();
+				returnValue = warteBisZutatVorhanden(returnValue, ei);
 				break;
 			case HONIG: returnValue = honig.poll();
+			returnValue = warteBisZutatVorhanden(returnValue, honig);
 				break;
 			case MEHL: returnValue = mehl.poll();
+			returnValue = warteBisZutatVorhanden(returnValue, mehl);
 				break;
 			}
 			if(returnValue!=null){

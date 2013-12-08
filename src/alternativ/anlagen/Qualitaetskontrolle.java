@@ -34,18 +34,24 @@ public class Qualitaetskontrolle extends Anlage {
 	@Override
 	public boolean objectLiefern(Resource t) throws RemoteException {
 		if(checkInstance(Charge.class, t)){
+			synchronized(charges){
+				
 			Charge charge = (Charge) t;
 			logger.info("Qualitätskontrolle bekommt eine Charge id: " + charge.getUID());
 			charges.add(charge);
+			charges.notify();
 			return true;
+			}
 			}
 		return false;
 	}
 
 	@Override
 	public Resource objectHolen(Object optionalParameter)
-			throws RemoteException {
-		return charges.poll();
+			throws RemoteException, InterruptedException {
+		Charge returnValue = charges.poll();
+		returnValue = warteBisZutatVorhanden(returnValue, charges);
+		return returnValue;
 }
 
 	@Override

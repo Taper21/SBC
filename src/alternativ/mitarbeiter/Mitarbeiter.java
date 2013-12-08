@@ -47,7 +47,7 @@ public abstract class Mitarbeiter {
 	public  Resource besorgeZutat(Object optionalParameter){
 		try {
 			return quelle.objectHolen(optionalParameter);
-		} catch (RemoteException e) {
+		} catch (RemoteException | InterruptedException e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
@@ -58,7 +58,7 @@ public abstract class Mitarbeiter {
 	public boolean gibZutatAb(Resource resource){
 		try {
 			return ziel.objectLiefern(resource);
-		} catch (RemoteException e) {
+		} catch (RemoteException | InterruptedException e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}

@@ -7,6 +7,6 @@ import alternativ.domain.Resource;
 
 public interface AnlageInterface extends Remote {
 
-	public boolean objectLiefern(Resource t) throws RemoteException;
-	public Resource objectHolen(Object optionalParameter) throws RemoteException;
+	public boolean objectLiefern(Resource t) throws RemoteException, InterruptedException;
+	public Resource objectHolen(Object optionalParameter) throws RemoteException, InterruptedException;
 }

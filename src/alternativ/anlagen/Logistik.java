@@ -31,8 +31,10 @@ public class Logistik extends Anlage {
     }
 
 	@Override
-	public boolean objectLiefern(Resource t) throws RemoteException {
+	 public boolean objectLiefern(Resource t) throws RemoteException {
 		if(checkInstance(Charge.class, t)){
+			synchronized(charges){
+				
 			Charge charge = (Charge) t;
 			logger.info("Logistik bekommt eine Charge id: " + charge.getUID());
 			switch(charge.getStatus()){
@@ -46,15 +48,19 @@ public class Logistik extends Anlage {
 			default:
 				break;
 			}
+			charges.notify();
+			}
 			return true;
 			}
 		return false;
 	}
 
 	@Override
-	public Resource objectHolen(Object optionalParameter)
-			throws RemoteException {
-		return charges.poll();
+	synchronized public Resource objectHolen(Object optionalParameter)
+			throws RemoteException, InterruptedException {
+		Charge poll = charges.poll();
+		poll = warteBisZutatVorhanden(poll, charges);
+		return poll;
 }
 
 	@Override

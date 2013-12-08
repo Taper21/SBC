@@ -8,6 +8,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public abstract class Anlage implements AnlageInterface {
         	Registry registry = null;
         	try {
         		registry = LocateRegistry.createRegistry(1099);
-        	    // This call will throw an exception if the registry does not already exist
+        	    // This call will throw an exception if the registry does already exist
         	}
         	catch (RemoteException e) { 
         		registry = LocateRegistry.getRegistry(1099);
@@ -64,6 +65,17 @@ public abstract class Anlage implements AnlageInterface {
 	}
 
 
+	synchronized protected  <T extends RETURN,RETURN> RETURN warteBisZutatVorhanden(RETURN zutat, Queue<T> listeMitZutat)
+			throws InterruptedException {
+		logger.info("waiting for: " + listeMitZutat.getClass());
+		synchronized(listeMitZutat){
+			while(zutat ==null){
+				listeMitZutat.wait();
+				zutat = listeMitZutat.poll();
+			}
+		}
+		return  zutat;
+	}
 
 	public abstract Collection<Charge> getCharges();
 }

@@ -24,7 +24,6 @@ public class Baecker extends Mitarbeiter {
 	private Resource ei1 = null;
 	private Resource ei2 = null;
 	private Charge charge = new Charge();
-	private boolean lagerWirktLeer;
 	private boolean warteAufCharge;
 	private UID chargeZumAbholen;;
 
@@ -38,10 +37,8 @@ public class Baecker extends Mitarbeiter {
 		baecker.getLogger().info("Bäcker started mit id: " + baecker.getId());
 		for(;;){
 			baecker.getResources();
-//			bäcker.getLogger().info("Bäcker " + bäcker.getId() + "hat alle Zutaten");
 			baecker.teigMischen();
-//			bäcker.getLogger().info("Bäcker " + bäcker.getId() + "mischt einen Lebkuchen ");
-			baecker.versucheZuBacken();
+			baecker.backen();
 			baecker.holeChargeVonOfen();
 		}
 	}
@@ -72,53 +69,34 @@ public class Baecker extends Mitarbeiter {
 	}
 
 
-	private void versucheZuBacken() {
-		if(charge.isVoll()){
-			backen();
-		}else if(lagerWirktLeer && !charge.isLeer()){
-			backen();
-		}
-	}
 
 
 	private void backen() {
-		if(gibZutatAb(charge)){
-			chargeZumAbholen = charge.getUID();
-			charge=new Charge();
-			lagerWirktLeer = false;
-			warteAufCharge = true;
-		}
+			if(gibZutatAb(charge)){
+				chargeZumAbholen = charge.getUID();
+				charge=new Charge();
+				warteAufCharge = true;
+			} else {
+				
+			}
 	}
 
 
 	private void teigMischen() {
-		if(!lagerWirktLeer){
 			if(charge.add(new Lebkuchen(Lebkuchen.Status.GEFERTIGT, charge.getUID(), honig, mehl, ei1, ei2, getId()))){
 				honig = null;
 				mehl = null;
 				ei1 = null;
 				ei2 = null;
-			}
 		}
 	}
 
 	private void getResources(){
-		if(honig==null){
+		if(honig == null && mehl ==null && ei1==null && ei2==null){
 			honig = besorgeZutat(ZutatTypEnum.HONIG);
-		}
-		if(mehl==null){
 			mehl = besorgeZutat(ZutatTypEnum.MEHL);
-		}
-		if(ei1==null){
 			ei1 = besorgeZutat(ZutatTypEnum.EI);
-		}
-		if(ei2==null){
 			ei2 = besorgeZutat(ZutatTypEnum.EI);
-		}
-		if(null == honig || null == mehl || null == ei1 || null == ei2){
-			lagerWirktLeer = true;
-		}else {
-			lagerWirktLeer = false;
 		}
 	}
 

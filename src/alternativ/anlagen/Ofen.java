@@ -23,7 +23,7 @@ public class Ofen extends Anlage {
 	private static int MAX_LEBKUCHEN = 10;
 	
 	private AtomicInteger lebkuchenAnzahl = new AtomicInteger(0);
-	private Map<UID, Charge> charges = new ConcurrentHashMap<UID,Charge>(MAX_LEBKUCHEN);
+	private ConcurrentHashMap<UID, Charge> charges = new ConcurrentHashMap<UID,Charge>(MAX_LEBKUCHEN);
 
 	public static final String OFEN = "Ofen";
 	
@@ -36,25 +36,34 @@ public class Ofen extends Anlage {
     }
 
 	@Override
-	public boolean objectLiefern(Resource t) throws RemoteException {
+	public boolean objectLiefern(Resource t) throws RemoteException, InterruptedException {
 		if(checkInstance(Charge.class, t)){
 			Charge charge = (Charge) t;
 			logger.info("ofen bekommt eine Charge id: " + charge.getUID());
-			synchronized (charges) {
-			if(MAX_LEBKUCHEN-charges.size()<charge.size()){
+			synchronized(charges){
+				
+			//solange kein platz im ofen:
+			while(MAX_LEBKUCHEN-charges.size()<charge.size()){
 				logger.info("Ofen hat keinen platz fuer den charge("+ charge.size()+") hat gerade "+lebkuchenAnzahl.get()+".");
-				//kein platz im ofen
-				return false;
-			}else {
-					logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
-					charges.put(charge.getUID(), charge);
-					lebkuchenAnzahl.addAndGet(charge.size());
-					charge.setStatusOfLebkuchen(Lebkuchen.Status.IN_OFEN);
-					logger.info("charge wurde hinzugefuegt: " + charge.getUID());
-					logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
-					
-				return true;
+				//charge vom baecker ist voll
+				if(charge.isVoll()){
+					//charge ist voll, baecker soll warten bis genug platz im ofen
+					charges.wait();
+				}else{
+					//charge nicht voll lass den baecker charge vollmachen
+					return false;					
+				}
 			}
+			//so viel platz noch frei, charge noch nicht voll, besser baecker noch baecker vorbereiten lassen
+			if(MAX_LEBKUCHEN-charges.size()>charge.MAX_SIZE && charge.size() != charge.MAX_SIZE)
+				return false;
+				logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
+				charges.put(charge.getUID(), charge);
+				lebkuchenAnzahl.addAndGet(charge.size());
+				charge.setStatusOfLebkuchen(Lebkuchen.Status.IN_OFEN);
+				logger.info("charge wurde hinzugefuegt: " + charge.getUID());
+				logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
+				return true;
 			}
 		}
 		return false;
@@ -64,12 +73,14 @@ public class Ofen extends Anlage {
 	public Resource objectHolen(Object optionalParameter)
 			throws RemoteException {
 		if(checkInstance(UID.class, optionalParameter)){
+				
 			synchronized(charges){
-				Charge remove = charges.remove(optionalParameter);
-				if(remove!=null){
-					lebkuchenAnzahl.addAndGet(-remove.size());
-				}
-				return remove;
+			Charge remove = charges.remove(optionalParameter);
+			if(remove!=null){
+				lebkuchenAnzahl.addAndGet(-remove.size());
+			}
+			charges.notify();
+			return remove;
 			}
 		}
 		return null;
