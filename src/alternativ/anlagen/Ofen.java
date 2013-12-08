@@ -2,14 +2,20 @@ package alternativ.anlagen;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UID;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import domain.ILebkuchen;
+
 import alternativ.domain.AlternativZutat;
 import alternativ.domain.Charge;
+import alternativ.domain.Lebkuchen;
 import alternativ.domain.Resource;
 
 public class Ofen extends Anlage {
@@ -43,6 +49,7 @@ public class Ofen extends Anlage {
 					logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
 					charges.put(charge.getUID(), charge);
 					lebkuchenAnzahl.addAndGet(charge.size());
+					charge.setStatusOfLebkuchen(Lebkuchen.Status.IN_OFEN);
 					logger.info("charge wurde hinzugefuegt: " + charge.getUID());
 					logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
 					
@@ -68,4 +75,8 @@ public class Ofen extends Anlage {
 		return null;
 	}
 
+	@Override
+	public Collection<Charge> getCharges() {
+		return charges.values();
+	}
 }

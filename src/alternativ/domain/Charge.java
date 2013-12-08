@@ -5,6 +5,8 @@ import java.util.Random;
 import java.io.Serializable;
 import java.util.List;
 
+import alternativ.domain.Lebkuchen.Status;
+
 
 public class Charge extends Resource implements Serializable {
 	
@@ -43,12 +45,13 @@ public class Charge extends Resource implements Serializable {
 	}
 
 	public Lebkuchen takeRandomLebkuchen() {
-		int i = Math.abs((new Random().nextInt()%MAX_SIZE));
+		int i = Math.abs((new Random().nextInt()%(charge.size())));
 		return charge.remove(i);
 	}
 
 	public void setSchmecktSchlecht() {
 		setStatus(Charge.Status.ABFALL);
+		setStatusOfLebkuchen(alternativ.domain.Lebkuchen.Status.WEGGESCHMISSEN);
 	}
 	
 	public void setStatus(Status status) {
@@ -65,6 +68,12 @@ public class Charge extends Resource implements Serializable {
 
 	public List<Lebkuchen> getAll() {
 		return charge;
+	}
+
+	public void setStatusOfLebkuchen(alternativ.domain.Lebkuchen.Status status) {
+		for(Lebkuchen l:charge){
+			l.setStatus(status);
+		}
 	}
 
 }

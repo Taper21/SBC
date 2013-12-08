@@ -7,6 +7,7 @@ import java.util.Random;
 
 import domain.ZutatTypEnum;
 
+import alternativ.anlagen.Logistik;
 import alternativ.anlagen.Ofen;
 import alternativ.anlagen.Qualitaetskontrolle;
 import alternativ.anlagen.ZutatenLager;
@@ -25,7 +26,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 
 
 	public QualitaetsKontrolleur(String id, String ausscheidungsRate){
-		super(Qualitaetskontrolle.QUALITAETSKONTROLLE, "Logistik", null,id);
+		super(Qualitaetskontrolle.QUALITAETSKONTROLLE, Logistik.LOGISTIK, null,id);
 		this.ausscheidungsRate = Long.parseLong(ausscheidungsRate);
 	}
 	
@@ -54,6 +55,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 	private void kosteLebkuchen() {
 		if(zuPruefendeCharge!=null){
 			Lebkuchen bissen = zuPruefendeCharge.takeRandomLebkuchen();
+			bissen.setStatus(Lebkuchen.Status.GEGESSEN);
 			logger.info("Random Lebkuchenbissen id: " + bissen.getUID());
 			kontrolle();
 		}
@@ -67,6 +69,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 				zuPruefendeCharge.setSchmecktSchlecht();
 			}else{
 				zuPruefendeCharge.setStatus(Charge.Status.OK);
+				zuPruefendeCharge.setStatusOfLebkuchen(Lebkuchen.Status.KONTROLLIERT);
 			}
 		}else{
 			zuPruefendeCharge.setStatus(Charge.Status.NICHT_KONTROLLIERT);
@@ -79,6 +82,9 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 		Resource zuPruefendeCharge = besorgeZutat(null);
 		if(checkInstance(Charge.class, zuPruefendeCharge)){
 			this.zuPruefendeCharge = (Charge) zuPruefendeCharge;
+			for(Lebkuchen x:((Charge) zuPruefendeCharge).getAll()){
+				x.setQualitaetsMitarbeiterId(getId());
+			}
 		}
 	}
 

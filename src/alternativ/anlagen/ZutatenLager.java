@@ -7,18 +7,22 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import alternativ.domain.AlternativZutat;
+import alternativ.domain.Charge;
 import alternativ.domain.Resource;
 
+import domain.ILebkuchen;
 import domain.Zutat;
 import domain.ZutatTypEnum;
 
@@ -92,4 +96,9 @@ public class ZutatenLager extends Anlage implements Serializable{
 		return new ArrayList<Zutat>(honig);
 	}
 
+
+	@Override
+	public Collection<Charge> getCharges() {
+		throw new NotImplementedException();
+	}
 }

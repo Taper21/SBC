@@ -2,12 +2,18 @@ package alternativ.anlagen;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UID;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.lang.NotImplementedException;
+
+import domain.ILebkuchen;
 
 import alternativ.domain.AlternativZutat;
 import alternativ.domain.Charge;
@@ -33,6 +39,7 @@ public class FertigePackungenLager extends Anlage {
 		if(checkInstance(Packung.class, t)){
 			Packung packung = (Packung) t;
 			logger.info("FertigePackungenLager bekommt eine Packung id: " + packung.getUID());
+			fertig.add(packung);
 			return true;
 		}
 		return false;
@@ -43,5 +50,19 @@ public class FertigePackungenLager extends Anlage {
 			throws RemoteException {
 		throw new UnsupportedOperationException();
 }
+	
+	@Override
+	public List<ILebkuchen> getAllLebkuchen() {
+		List<ILebkuchen> result = new ArrayList<ILebkuchen>();
+		for(Packung p:fertig){
+			result.addAll(p.getAllLebkuchen());
+		}
+		return result;
+	}
+
+	@Override
+	public Collection<Charge> getCharges() {
+		throw new NotImplementedException();
+	}
 
 }

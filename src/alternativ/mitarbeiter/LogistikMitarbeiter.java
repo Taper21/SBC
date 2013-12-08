@@ -21,6 +21,7 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	
 	public static void main(String args[]){
 		LogistikMitarbeiter logistikMitarbeiter = new LogistikMitarbeiter(args[0]);
+		logistikMitarbeiter.logger.info("logistikMitarbeiter id: " + logistikMitarbeiter.getId() + " started.");
 		while(true){
 			logistikMitarbeiter.holeCharge();
 			logistikMitarbeiter.verpackeLebkuchen();
@@ -33,6 +34,7 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 		for(Packung x:fertigePackungen){
 			gibZutatAb(x);
 		}
+		fertigePackungen = new ConcurrentLinkedDeque<Packung>();
 	}
 
 	private void holeCharge() {
@@ -42,6 +44,8 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 				if(checkInstance(Charge.class, r)){
 					Charge charge = (Charge) r;
 					for(Lebkuchen l : charge.getAll()){
+						l.setLogistikMitarbeiterId(getId());
+						logger.info("logistikMitarbeiter verpackt: " + l.getId());
 						zuVerpackendeLebkuchen.add(l);
 					}
 				}

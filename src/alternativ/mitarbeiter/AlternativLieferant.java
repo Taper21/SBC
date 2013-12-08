@@ -16,6 +16,7 @@ import domain.ZutatTypEnum;
 
 public class AlternativLieferant extends AbstractLieferant {
 	private static final long serialVersionUID = 1L;
+	private int gesamt;
 	Logger logger = LoggerFactory.getLogger(AlternativLieferant.class);
 
 	public AlternativLieferant(int anzahl, ZutatTypEnum zutatTyp) {
@@ -26,7 +27,7 @@ public class AlternativLieferant extends AbstractLieferant {
 	@Override
 	protected void zutatAbladen(ZutatTypEnum zutatTypEnum) {
 		AlternativZutat zutat = new AlternativZutat(zutatTypEnum, getId());
-		logger.info("Lieferant " + getId() + " abgeladen typ: " +zutat.getZutatTypEnum()+" id: " +zutat.getStringId() );
+		logger.info("Lieferant " + getId() + " abgeladen typ: " +zutat.getZutatTypEnum()+" id: " +zutat.getStringId() +" gesamt: " + ++gesamt);
 	        try {
 	            String name = "ZutatenLager";
 	            Registry registry = LocateRegistry.getRegistry(null);

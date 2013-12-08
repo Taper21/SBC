@@ -3,6 +3,7 @@ package alternativ.mitarbeiter;
 import java.util.ArrayList;
 import java.util.List;
 
+import alternativ.domain.Charge;
 import alternativ.domain.Lebkuchen;
 import alternativ.domain.Resource;
 
@@ -16,6 +17,10 @@ public class Packung extends Resource {
 
 	public int size() {
 		return lebkuchen.size();
+	}
+
+	public List<Lebkuchen> getAllLebkuchen() {
+		return lebkuchen;
 	}
 
 }

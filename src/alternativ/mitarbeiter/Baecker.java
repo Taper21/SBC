@@ -4,6 +4,7 @@ package alternativ.mitarbeiter;
 import java.rmi.RemoteException;
 import java.rmi.server.UID;
 
+import domain.ILebkuchen;
 import domain.ZutatTypEnum;
 
 import alternativ.anlagen.Ofen;
@@ -57,6 +58,7 @@ public class Baecker extends Mitarbeiter {
 				try {
 					fertigeLebkuchen = (Charge) ziel.objectHolen(chargeZumAbholen);
 					if(fertigeLebkuchen != null){
+						fertigeLebkuchen.setStatusOfLebkuchen(Lebkuchen.Status.GEBACKEN);
 						weiteresZiel.objectLiefern(fertigeLebkuchen);
 						logger.info("Charge fertig gebacken: " + fertigeLebkuchen.getUID() );
 					}
@@ -91,7 +93,7 @@ public class Baecker extends Mitarbeiter {
 
 	private void teigMischen() {
 		if(!lagerWirktLeer){
-			if(charge.add(new Lebkuchen(Lebkuchen.Status.GEFERTIGT, charge.getUID(), honig, mehl, ei1, ei2))){
+			if(charge.add(new Lebkuchen(Lebkuchen.Status.GEFERTIGT, charge.getUID(), honig, mehl, ei1, ei2, getId()))){
 				honig = null;
 				mehl = null;
 				ei1 = null;

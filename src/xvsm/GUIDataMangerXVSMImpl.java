@@ -12,6 +12,9 @@ import org.mozartspaces.notifications.Notification;
 import org.mozartspaces.notifications.NotificationListener;
 import org.mozartspaces.notifications.Operation;
 
+import alternativ.domain.Lebkuchen;
+
+import domain.ILebkuchen;
 import domain.Zutat;
 import domain.ZutatTypEnum;
 import domain.GUIDataManager;
@@ -45,6 +48,11 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 		
 		return new ArrayList<Zutat>();
 	
+	}
+
+	@Override
+	public List<ILebkuchen> getAllLebkuchen() {
+		throw new UnsupportedOperationException();
 	}
 
 

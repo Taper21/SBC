@@ -32,14 +32,14 @@ public class ZutatenLagerAnzeigenThread extends Thread {
 		}
 	}
 	
-	private synchronized void updateGUI(){
+	private void updateGUI(){
 		List<Zutat> allEier = zutatenManager.getAllEier();
-		List<Zutat> spaceZutaten = allEier;
+		List<Zutat> spaceZutaten = new ArrayList<Zutat>(allEier);
 		List<Zutat> allHonig = zutatenManager.getAllHonig();
 		spaceZutaten.addAll(allHonig);
 		List<Zutat> allMehl = zutatenManager.getAllMehl();
 		spaceZutaten.addAll(allMehl);
-		zutatenLagerAnzeige.setData(spaceZutaten, allMehl.size(), allHonig.size(), allEier.size());
+		zutatenLagerAnzeige.setData(spaceZutaten, allMehl.size(), allHonig.size(), allEier.size(), zutatenManager.getAllLebkuchen());
 	}
 	
 	

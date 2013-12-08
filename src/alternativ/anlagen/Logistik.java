@@ -2,6 +2,8 @@ package alternativ.anlagen;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UID;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -54,5 +56,13 @@ public class Logistik extends Anlage {
 			throws RemoteException {
 		return charges.poll();
 }
+
+	@Override
+	public Collection<Charge> getCharges() {
+		List<Charge> result = new ArrayList<Charge>();
+		result.addAll(charges);
+		result.addAll(abfallEimer);
+		return result;
+	}
 
 }
