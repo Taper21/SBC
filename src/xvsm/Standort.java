@@ -2,7 +2,7 @@ package xvsm;
 
 public enum Standort {
 	
-	MEHLLAGER("MehlLager"),HONIGLAGER("HonigLager"),EIERLAGER("EierLager"),LEBKUCHEN_GEFERTIGT("GefertigteLebkuchen");
+	MEHLLAGER("MehlLager"),HONIGLAGER("HonigLager"),EIERLAGER("EierLager"),LEBKUCHEN_GEFERTIGT("GefertigteLebkuchen"),OFEN("Ofen"),GEBACKEN("Gebacken"),VERKOSTET("Verkostet"),ENTSORGT("Entsorgt"),KONTROLLIERT("Kontrolliert"),VERPACKT("Verpackt");
 	
 	private String name;
 	

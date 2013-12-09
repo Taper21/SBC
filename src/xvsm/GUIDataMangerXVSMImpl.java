@@ -11,8 +11,7 @@ import org.mozartspaces.core.aspects.AbstractContainerAspect;
 import org.mozartspaces.notifications.Notification;
 import org.mozartspaces.notifications.NotificationListener;
 import org.mozartspaces.notifications.Operation;
-
-import alternativ.domain.Lebkuchen;
+import org.xvsm.protocol.FifoSelector;
 
 import domain.ILebkuchen;
 import domain.Zutat;
@@ -52,8 +51,30 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 
 	@Override
 	public List<ILebkuchen> getAllLebkuchen() {
-		throw new UnsupportedOperationException();
+		ArrayList<ILebkuchen> alle = new ArrayList<ILebkuchen>();
+		alle.addAll(getAllLebkuchenWithStatus(Standort.LEBKUCHEN_GEFERTIGT));
+		alle.addAll(getAllLebkuchenWithStatus(Standort.OFEN));
+		alle.addAll(getAllLebkuchenWithStatus(Standort.GEBACKEN));
+		alle.addAll(getAllLebkuchenWithStatus(Standort.VERKOSTET));
+		alle.addAll(getAllLebkuchenWithStatus(Standort.ENTSORGT));
+		alle.addAll(getAllLebkuchenWithStatus(Standort.KONTROLLIERT));
+		alle.addAll(getAllLebkuchenWithStatus(Standort.VERPACKT));
+		return alle;
 	}
+	
+	private List<Lebkuchen> getAllLebkuchenWithStatus(Standort status){
+		try {
+			List<Lebkuchen> liste=  Space.getCapi().read(Space.createOrLookUpContainer(status),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
+			for(Lebkuchen l : liste){
+				l.setStatus(status.getName());
+			}
+			return liste;
+		} catch (MzsCoreException e) {
+			return new ArrayList<Lebkuchen>();
+		}
+	}
+	
+	
 
 
 

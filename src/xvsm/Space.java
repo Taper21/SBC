@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.mozartspaces.capi3.Coordinator;
 import org.mozartspaces.capi3.FifoCoordinator;
+import org.mozartspaces.capi3.LindaCoordinator;
 import org.mozartspaces.core.AsyncCapi;
 import org.mozartspaces.core.Capi;
 import org.mozartspaces.core.CapiUtil;
@@ -85,7 +86,7 @@ public class Space {
 		 URI uri;
 		try {
 			uri = new URI("xvsm://localhost:9876");
-			return getCapi().createContainer(name, uri, MzsConstants.Container.UNBOUNDED,Arrays.asList(new FifoCoordinator()),null,null);
+			return getCapi().createContainer(name, uri, MzsConstants.Container.UNBOUNDED,Arrays.asList(new FifoCoordinator()),Arrays.asList(new LindaCoordinator()),null); 
 		} catch (Exception e) {
 			return null;
 		} 
