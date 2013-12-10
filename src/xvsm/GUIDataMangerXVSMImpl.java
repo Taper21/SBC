@@ -78,20 +78,19 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 
 	@Override
 	public List<ILebkuchen> getEntsorgtVerkostet() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ILebkuchen> liste = new ArrayList<ILebkuchen>(getAllLebkuchenWithStatus(Standort.ENTSORGT));
+		liste.addAll(getAllLebkuchenWithStatus(Standort.VERKOSTET));
+		return liste;
 	}
 
 	@Override
 	public List<ILebkuchen> getImOfen() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<ILebkuchen>(getAllLebkuchenWithStatus(Standort.OFEN));
 	}
 
 	@Override
 	public List<ILebkuchen> getPackungen() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<ILebkuchen>(getAllLebkuchenWithStatus(Standort.VERPACKT));
 	}
 
 

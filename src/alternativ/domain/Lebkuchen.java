@@ -10,17 +10,17 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 	
 	private static final long serialVersionUID = 1L;
 	private Status status;
-	private UID chargeUid;
-	private UID honigUid;
-	private UID mehlUid;
-	private UID ei1Uid;
-	private UID ei2Uid;
+	private String chargeUid;
+	private String honigUid;
+	private String mehlUid;
+	private String ei1Uid;
+	private String ei2Uid;
 	private String baeckerId;
 	private String logistikMitarbeiterId;
 	private String qualitaetsMitarbeiterId;
 	private String packungId;
 
-	public Lebkuchen(Status status, UID chargeUid, Resource honig, Resource mehl,
+	public Lebkuchen(Status status, String chargeUid, Resource honig, Resource mehl,
 			Resource ei1, Resource ei2, String baeckerId) {
 		super();
 		this.status = status;

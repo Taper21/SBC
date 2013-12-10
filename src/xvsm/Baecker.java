@@ -47,16 +47,7 @@ public class Baecker {
 		TransactionReference tx = null;
 		try {
 			//Lebkuchen fertigen
-//			URI uri = new URI("xvsm://localhost:9876");
-//			tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
 			charge = entnehmeZutatenFuerCharge();
-//			ArrayList<Entry> entries = new ArrayList<Entry>();
-//			for(Lebkuchen l : charge){
-//				entries.add(new Entry(l, LindaCoordinator.newCoordinationData()));
-//			}
-//			Entry[] entryArray = entries.toArray(new Entry[1]);
-//			Space.getCapi().write(Space.createOrLookUpContainer(Standort.LEBKUCHEN_GEFERTIGT), 1000, tx,entryArray);
-//			Space.getCapi().commitTransaction(tx);
 			System.out.println("Charge "+ chargeID + " gefertig");
 			for(Lebkuchen l :charge){
 				System.out.println(l.toString());

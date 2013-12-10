@@ -34,6 +34,7 @@ public class Kontrolleur {
 		try{
 			URI uri = new URI("xvsm://localhost:9876");
 			tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
+
 			Iterator<Serializable> it = Space.getCapi().read(Space.createOrLookUpContainer(Standort.GEBACKEN), FifoCoordinator.newSelector(1), MzsConstants.RequestTimeout.TRY_ONCE, tx).iterator();
 			if(it.hasNext()){
 				Lebkuchen template = (Lebkuchen) it.next();
@@ -75,8 +76,8 @@ public class Kontrolleur {
 	 */
 	public static void main(String[] args) {
 		try{
-		new Kontrolleur("1", Long.parseLong("2"));
-		//new Kontrolleur(args[0], Long.parseLong(args[1]));
+//		new Kontrolleur("1", Long.parseLong("2"));
+		new Kontrolleur(args[0], Long.parseLong(args[1]));
 		}catch(Exception e){
 			System.out.println("Bitte uebergeben Sie die Arumente 'id' 'rate'");
 		}

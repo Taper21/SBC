@@ -7,6 +7,7 @@ import alternativ.anlagen.FertigePackungenLager;
 import alternativ.anlagen.Logistik;
 import alternativ.domain.Charge;
 import alternativ.domain.Lebkuchen;
+import alternativ.domain.Packung;
 import alternativ.domain.Resource;
 
 public class LogistikMitarbeiter extends Mitarbeiter {
@@ -22,7 +23,7 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	public static void main(String args[]){
 		LogistikMitarbeiter logistikMitarbeiter = new LogistikMitarbeiter(args[0]);
 		logistikMitarbeiter.logger.info("logistikMitarbeiter id: " + logistikMitarbeiter.getId() + " started.");
-		while(true){
+		while(!logistikMitarbeiter.close){
 			logistikMitarbeiter.holeCharge();
 			logistikMitarbeiter.verpackeLebkuchen();
 			logistikMitarbeiter.fertigePackungAbliefern();

@@ -13,7 +13,7 @@ import org.mozartspaces.core.TransactionReference;
 public class Logistik {
 	
 	private String id;
-	private static int verpackungsID =0;
+	private static long verpackungsID =0;
 	
 	public Logistik(String id){
 		this.id = id;
@@ -52,8 +52,8 @@ public class Logistik {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		new Logistik(args[0]);
-		new Logistik("L");
+		new Logistik(args[0]);
+//		new Logistik("L");
 
 	}
 

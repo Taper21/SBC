@@ -25,7 +25,7 @@ public class Baecker extends Mitarbeiter {
 	private Resource ei2 = null;
 	private Charge charge = new Charge();
 	private boolean warteAufCharge;
-	private UID chargeZumAbholen;;
+	private String chargeZumAbholen;;
 
 	public Baecker(String id){
 		super(ZutatenLager.ZUTATEN_LAGER, Ofen.OFEN, Qualitaetskontrolle.QUALITAETSKONTROLLE,id);
@@ -35,7 +35,7 @@ public class Baecker extends Mitarbeiter {
 	public static void main(String[] args) {
 		Baecker baecker = new Baecker(args[0]);
 		baecker.getLogger().info("Bäcker started mit id: " + baecker.getId());
-		for(;;){
+		while(!baecker.close){
 			baecker.getResources();
 			baecker.teigMischen();
 			baecker.backen();
@@ -51,9 +51,11 @@ public class Baecker extends Mitarbeiter {
 		if(warteAufCharge){
 			try {
 				Thread.sleep(BACKZEIT);
+				logger.info("warte auf charge:" + chargeZumAbholen);
 				warteAufCharge = false;
 				try {
-					fertigeLebkuchen = (Charge) ziel.objectHolen(chargeZumAbholen);
+					fertigeLebkuchen = (Charge) ziel.objectHolen(getId());
+					logger.info("hole lebkuchen "+ fertigeLebkuchen.getUID() + " b: " + fertigeLebkuchen.getBaeckerId() );
 					if(fertigeLebkuchen != null){
 						fertigeLebkuchen.setStatusOfLebkuchen(Lebkuchen.Status.GEBACKEN);
 						weiteresZiel.objectLiefern(fertigeLebkuchen);
