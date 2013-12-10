@@ -40,6 +40,9 @@ public class ZutatenLagerAnzeigenThread extends Thread {
 		List<Zutat> allMehl = zutatenManager.getAllMehl();
 		spaceZutaten.addAll(allMehl);
 		zutatenLagerAnzeige.setData(spaceZutaten, allMehl.size(), allHonig.size(), allEier.size(), zutatenManager.getAllLebkuchen());
+		zutatenLagerAnzeige.setData(zutatenManager.getEntsorgtVerkostet());
+		zutatenLagerAnzeige.setDataOfen(zutatenManager.getImOfen());
+		zutatenLagerAnzeige.setDataPackungen(zutatenManager.getPackungen());
 	}
 	
 	

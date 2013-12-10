@@ -8,17 +8,14 @@ import java.util.Random;
 
 import org.mozartspaces.capi3.FifoCoordinator;
 import org.mozartspaces.capi3.FifoCoordinator.FifoSelector;
-import org.mozartspaces.capi3.IsolationLevel;
 import org.mozartspaces.capi3.LindaCoordinator;
 import org.mozartspaces.core.Entry;
 import org.mozartspaces.core.MzsConstants;
 import org.mozartspaces.core.MzsCoreException;
 import org.mozartspaces.core.TransactionReference;
-import org.mozartspaces.util.MzsCloneable;
 
-import ch.qos.logback.core.db.dialect.MsSQLDialect;
+import xvsm.Lebkuchen;
 
-import domain.Zutat;
 
 public class Baecker {
 	

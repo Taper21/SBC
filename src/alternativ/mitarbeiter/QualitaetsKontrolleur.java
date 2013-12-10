@@ -53,10 +53,14 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 
 
 	private void kosteLebkuchen() {
+		if(zweiteKontrolle){
+			if(zuPruefendeCharge!=null){
+				Lebkuchen bissen = zuPruefendeCharge.takeRandomLebkuchen();
+				bissen.setStatus(Lebkuchen.Status.GEGESSEN);
+				logger.info("Random Lebkuchenbissen id: " + bissen.getUID());
+			}
+		}
 		if(zuPruefendeCharge!=null){
-			Lebkuchen bissen = zuPruefendeCharge.takeRandomLebkuchen();
-			bissen.setStatus(Lebkuchen.Status.GEGESSEN);
-			logger.info("Random Lebkuchenbissen id: " + bissen.getUID());
 			kontrolle();
 		}
 	}

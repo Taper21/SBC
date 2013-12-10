@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
@@ -34,16 +35,24 @@ public class ZutatenLagerAnzeige extends JPanel {
 	private JTable zutatenTable = new JTable(model);
 	JScrollPane scrollpane =new JScrollPane(zutatenTable);
 	String[] lebkuchenColumnames = new String[]{"ID","Status","Charge-ID", "Mehl-ID", "Honig-ID", "Ei1-ID", "Ei2-ID", "Bäcker-ID", "Logistikmitarbeiter-ID", "QualitätMitarbeiter-ID"};
+	private DefaultTableModel modelEntsorgtVerkostet = new DefaultTableModel();
 	String [][] lebkuchenData =new String[][]{{"","",""}};
 	private DefaultTableModel lebkuchenModel = new DefaultTableModel(lebkuchenData,lebkuchenColumnames);
 	private JTable lebkuchenTable = new JTable(lebkuchenModel);
-	JScrollPane lebkuchenScrollPane =new JScrollPane(lebkuchenTable);
+	JScrollPane lebkuchenScrollPaneInProduction =new JScrollPane(lebkuchenTable);
+	JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
+	private DefaultTableModel modelImOfen= new DefaultTableModel();
+	protected DefaultTableModel modelPackungen= new DefaultTableModel();
 	
 
 	public ZutatenLagerAnzeige(GUIDataManager zutatenManager, String name) {
 		super(new GridLayout(2, 1), true);
 		this.add(scrollpane);
-		this.add(lebkuchenScrollPane);
+		tabs.add("alle",lebkuchenScrollPaneInProduction);
+		tabs.add("gegessen/weggeworfen",new JScrollPane(new JScrollPane(new JTable(modelEntsorgtVerkostet))));
+		tabs.add("Ofen",new JScrollPane(new JScrollPane(new JTable(modelImOfen))));
+		tabs.add("Packungen",new JScrollPane(new JScrollPane(new JTable(modelPackungen))));
+		this.add(tabs);
 		ZutatenLagerAnzeigenThread zutatenLagerAnzeigenThread = new ZutatenLagerAnzeigenThread(zutatenManager, this);
 		zutatenLagerAnzeigenThread.start();
 //		new ZutatenLagerAnzeigenThread(zutatenManager, this);
@@ -103,6 +112,44 @@ public class ZutatenLagerAnzeige extends JPanel {
 			}
 		});
 		
+	}
+	
+	public void setData(final List<ILebkuchen> entsorgtVerkostet){
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				modelEntsorgtVerkostet.setDataVector(lebkuchenMapToDataArray(entsorgtVerkostet), lebkuchenColumnames);
+				modelEntsorgtVerkostet.fireTableDataChanged();
+			}
+		});
+	}
+
+
+
+	public void setDataOfen(final List<ILebkuchen> imOfen) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				modelImOfen.setDataVector(lebkuchenMapToDataArray(imOfen), lebkuchenColumnames);
+				modelImOfen.fireTableDataChanged();
+				tabs.setTitleAt(2, "im Ofen: " + imOfen.size());
+			}
+		});
+	}
+
+
+
+	public void setDataPackungen(final List<ILebkuchen> packungen) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				modelPackungen.setDataVector(lebkuchenMapToDataArray(packungen), lebkuchenColumnames);
+				modelPackungen.fireTableDataChanged();
+				tabs.setTitleAt(3, "Packungen : " + packungen.size());
+			}
+		});
 	}
 
 }

@@ -30,6 +30,8 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	
 	private String logistikID;
 	
+	private long verpackungsID;
+	
 	public Lebkuchen(ZutatXVSMImpl honig, ZutatXVSMImpl mehl, ZutatXVSMImpl ei1, ZutatXVSMImpl ei2, long chargeID, String baeckerID){
 		this.honig=honig;
 		this.mehl=mehl;
@@ -126,6 +128,10 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	
 	public void setKontrolleurID(String id){
 		this.kontrolleurID = id;
+	}
+	
+	public void setVerpackungsID(long id){
+		this.verpackungsID=id;
 	}
 
 }

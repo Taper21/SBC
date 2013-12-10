@@ -13,6 +13,7 @@ import org.mozartspaces.core.TransactionReference;
 public class Logistik {
 	
 	private String id;
+	private static int verpackungsID =0;
 	
 	public Logistik(String id){
 		this.id = id;
@@ -32,10 +33,12 @@ public class Logistik {
 		for(Lebkuchen l: charge){
 			l.setLogistik(id);
 			l.setStatus(status.getName());
+			l.setVerpackungsID(verpackungsID);
 			entries.add(new Entry(l,FifoCoordinator.newCoordinationData()));
 		}
 		Space.getCapi().write(entries, Space.createOrLookUpContainer(status), MzsConstants.RequestTimeout.DEFAULT, tx);
 		Space.getCapi().commitTransaction(tx);
+		verpackungsID++;
 		}catch (Exception e) {
 			try{
 				Space.getCapi().rollbackTransaction(tx);

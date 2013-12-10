@@ -56,5 +56,19 @@ public class AlternativZutatenManager implements GUIDataManager {
 		return result;
 	}
 
+	@Override
+	public List<ILebkuchen> getEntsorgtVerkostet() {
+		return logistik.getAbfallVerkostet();
+	}
+	@Override
+	public List<ILebkuchen> getImOfen() {
+		return ofen.getAllLebkuchen();
+	}
+
+	@Override
+	public List<ILebkuchen> getPackungen() {
+		return fertigePackungenLager.getAllLebkuchen();
+	}
+
 
 }

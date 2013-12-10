@@ -46,7 +46,7 @@ public class Charge extends Resource implements Serializable {
 
 	public Lebkuchen takeRandomLebkuchen() {
 		int i = Math.abs((new Random().nextInt()%(charge.size())));
-		return charge.remove(i);
+		return charge.get(i);
 	}
 
 	public void setSchmecktSchlecht() {
@@ -72,7 +72,15 @@ public class Charge extends Resource implements Serializable {
 
 	public void setStatusOfLebkuchen(alternativ.domain.Lebkuchen.Status status) {
 		for(Lebkuchen l:charge){
-			l.setStatus(status);
+			if(l.getStatus().compareTo(Lebkuchen.Status.GEGESSEN.name())!=0){
+				l.setStatus(status);
+			}
+		}
+	}
+
+	public void remove(Lebkuchen toRemove) {
+		if(toRemove!=null){
+			charge.remove(toRemove);
 		}
 	}
 
