@@ -34,7 +34,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 	private DefaultTableModel model = new DefaultTableModel(data,columnames);
 	private JTable zutatenTable = new JTable(model);
 	JScrollPane scrollpane =new JScrollPane(zutatenTable);
-	String[] lebkuchenColumnames = new String[]{"ID","Status","Charge-ID", "Mehl-ID", "Honig-ID", "Ei1-ID", "Ei2-ID", "Bäcker-ID", "Logistikmitarbeiter-ID", "QualitätMitarbeiter-ID"};
+	String[] lebkuchenColumnames = new String[]{"ID","Status","Charge-ID", "Mehl-ID", "Honig-ID", "Ei1-ID", "Ei2-ID", "Bäcker-ID", "Logistikmitarbeiter-ID", "QualitätMitarbeiter-ID", "Verpackung-ID"};
 	private DefaultTableModel modelEntsorgtVerkostet = new DefaultTableModel();
 	String [][] lebkuchenData =new String[][]{{"","",""}};
 	private DefaultTableModel lebkuchenModel = new DefaultTableModel(lebkuchenData,lebkuchenColumnames);
@@ -85,6 +85,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 			newData[row][7] = z.getBaeckerId();
 			newData[row][8] = z.getLogistikMitarbeiterId();
 			newData[row][9] = z.getQualitaetMitarbeiterId();
+			newData[row][10] = z.getVerpackungId();
 			row++;
 		}
 		return newData;
