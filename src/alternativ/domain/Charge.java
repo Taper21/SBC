@@ -84,4 +84,11 @@ public class Charge extends Resource implements Serializable {
 		}
 	}
 
+	public String getBaeckerId() {
+		if(charge.size()>0){
+			return charge.get(0).getBaeckerId();
+		}
+		return "";
+	}
+
 }

@@ -1,11 +1,8 @@
-package alternativ.mitarbeiter;
+package alternativ.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import alternativ.domain.Charge;
-import alternativ.domain.Lebkuchen;
-import alternativ.domain.Resource;
 
 public class Packung extends Resource {
 

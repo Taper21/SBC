@@ -17,8 +17,8 @@ import domain.ILebkuchen;
 
 import alternativ.domain.AlternativZutat;
 import alternativ.domain.Charge;
+import alternativ.domain.Packung;
 import alternativ.domain.Resource;
-import alternativ.mitarbeiter.Packung;
 
 public class FertigePackungenLager extends Anlage {
 

@@ -34,7 +34,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 	public static void main(String[] args) {
 		QualitaetsKontrolleur qualitaetsKontrolleur = new QualitaetsKontrolleur(args[0], args[1]);
 		qualitaetsKontrolleur.getLogger().info("QualitaetsKontrolleur started mit id: " + qualitaetsKontrolleur.getId());
-		while(true){
+		while(!qualitaetsKontrolleur.close){
 			qualitaetsKontrolleur.nimmCharge();
 			qualitaetsKontrolleur.kosteLebkuchen();
 			qualitaetsKontrolleur.gibLebkuchenZuLogistik();

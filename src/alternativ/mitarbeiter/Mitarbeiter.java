@@ -1,5 +1,6 @@
 package alternativ.mitarbeiter;
 
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -21,6 +22,8 @@ public abstract class Mitarbeiter {
 	protected AnlageInterface weiteresZiel;
 
 	private String id;
+
+	protected boolean close;
 	
 	public Mitarbeiter(String quelle, String ziel, String weiteresZiel ,String id){
 		this.id = id;
@@ -47,7 +50,10 @@ public abstract class Mitarbeiter {
 	public  Resource besorgeZutat(Object optionalParameter){
 		try {
 			return quelle.objectHolen(optionalParameter);
-		} catch (RemoteException | InterruptedException e) {
+		} catch (RemoteException | InterruptedException  e) {
+			if(e instanceof ConnectException){
+				close = true;
+			}
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
