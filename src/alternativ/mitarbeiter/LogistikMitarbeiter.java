@@ -32,20 +32,24 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 
 	private void fertigePackungAbliefern() {
 		for(Packung x:fertigePackungen){
+			logger.info("logistig gibt packung ab: " + x.getUID());
 			gibZutatAb(x);
+			
 		}
 		fertigePackungen = new ConcurrentLinkedDeque<Packung>();
 	}
 
 	private void holeCharge() {
 		if(zuVerpackendeLebkuchen.size()<LEBKUCHEN_PRO_VERPACKUNG){
+			logger.info("besorgeZutat Anfang");
 			Resource r = besorgeZutat(null);
+			logger.info("besorgeZutat Ende");
 			if(r!=null){
 				if(checkInstance(Charge.class, r)){
 					Charge charge = (Charge) r;
 					for(Lebkuchen l : charge.getAll()){
 						l.setLogistikMitarbeiterId(getId());
-						logger.info("logistikMitarbeiter verpackt: " + l.getId());
+						logger.info("logistikMitarbeiter verpackt: " + l.getId() +" in summe: " + zuVerpackendeLebkuchen.size());
 						zuVerpackendeLebkuchen.add(l);
 					}
 				}
@@ -55,18 +59,22 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 
 	private void verpackeLebkuchen() {
 		Packung packung = new Packung();
-		if(zuVerpackendeLebkuchen.size()>=LEBKUCHEN_PRO_VERPACKUNG){
+		//verpacke solange genug lebkuchen
+		while(zuVerpackendeLebkuchen.size()>=LEBKUCHEN_PRO_VERPACKUNG){
+			//verpackt 6 lebkuchen
 			for (int i = 0; i <LEBKUCHEN_PRO_VERPACKUNG; i++) {
 				Lebkuchen lebkuchen = zuVerpackendeLebkuchen.poll();
 				if(lebkuchen!=null){
 					packung.add(lebkuchen);
+					logger.info("lebkuchen hinzugefügt: " + lebkuchen.getUID());
 				}else{
 					logger.error("zu verpackende Lebkuchen war leer, unmöglich!");
 				}
 			}
-		}
-		if(packung.size()== LEBKUCHEN_PRO_VERPACKUNG){
-			fertigePackungen.add(packung);
+			if(packung.size()== LEBKUCHEN_PRO_VERPACKUNG){
+				fertigePackungen.add(packung);
+			}
+			packung = new Packung();
 		}
 	}
 

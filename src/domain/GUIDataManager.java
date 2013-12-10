@@ -10,5 +10,8 @@ public interface GUIDataManager {
 	public List<Zutat> getAllEier();
 	public List<Zutat> getAllHonig();
 	public List<ILebkuchen> getAllLebkuchen();
+	public List<ILebkuchen> getEntsorgtVerkostet();
+	public List<ILebkuchen> getImOfen();
+	public List<ILebkuchen> getPackungen();
 
 }
