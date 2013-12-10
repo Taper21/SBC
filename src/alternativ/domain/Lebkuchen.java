@@ -18,6 +18,7 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 	private String baeckerId;
 	private String logistikMitarbeiterId;
 	private String qualitaetsMitarbeiterId;
+	private String packungId;
 
 	public Lebkuchen(Status status, UID chargeUid, Resource honig, Resource mehl,
 			Resource ei1, Resource ei2, String baeckerId) {
@@ -95,5 +96,13 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public void setVerpackungId(String packungId) {
+		this.packungId= packungId;
+	}
+	@Override
+	public String getVerpackungId() {
+		return packungId;
 	}
 }

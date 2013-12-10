@@ -65,6 +65,7 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 			for (int i = 0; i <LEBKUCHEN_PRO_VERPACKUNG; i++) {
 				Lebkuchen lebkuchen = zuVerpackendeLebkuchen.poll();
 				if(lebkuchen!=null){
+					lebkuchen.setVerpackungId(packung.getUID().toString());
 					packung.add(lebkuchen);
 					logger.info("lebkuchen hinzugefügt: " + lebkuchen.getUID());
 				}else{
