@@ -7,13 +7,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.mozartspaces.capi3.Coordinator;
 import org.mozartspaces.capi3.FifoCoordinator;
+import org.mozartspaces.capi3.FifoCoordinator.FifoSelector;
+import org.mozartspaces.capi3.IsolationLevel;
 import org.mozartspaces.capi3.LindaCoordinator;
+import org.mozartspaces.capi3.Selector;
 import org.mozartspaces.core.Entry;
 import org.mozartspaces.core.MzsConstants;
 import org.mozartspaces.core.MzsConstants.TransactionTimeout;
 import org.mozartspaces.core.TransactionReference;
-import org.xvsm.protocol.FifoSelector;
+import org.mozartspaces.xvsmp.util.PredefinedSelectorCreators.FifoSelectorCreator;
 
 public class Kontrolleur {
 
@@ -33,8 +37,10 @@ public class Kontrolleur {
 		TransactionReference tx =null;
 		try{
 			URI uri = new URI("xvsm://localhost:9876");
-			tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
-
+			tx = Space.getCapi().createTransaction(500,uri );
+			List<FifoSelector> selector = new ArrayList<FifoSelector>();
+			selector.add(FifoCoordinator.newSelector(1));
+			Space.getCapi().read(Space.createOrLookUpContainer(Standort.GEBACKEN), selector, MzsConstants.RequestTimeout.DEFAULT, tx, IsolationLevel.REPEATABLE_READ, null);
 			Iterator<Serializable> it = Space.getCapi().read(Space.createOrLookUpContainer(Standort.GEBACKEN), FifoCoordinator.newSelector(1), MzsConstants.RequestTimeout.TRY_ONCE, tx).iterator();
 			if(it.hasNext()){
 				Lebkuchen template = (Lebkuchen) it.next();
@@ -61,6 +67,7 @@ public class Kontrolleur {
 		}catch(Exception e){
 			try{
 				Space.getCapi().rollbackTransaction(tx);
+				Thread.sleep(1000);
 			}catch (Exception e1) {
 				// TODO: handle exception
 			}

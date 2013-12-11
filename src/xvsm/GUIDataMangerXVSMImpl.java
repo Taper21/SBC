@@ -59,6 +59,7 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 		alle.addAll(getAllLebkuchenWithStatus(Standort.ENTSORGT));
 		alle.addAll(getAllLebkuchenWithStatus(Standort.KONTROLLIERT));
 		alle.addAll(getAllLebkuchenWithStatus(Standort.VERPACKT));
+
 		return alle;
 	}
 	
