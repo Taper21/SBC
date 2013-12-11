@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.mozartspaces.capi3.FifoCoordinator;
 import org.mozartspaces.capi3.FifoCoordinator.FifoSelector;
+import org.mozartspaces.capi3.IsolationLevel;
 import org.mozartspaces.capi3.LindaCoordinator;
 import org.mozartspaces.core.Entry;
 import org.mozartspaces.core.MzsConstants;
@@ -86,10 +87,12 @@ public class Baecker {
 		URI uri = new URI("xvsm://localhost:9876");
 		 tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
 		Lebkuchen lebkuchen =null;
-			List<ZutatXVSMImpl> allehonig = Space.getCapi().take(Space.createOrLookUpContainer(Standort.HONIGLAGER), FifoCoordinator.newSelector(1), MzsConstants.RequestTimeout.TRY_ONCE, tx);
-			List<ZutatXVSMImpl> allemehl = Space.getCapi().take(Space.createOrLookUpContainer(Standort.MEHLLAGER), FifoCoordinator.newSelector(1), MzsConstants.RequestTimeout.TRY_ONCE, tx);
-			List<ZutatXVSMImpl> alleEier1 = Space.getCapi().take(Space.createOrLookUpContainer(Standort.EIERLAGER), FifoCoordinator.newSelector(1), MzsConstants.RequestTimeout.TRY_ONCE, tx);
-			List<ZutatXVSMImpl> alleEier2 = Space.getCapi().take(Space.createOrLookUpContainer(Standort.EIERLAGER), FifoCoordinator.newSelector(1), MzsConstants.RequestTimeout.TRY_ONCE, tx);
+		List<FifoSelector> selector = new ArrayList<FifoSelector>();
+		selector.add(FifoCoordinator.newSelector(1));
+			List<ZutatXVSMImpl> allehonig = Space.getCapi().take(Space.createOrLookUpContainer(Standort.HONIGLAGER), selector, MzsConstants.RequestTimeout.TRY_ONCE, tx, IsolationLevel.REPEATABLE_READ,null);
+			List<ZutatXVSMImpl> allemehl = Space.getCapi().take(Space.createOrLookUpContainer(Standort.MEHLLAGER), selector, MzsConstants.RequestTimeout.TRY_ONCE, tx, IsolationLevel.REPEATABLE_READ,null);
+			List<ZutatXVSMImpl> alleEier1 = Space.getCapi().take(Space.createOrLookUpContainer(Standort.EIERLAGER), selector, MzsConstants.RequestTimeout.TRY_ONCE, tx, IsolationLevel.REPEATABLE_READ,null);
+			List<ZutatXVSMImpl> alleEier2 = Space.getCapi().take(Space.createOrLookUpContainer(Standort.EIERLAGER), selector, MzsConstants.RequestTimeout.TRY_ONCE, tx, IsolationLevel.REPEATABLE_READ,null);
 			ZutatXVSMImpl honig = allehonig.iterator().next();
 			ZutatXVSMImpl mehl = allemehl.iterator().next();
 			ZutatXVSMImpl ei1 = alleEier1.iterator().next();

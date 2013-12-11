@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mozartspaces.capi3.FifoCoordinator;
+import org.mozartspaces.capi3.FifoCoordinator.FifoSelector;
+import org.mozartspaces.capi3.IsolationLevel;
 import org.mozartspaces.core.MzsConstants;
 import org.mozartspaces.core.MzsCoreException;
 import org.mozartspaces.core.aspects.AbstractContainerAspect;
 import org.mozartspaces.notifications.Notification;
 import org.mozartspaces.notifications.NotificationListener;
 import org.mozartspaces.notifications.Operation;
-import org.xvsm.protocol.FifoSelector;
 
 import domain.ILebkuchen;
 import domain.Zutat;
@@ -20,21 +21,46 @@ import domain.GUIDataManager;
 
 public class GUIDataMangerXVSMImpl implements GUIDataManager {
 	
-	ArrayList<Zutat> allezutaten = new ArrayList<Zutat>();
+	private static ArrayList<Zutat> allezutaten = new ArrayList<Zutat>();
+	private static ArrayList<Zutat> eier = new ArrayList<Zutat>();
+	private static ArrayList<Zutat> honig= new ArrayList<Zutat>();
+	private static ArrayList<Zutat> mehl= new ArrayList<Zutat>();
+	
 	
 	@Override
 	public List<Zutat> getAllHonig(){
-		return getAllZutatenByTyp(ZutatTypEnum.HONIG);
+		List<Zutat> alleHonig = getAllZutatenByTyp(ZutatTypEnum.HONIG);
+		if(alleHonig==null){
+			return honig;
+		}else{
+			honig = new ArrayList<Zutat>();
+			honig.addAll(alleHonig);
+			return honig;
+		}
 	}
 	
 	@Override
 	public List<Zutat> getAllMehl(){
-		return getAllZutatenByTyp(ZutatTypEnum.MEHL);
+		List<Zutat> alleMehl = getAllZutatenByTyp(ZutatTypEnum.MEHL);
+		if(alleMehl==null){
+			return mehl;
+		}else{
+			mehl = new ArrayList<Zutat>();
+			mehl.addAll(alleMehl);
+			return mehl;
+		}
 	}
 
 	@Override
 	public List<Zutat> getAllEier(){
-		return getAllZutatenByTyp(ZutatTypEnum.EI);
+		List<Zutat> alleEier = getAllZutatenByTyp(ZutatTypEnum.EI);
+		if(alleEier==null){
+			return eier;
+		}else{
+			eier = new ArrayList<Zutat>();
+			eier.addAll(alleEier);
+			return eier;
+		}
 }
 	
 	private ArrayList<Zutat> getAllZutatenByTyp(ZutatTypEnum zutatTypEnum){
@@ -45,7 +71,7 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 			e.printStackTrace();
 		} //}
 		
-		return new ArrayList<Zutat>();
+		return null;
 	
 	}
 
@@ -65,13 +91,16 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 	
 	private List<Lebkuchen> getAllLebkuchenWithStatus(Standort status){
 		try {
+			List<FifoSelector> selector = new ArrayList<FifoSelector>();
+			selector.add(FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL));
+			Space.getCapi().read(Space.createOrLookUpContainer(status), selector, 1000, null, IsolationLevel.REPEATABLE_READ, null);
 			List<Lebkuchen> liste=  Space.getCapi().read(Space.createOrLookUpContainer(status),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
 			for(Lebkuchen l : liste){
 				l.setStatus(status.getName());
 			}
 			return liste;
 		} catch (MzsCoreException e) {
-			return new ArrayList<Lebkuchen>();
+			return null;
 		}
 	}
 	
