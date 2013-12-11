@@ -20,6 +20,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+
 import alternativ.domain.Lebkuchen;
 
 import domain.ILebkuchen;
@@ -49,9 +50,9 @@ public class ZutatenLagerAnzeige extends JPanel {
 		super(new GridLayout(2, 1), true);
 		this.add(scrollpane);
 		tabs.add("alle",lebkuchenScrollPaneInProduction);
-		tabs.add("gegessen/weggeworfen",new JScrollPane(new JScrollPane(new JTable(modelEntsorgtVerkostet))));
-		tabs.add("Ofen",new JScrollPane(new JScrollPane(new JTable(modelImOfen))));
-		tabs.add("Packungen",new JScrollPane(new JScrollPane(new JTable(modelPackungen))));
+		tabs.add("gegessen/weggeworfen",new JScrollPane((new JTable(modelEntsorgtVerkostet))));
+		tabs.add("Ofen",new JScrollPane(new JTable(modelImOfen)));
+		tabs.add("Packungen",new JScrollPane(new JTable(modelPackungen)));
 		this.add(tabs);
 		ZutatenLagerAnzeigenThread zutatenLagerAnzeigenThread = new ZutatenLagerAnzeigenThread(zutatenManager, this);
 		zutatenLagerAnzeigenThread.start();
@@ -110,6 +111,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 //				this.removeAll();
 //				this.add(scrollpane);
 //				scrollpane.repaint();
+				tabs.setTitleAt(0, "alle Lebkuchen: " + lebkuchen.size());
 			}
 		});
 		
@@ -121,6 +123,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 			public void run() {
 				modelEntsorgtVerkostet.setDataVector(lebkuchenMapToDataArray(entsorgtVerkostet), lebkuchenColumnames);
 				modelEntsorgtVerkostet.fireTableDataChanged();
+				tabs.setTitleAt(1, "gegessen/weggeworfen: " + entsorgtVerkostet.size());
 			}
 		});
 	}
@@ -148,7 +151,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 			public void run() {
 				modelPackungen.setDataVector(lebkuchenMapToDataArray(packungen), lebkuchenColumnames);
 				modelPackungen.fireTableDataChanged();
-				tabs.setTitleAt(3, "Packungen : " + packungen.size());
+				tabs.setTitleAt(3, "verpackte Lebkuchen : " + packungen.size());
 			}
 		});
 	}

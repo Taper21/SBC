@@ -4,9 +4,13 @@ package alternativ.mitarbeiter;
 import java.rmi.RemoteException;
 import java.rmi.server.UID;
 
+import org.slf4j.LoggerFactory;
+
 import domain.ILebkuchen;
 import domain.ZutatTypEnum;
 
+import alternativ.anlagen.AnlageInterface;
+import alternativ.anlagen.Blech;
 import alternativ.anlagen.Ofen;
 import alternativ.anlagen.Qualitaetskontrolle;
 import alternativ.anlagen.ZutatenLager;
@@ -23,12 +27,13 @@ public class Baecker extends Mitarbeiter {
 	private Resource mehl = null;
 	private Resource ei1 = null;
 	private Resource ei2 = null;
-	private Charge charge = new Charge();
 	private boolean warteAufCharge;
-	private String chargeZumAbholen;;
+	private String chargeZumAbholen;
+	private AnlageInterface blech;
 
 	public Baecker(String id){
 		super(ZutatenLager.ZUTATEN_LAGER, Ofen.OFEN, Qualitaetskontrolle.QUALITAETSKONTROLLE,id);
+		blech = bindAnlage(Blech.BLECH);
 	}
 	
 	
@@ -47,19 +52,19 @@ public class Baecker extends Mitarbeiter {
 
 
 	private void holeChargeVonOfen() {
-		Charge fertigeLebkuchen;
+		Charge fertigeCharge;
 		if(warteAufCharge){
 			try {
 				Thread.sleep(BACKZEIT);
 				logger.info("warte auf charge:" + chargeZumAbholen);
 				warteAufCharge = false;
 				try {
-					fertigeLebkuchen = (Charge) ziel.objectHolen(getId());
-					logger.info("hole lebkuchen "+ fertigeLebkuchen.getUID() + " b: " + fertigeLebkuchen.getBaeckerId() );
-					if(fertigeLebkuchen != null){
-						fertigeLebkuchen.setStatusOfLebkuchen(Lebkuchen.Status.GEBACKEN);
-						weiteresZiel.objectLiefern(fertigeLebkuchen);
-						logger.info("Charge fertig gebacken: " + fertigeLebkuchen.getUID() );
+					fertigeCharge = (Charge) ziel.objectHolen(getId());
+					logger.info("hole lebkuchen "+ fertigeCharge.getUID() + " b: " + fertigeCharge.getBaeckerId() );
+					if(fertigeCharge != null){
+						fertigeCharge.setStatusOfLebkuchen(Lebkuchen.Status.GEBACKEN);
+						weiteresZiel.objectLiefern(fertigeCharge);
+						logger.info("Charge fertig gebacken: " + fertigeCharge.getUID() );
 					}
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -74,31 +79,39 @@ public class Baecker extends Mitarbeiter {
 
 
 	private void backen() {
-			if(gibZutatAb(charge)){
-				chargeZumAbholen = charge.getUID();
-				charge=new Charge();
-				warteAufCharge = true;
-			} else {
-				
-			}
+			Resource charge;
+				charge = nimmObjectVonAnlage(blech, this.getId());
+				if(charge!=null){
+					
+					if(gibObjectAnAnlage(ziel,charge )){
+						chargeZumAbholen = charge.getUID();
+						warteAufCharge = true;
+					}else {
+						gibObjectAnAnlage(blech,charge);
+						warteAufCharge = false;
+					}
+				}
 	}
 
 
 	private void teigMischen() {
-			if(charge.add(new Lebkuchen(Lebkuchen.Status.GEFERTIGT, charge.getUID(), honig, mehl, ei1, ei2, getId()))){
-				honig = null;
-				mehl = null;
-				ei1 = null;
-				ei2 = null;
+		try {
+			blech.objectLiefern(new Lebkuchen(Lebkuchen.Status.GEFERTIGT, honig, mehl, ei1, ei2, getId()));
+			honig = null;
+			mehl = null;
+			ei1 = null;
+			ei2 = null;
+		} catch (RemoteException | InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
 	private void getResources(){
 		if(honig == null && mehl ==null && ei1==null && ei2==null){
-			honig = besorgeZutat(ZutatTypEnum.HONIG);
-			mehl = besorgeZutat(ZutatTypEnum.MEHL);
-			ei1 = besorgeZutat(ZutatTypEnum.EI);
-			ei2 = besorgeZutat(ZutatTypEnum.EI);
+			honig = nimmObjectVonAnlage(quelle,ZutatTypEnum.HONIG);
+			mehl = nimmObjectVonAnlage(quelle,ZutatTypEnum.MEHL);
+			ei1 = nimmObjectVonAnlage(quelle,ZutatTypEnum.EI);
+			ei2 = nimmObjectVonAnlage(quelle,ZutatTypEnum.EI);
 		}
 	}
 

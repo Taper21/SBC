@@ -3,6 +3,7 @@ package alternativ.mitarbeiter;
 import java.util.ArrayList;
 import java.util.List;
 
+import alternativ.anlagen.Blech;
 import alternativ.anlagen.FertigePackungenLager;
 import alternativ.anlagen.Logistik;
 import alternativ.anlagen.Ofen;
@@ -22,9 +23,11 @@ public class AlternativZutatenManager implements GUIDataManager {
 	private Qualitaetskontrolle qualitaetskontrolle;
 	private Logistik logistik;
 	private FertigePackungenLager fertigePackungenLager;
+	private Blech blech;
 
 	public AlternativZutatenManager(){
 		this.lager = new ZutatenLager();
+		this.blech = new Blech();
 		this.ofen = new Ofen();
 		this.qualitaetskontrolle = new Qualitaetskontrolle();
 		this.logistik = new Logistik();
@@ -49,6 +52,7 @@ public class AlternativZutatenManager implements GUIDataManager {
 	@Override
 	public List<ILebkuchen> getAllLebkuchen() {
 		List<ILebkuchen> result = new ArrayList<ILebkuchen>();
+		result.addAll(blech.getAllLebkuchen());
 		result.addAll(ofen.getAllLebkuchen());
 		result.addAll(qualitaetskontrolle.getAllLebkuchen());
 		result.addAll(logistik.getAllLebkuchen());

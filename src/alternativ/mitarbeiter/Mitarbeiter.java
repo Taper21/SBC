@@ -15,7 +15,7 @@ import alternativ.domain.Resource;
 
 public abstract class Mitarbeiter {
 	
-	protected Logger logger = LoggerFactory.getLogger(Mitarbeiter.class);
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	protected AnlageInterface quelle;
 	protected AnlageInterface ziel;
@@ -27,6 +27,15 @@ public abstract class Mitarbeiter {
 	
 	public Mitarbeiter(String quelle, String ziel, String weiteresZiel ,String id){
 		this.id = id;
+		this.quelle = bindAnlage(quelle);
+		this.ziel = bindAnlage(ziel);
+		this.weiteresZiel = bindAnlage(weiteresZiel);
+	}
+
+	protected AnlageInterface bindAnlage(String rmiName) {
+		if(rmiName == null){
+			return null;
+		}
 		try{
 			Registry registry = null;
         	try {
@@ -36,20 +45,19 @@ public abstract class Mitarbeiter {
         	catch (RemoteException e) { 
         		registry = LocateRegistry.getRegistry(1099);
         	}
-	        this.quelle = (AnlageInterface) registry.lookup(quelle);
-	        this.ziel = (AnlageInterface) registry.lookup(ziel);
-	        if(!StringUtils.isEmpty(weiteresZiel)){
-	        	this.weiteresZiel = (AnlageInterface) registry.lookup(weiteresZiel);
-	        }
+	        return (AnlageInterface) registry.lookup(rmiName);
 	    } catch (Exception e) {
 	        logger.error("Mitarbeiter exception:");
 	        e.printStackTrace();
 	    }
+		return null;
 	}
 	
-	public  Resource besorgeZutat(Object optionalParameter){
+	public  Resource nimmObjectVonAnlage(AnlageInterface anlage, Object optionalParameter){
 		try {
-			return quelle.objectHolen(optionalParameter);
+			Resource object = anlage.objectHolen(optionalParameter);
+			logger.info("hole " +object + " mit param "+ optionalParameter + " von " +anlage.getClass().getSimpleName());
+			return object; 
 		} catch (RemoteException | InterruptedException  e) {
 			if(e instanceof ConnectException){
 				close = true;
@@ -61,10 +69,14 @@ public abstract class Mitarbeiter {
 	}
 	public abstract void verarbeiteZutat();
 	
-	public boolean gibZutatAb(Resource resource){
+	public boolean gibObjectAnAnlage(AnlageInterface anlage, Resource resource){
 		try {
-			return ziel.objectLiefern(resource);
+			logger.info("gib "+ resource + " an anlage. " + anlage.getClass().getSimpleName());
+			return anlage.objectLiefern(resource);
 		} catch (RemoteException | InterruptedException e) {
+			if(e instanceof ConnectException){
+				close = true;
+			}
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}

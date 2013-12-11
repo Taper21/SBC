@@ -42,8 +42,20 @@ public class Ofen extends Anlage {
 			logger.info("ofen bekommt eine Charge id: " + charge.getBaeckerId());
 			synchronized(charges){
 				
+				
+			//so viel platz noch frei, charge noch nicht voll, besser baecker noch baecker vorbereiten lassen
+//			if(MAX_LEBKUCHEN-lebkuchenAnzahl.get()>charge.MAX_SIZE && charge.size() != charge.MAX_SIZE){
+//				logger.info("ofen ist frei("+lebkuchenAnzahl + "), charge ist nicht voll, lass baecker charge vollmachen");
+//				return false;				
+//			}
+				
+			//ofen akzeptiert keine halben charges 
+			if(!charge.isVoll()){
+				return false ;
+			}
+			
 			//solange kein platz im ofen:
-			while(MAX_LEBKUCHEN-charges.size()<charge.size()){
+			while(MAX_LEBKUCHEN-lebkuchenAnzahl.get()<charge.size()){
 				logger.info("Ofen hat keinen platz fuer den charge("+ charge.size()+") hat gerade "+lebkuchenAnzahl.get()+".");
 				//charge vom baecker ist voll
 				if(charge.isVoll()){
@@ -56,21 +68,21 @@ public class Ofen extends Anlage {
 					return false;					
 				}
 			}
-			//so viel platz noch frei, charge noch nicht voll, besser baecker noch baecker vorbereiten lassen
-			if(MAX_LEBKUCHEN-lebkuchenAnzahl.get()>charge.MAX_SIZE && charge.size() != charge.MAX_SIZE){
-				logger.info("ofen ist frei("+lebkuchenAnzahl + "), charge ist nicht voll, lass baecker charge vollmachen");
-				return false;				
-			}
-				logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
-				charges.put(charge.getBaeckerId(), charge);
-				lebkuchenAnzahl.addAndGet(charge.size());
-				charge.setStatusOfLebkuchen(Lebkuchen.Status.IN_OFEN);
-				logger.info("charge wurde hinzugefuegt: " + charge.getUID());
-				logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
+			
+				putChargeInOfen(charge);
 				return true;
 			}
 		}
 		return false;
+	}
+
+	private void putChargeInOfen(Charge charge) {
+		logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
+		charges.put(charge.getBaeckerId(), charge);
+		lebkuchenAnzahl.addAndGet(charge.size());
+		charge.setStatusOfLebkuchen(Lebkuchen.Status.IN_OFEN);
+		logger.info("charge wurde hinzugefuegt: " + charge.getUID());
+		logger.info("Lebkuchen in Ofen: " + lebkuchenAnzahl.get());
 	}
 
 	@Override
@@ -83,7 +95,7 @@ public class Ofen extends Anlage {
 			if(remove!=null){
 				lebkuchenAnzahl.addAndGet(-remove.size());
 			}
-			charges.notify();
+			charges.notifyAll();
 			return remove;
 			}
 		}

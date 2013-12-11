@@ -20,11 +20,11 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 	private String qualitaetsMitarbeiterId;
 	private String packungId;
 
-	public Lebkuchen(Status status, String chargeUid, Resource honig, Resource mehl,
+	public Lebkuchen(Status status, Resource honig, Resource mehl,
 			Resource ei1, Resource ei2, String baeckerId) {
 		super();
 		this.status = status;
-		this.chargeUid = chargeUid;
+//		this.chargeUid = chargeUid;
 		this.honigUid = honig.uid;
 		this.mehlUid = mehl.uid;
 		this.ei1Uid = ei1.uid;
@@ -69,6 +69,10 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 	@Override
 	public String getChargeId() {
 		return chargeUid.toString();
+	}
+	
+	public void setChargeId(String chargeUid) {
+		this.chargeUid = chargeUid;
 	}
 
 	@Override

@@ -26,5 +26,10 @@ public abstract class Resource implements Serializable {
 	static String getNextId(){
 		return ""+id.incrementAndGet(); 
 	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + " " + getUID();
+	}
 
 }

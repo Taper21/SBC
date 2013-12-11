@@ -18,6 +18,8 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() throws HeadlessException {
 		super("Lebkuchenfabrik");
+//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setLayout(new BorderLayout());
 		this.add(new LieferantenPanel(), BorderLayout.NORTH);
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);

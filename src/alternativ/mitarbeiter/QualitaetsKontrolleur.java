@@ -44,7 +44,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 
 	private void gibLebkuchenZuLogistik() {
 		if(zuPruefendeCharge!=null){
-			if(gibZutatAb(zuPruefendeCharge)){
+			if(gibObjectAnAnlage(ziel, zuPruefendeCharge)){
 				logger.info(zuPruefendeCharge.getStatus() + " Charge zu Logistik weitergereicht id: " + zuPruefendeCharge.getUID());
 				zuPruefendeCharge = null;
 			}
@@ -83,7 +83,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 
 
 	private void nimmCharge() {
-		Resource zuPruefendeCharge = besorgeZutat(null);
+		Resource zuPruefendeCharge = nimmObjectVonAnlage(quelle, null);
 		if(checkInstance(Charge.class, zuPruefendeCharge)){
 			this.zuPruefendeCharge = (Charge) zuPruefendeCharge;
 			for(Lebkuchen x:((Charge) zuPruefendeCharge).getAll()){

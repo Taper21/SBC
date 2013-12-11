@@ -22,7 +22,7 @@ import alternativ.domain.Resource;
 
 public abstract class Anlage implements AnlageInterface {
 	
-	protected Logger logger = LoggerFactory.getLogger(Anlage.class);
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	public Anlage(String name){
         try {
@@ -47,6 +47,9 @@ public abstract class Anlage implements AnlageInterface {
 	
 	
 	public  boolean checkInstance(Class<?> type, Object param){
+		if(param == null){
+			return false;
+		}
 		boolean returnValue = type == param.getClass();
 		if(!returnValue){
 			logger.error("expected type. " + type +" got type: " + param.getClass());
@@ -78,4 +81,9 @@ public abstract class Anlage implements AnlageInterface {
 	}
 
 	public abstract Collection<Charge> getCharges();
+	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
 }

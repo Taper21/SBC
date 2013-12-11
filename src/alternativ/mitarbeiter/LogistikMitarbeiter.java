@@ -34,7 +34,7 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	private void fertigePackungAbliefern() {
 		for(Packung x:fertigePackungen){
 			logger.info("logistig gibt packung ab: " + x.getUID());
-			gibZutatAb(x);
+			gibObjectAnAnlage(ziel, x);
 			
 		}
 		fertigePackungen = new ConcurrentLinkedDeque<Packung>();
@@ -43,7 +43,7 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	private void holeCharge() {
 		if(zuVerpackendeLebkuchen.size()<LEBKUCHEN_PRO_VERPACKUNG){
 			logger.info("besorgeZutat Anfang");
-			Resource r = besorgeZutat(null);
+			Resource r = nimmObjectVonAnlage(quelle,null);
 			logger.info("besorgeZutat Ende");
 			if(r!=null){
 				if(checkInstance(Charge.class, r)){
