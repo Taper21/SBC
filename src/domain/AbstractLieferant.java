@@ -26,8 +26,8 @@ public abstract class AbstractLieferant extends Thread implements Serializable{
 		}
 	}
 	
-	public void startLieferant() throws InterruptedException{
-		long abladeZeit = (new Random().nextInt()%1000)+1000L;
+	private void startLieferant() throws InterruptedException{
+		long abladeZeit = (Math.abs(new Random().nextInt())%1000)+1000L;
 		for(int i = 0; i< anzahl ; i++){
 			Thread.sleep(abladeZeit);
 			zutatAbladen(zutatTyp);
