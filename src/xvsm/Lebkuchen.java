@@ -172,4 +172,10 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 		this.sorte =sorte;
 	}
 
+	@Override
+	public String getAuftragsId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -121,4 +121,10 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getAuftragsId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
