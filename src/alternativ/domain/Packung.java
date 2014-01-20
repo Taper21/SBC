@@ -2,6 +2,7 @@ package alternativ.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Packung extends Resource {
@@ -20,4 +21,9 @@ public class Packung extends Resource {
 		return lebkuchen;
 	}
 
+	static AtomicInteger id = new AtomicInteger(0);
+	@Override
+	String getNextId() {
+		return ""+id.incrementAndGet();
+	}
 }

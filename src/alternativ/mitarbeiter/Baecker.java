@@ -3,6 +3,9 @@ package alternativ.mitarbeiter;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UID;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +17,8 @@ import alternativ.anlagen.Blech;
 import alternativ.anlagen.Ofen;
 import alternativ.anlagen.Qualitaetskontrolle;
 import alternativ.anlagen.ZutatenLager;
+import alternativ.domain.AlternativZutat;
+import alternativ.domain.ZutatenFuerLebkuchen;
 import alternativ.domain.Charge;
 import alternativ.domain.Lebkuchen;
 import alternativ.domain.Resource;
@@ -23,13 +28,11 @@ public class Baecker extends Mitarbeiter {
 
 
 	private static final int BACKZEIT = 10000;
-	private Resource honig = null;
-	private Resource mehl = null;
-	private Resource ei1 = null;
-	private Resource ei2 = null;
+	private static final int MAX_CHARGE = 5;
 	private boolean warteAufCharge;
 	private String chargeZumAbholen;
 	private AnlageInterface blech;
+	private ZutatenFuerLebkuchen listOfAlles;
 
 	public Baecker(String id){
 		super(ZutatenLager.ZUTATEN_LAGER, Ofen.OFEN, Qualitaetskontrolle.QUALITAETSKONTROLLE,id);
@@ -96,22 +99,20 @@ public class Baecker extends Mitarbeiter {
 
 	private void teigMischen() {
 		try {
-			blech.objectLiefern(new Lebkuchen(Lebkuchen.Status.GEFERTIGT, honig, mehl, ei1, ei2, getId()));
-			honig = null;
-			mehl = null;
-			ei1 = null;
-			ei2 = null;
+			if(listOfAlles != null ){
+				for(Set<AlternativZutat> alles :listOfAlles.getZutaten()){
+					blech.objectLiefern(new Lebkuchen(Lebkuchen.Status.GEFERTIGT, alles, getId()));
+				}
+				listOfAlles = null;
+			}
 		} catch (RemoteException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void getResources(){
-		if(honig == null && mehl ==null && ei1==null && ei2==null){
-			honig = nimmObjectVonAnlage(quelle,ZutatTypEnum.HONIG);
-			mehl = nimmObjectVonAnlage(quelle,ZutatTypEnum.MEHL);
-			ei1 = nimmObjectVonAnlage(quelle,ZutatTypEnum.EI);
-			ei2 = nimmObjectVonAnlage(quelle,ZutatTypEnum.EI);
+		if(listOfAlles == null ){
+			listOfAlles = (ZutatenFuerLebkuchen) nimmObjectVonAnlage(quelle, null);
 		}
 	}
 

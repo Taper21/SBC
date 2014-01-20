@@ -12,7 +12,7 @@ public class testserver implements Itestserver{
 	private int i;
 
 	@Override
-	public int getInt(boolean caller) {
+	synchronized public int getInt(boolean caller) {
 		
 		System.out.println(caller + "   " + i);
 		if(caller){

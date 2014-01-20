@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import alternativ.domain.Lebkuchen.Status;
 
@@ -89,6 +90,11 @@ public class Charge extends Resource implements Serializable {
 			return charge.get(0).getBaeckerId();
 		}
 		return "";
+	}
+	static AtomicInteger id = new AtomicInteger(0);
+	@Override
+	String getNextId() {
+		return ""+id.incrementAndGet();
 	}
 
 }

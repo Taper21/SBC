@@ -6,9 +6,11 @@ import domain.ZutatTypEnum;
 
 import java.io.Serializable;
 import java.rmi.server.UID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AlternativZutat extends Resource implements Zutat  {
 	
+	static AtomicInteger id = new AtomicInteger(0);
 	private static final long serialVersionUID = 1L;
 	private ZutatTypEnum typ;
 	private long abstractLieferantId; 
@@ -37,6 +39,11 @@ public class AlternativZutat extends Resource implements Zutat  {
 	@Override
 	public String getId() {
 		return getStringId();
+	}
+
+	@Override
+	String getNextId() {
+		return ""+id.incrementAndGet();
 	}
 
 }
