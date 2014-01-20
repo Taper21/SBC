@@ -188,10 +188,14 @@ public class Baecker {
 			if(extra != null){
 				switch(extra.getZutatTypEnum()){
 					case NUESSE: lebkuchen.setNuss(extra);
+								 lebkuchen.setSorte(LebkuchenSorte.NUSSLEBKUCHEN);
 						break;
 					case SCHOKOLADE: lebkuchen.setSchoko(extra);
+									 lebkuchen.setSorte(LebkuchenSorte.SCHOKOLEBKUCHEN);
 						break;
 				}
+			}else{
+				lebkuchen.setSorte(LebkuchenSorte.LEBKUCHEN);
 			}
 			long zubereitungszeit = ((new Random().nextLong())%1000)+1000;
 			Thread.sleep(zubereitungszeit);

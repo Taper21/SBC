@@ -58,7 +58,7 @@ public class Kontrolleur {
 				List<Entry> entries = new ArrayList<Entry>();
 				for(Lebkuchen l : charge){
 					l.setStatus(status.getName());
-					entries.add(new Entry(l, FifoCoordinator.newCoordinationData()));
+					entries.add(new Entry(l, LindaCoordinator.newCoordinationData()));
 				}
 				Space.getCapi().write(entries, Space.createOrLookUpContainer(status), MzsConstants.RequestTimeout.DEFAULT, tx);
 				Space.getCapi().commitTransaction(tx);

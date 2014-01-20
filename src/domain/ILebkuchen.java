@@ -14,4 +14,5 @@ public interface ILebkuchen {
 	String getLogistikMitarbeiterId();
 	String getQualitaetMitarbeiterId();
 	String getVerpackungId();
+	String getAuftragsId();
 }

@@ -159,4 +159,10 @@ public class Lebkuchen extends Resource implements ILebkuchen {
 	String getNextId() {
 		return ""+id.incrementAndGet();
 	}
+
+	@Override
+	public String getAuftragsId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
