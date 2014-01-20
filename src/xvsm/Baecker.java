@@ -92,8 +92,8 @@ public class Baecker {
 		if(!nextExtraGewaehlt){
 			ArrayList<ZutatXVSMImpl> moeglichOptionen = new ArrayList<ZutatXVSMImpl>();
 			moeglichOptionen.add(null);
-			ZutatXVSMImpl schoko = tryExtraZutat(Standort.SCHOKOLADENLAGER, schokoTransaction);
-			ZutatXVSMImpl nuss = tryExtraZutat(Standort.NUESSELAGER, nussTransaction);
+			ZutatXVSMImpl schoko = tryExtraZutat(Standort.SCHOKOLADENLAGER);
+			ZutatXVSMImpl nuss = tryExtraZutat(Standort.NUESSELAGER);
 			if(schoko != null){
 				moeglichOptionen.add(schoko);
 			}
@@ -139,18 +139,25 @@ public class Baecker {
 		return nextExtraZutat;
 	}
 	
-	private ZutatXVSMImpl tryExtraZutat(Standort vonLager, TransactionReference tx){
+	private ZutatXVSMImpl tryExtraZutat(Standort vonLager){
+		TransactionReference tez =null;
 		try{
 		URI uri = new URI("xvsm://localhost:9876");
-		 tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
+		if(vonLager == Standort.NUESSELAGER){
+			nussTransaction = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
+			tez = nussTransaction;
+		}else{
+			schokoTransaction = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
+			tez = schokoTransaction;
+		}
 		 List<FifoSelector> selector = new ArrayList<FifoSelector>();
 		 selector.add(FifoCoordinator.newSelector(1));
-		 List<ZutatXVSMImpl> alleSchoko = Space.getCapi().take(Space.createOrLookUpContainer(vonLager), selector, MzsConstants.RequestTimeout.TRY_ONCE, tx, IsolationLevel.REPEATABLE_READ,null);
+		 List<ZutatXVSMImpl> alleSchoko = Space.getCapi().take(Space.createOrLookUpContainer(vonLager), selector, MzsConstants.RequestTimeout.TRY_ONCE, tez, IsolationLevel.REPEATABLE_READ,null);
 		 ZutatXVSMImpl schokolade = alleSchoko.iterator().next();
 		 return schokolade;
 		}catch(Exception e){
 			try {
-				Space.getCapi().rollbackTransaction(tx);
+				Space.getCapi().rollbackTransaction(tez);
 			} catch (MzsCoreException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -190,6 +197,8 @@ public class Baecker {
 			Thread.sleep(zubereitungszeit);
 			Space.getCapi().write(Space.createOrLookUpContainer(Standort.LEBKUCHEN_GEFERTIGT), 1000, tx,new Entry(lebkuchen,LindaCoordinator.newCoordinationData()));
 			Space.getCapi().commitTransaction(tx);
+			nextExtraGewaehlt = false;
+			nextExtraZutat=null;
 			return lebkuchen;
 		}catch(Exception e){
 			try {
@@ -199,6 +208,20 @@ public class Baecker {
 				e1.printStackTrace();
 			}
 			return null;
+		}finally{
+			try {
+				Space.getCapi().rollbackTransaction(nussTransaction);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				Space.getCapi().rollbackTransaction(schokoTransaction);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	

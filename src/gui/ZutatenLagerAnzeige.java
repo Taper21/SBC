@@ -35,7 +35,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 	private DefaultTableModel model = new DefaultTableModel(data,columnames);
 	private JTable zutatenTable = new JTable(model);
 	JScrollPane scrollpane =new JScrollPane(zutatenTable);
-	String[] lebkuchenColumnames = new String[]{"ID","Status","Charge-ID", "Mehl-ID", "Honig-ID", "Ei1-ID", "Ei2-ID", "Bäcker-ID", "Logistikmitarbeiter-ID", "QualitätMitarbeiter-ID", "Verpackung-ID"};
+	String[] lebkuchenColumnames = new String[]{"ID","Status","Charge-ID", "Mehl-ID", "Honig-ID", "Ei1-ID", "Ei2-ID","Schocko-ID", "Nuss-ID", "Bäcker-ID", "Logistikmitarbeiter-ID", "QualitätMitarbeiter-ID", "Verpackung-ID"};
 	private DefaultTableModel modelEntsorgtVerkostet = new DefaultTableModel();
 	String [][] lebkuchenData =new String[][]{{"","",""}};
 	private DefaultTableModel lebkuchenModel = new DefaultTableModel(lebkuchenData,lebkuchenColumnames);
@@ -76,17 +76,20 @@ public class ZutatenLagerAnzeige extends JPanel {
 		String[][] newData = new String[lebkuchen.size()][lebkuchenColumnames.length];
 		int row = 0;
 		for(ILebkuchen z: lebkuchen){
-			newData[row][0] = z.getId()+"";
-			newData[row][1] = z.getStatus();
-			newData[row][2] = z.getChargeId();
-			newData[row][3] = z.getMehlId();
-			newData[row][4] = z.getHonigId();
-			newData[row][5] = z.getEi1Id();
-			newData[row][6] = z.getEi2Id();
-			newData[row][7] = z.getBaeckerId();
-			newData[row][8] = z.getLogistikMitarbeiterId();
-			newData[row][9] = z.getQualitaetMitarbeiterId();
-			newData[row][10] = z.getVerpackungId();
+			int colum = 0;
+			newData[row][colum++] = z.getId()+"";
+			newData[row][colum++] = z.getStatus();
+			newData[row][colum++] = z.getChargeId();
+			newData[row][colum++] = z.getMehlId();
+			newData[row][colum++] = z.getHonigId();
+			newData[row][colum++] = z.getEi1Id();
+			newData[row][colum++] = z.getEi2Id();
+			newData[row][colum++] = z.getSchokoId();
+			newData[row][colum++] = z.getNussId();
+			newData[row][colum++] = z.getBaeckerId();
+			newData[row][colum++] = z.getLogistikMitarbeiterId();
+			newData[row][colum++] = z.getQualitaetMitarbeiterId();
+			newData[row][colum] = z.getVerpackungId();
 			row++;
 		}
 		return newData;
