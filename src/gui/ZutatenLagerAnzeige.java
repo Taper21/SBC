@@ -23,6 +23,7 @@ import javax.swing.table.TableModel;
 
 import alternativ.domain.Lebkuchen;
 
+import domain.IAuftrag;
 import domain.ILebkuchen;
 import domain.Zutat;
 import domain.ZutatTypEnum;
@@ -36,6 +37,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 	private JTable zutatenTable = new JTable(model);
 	JScrollPane scrollpane =new JScrollPane(zutatenTable);
 	String[] lebkuchenColumnames = new String[]{"ID","Status","Charge-ID", "Mehl-ID", "Honig-ID", "Ei1-ID", "Ei2-ID","Schocko-ID", "Nuss-ID", "Bäcker-ID", "Logistikmitarbeiter-ID", "QualitätMitarbeiter-ID", "Verpackung-ID","Auftrags-ID"};
+	String[] auftraegeColumnames = new String[]{"Auftrags-ID","Status","Anzahl(Packungen)","Normale-Lebkuchen","Schokolebkuchen","Nusslebkuchen"};
 	private DefaultTableModel modelEntsorgtVerkostet = new DefaultTableModel();
 	String [][] lebkuchenData =new String[][]{{"","",""}};
 	private DefaultTableModel lebkuchenModel = new DefaultTableModel(lebkuchenData,lebkuchenColumnames);
@@ -44,6 +46,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 	JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
 	private DefaultTableModel modelImOfen= new DefaultTableModel();
 	protected DefaultTableModel modelPackungen= new DefaultTableModel();
+	private DefaultTableModel modelAuftraege = new DefaultTableModel();
 	
 
 	public ZutatenLagerAnzeige(GUIDataManager zutatenManager, String name) {
@@ -53,6 +56,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 		tabs.add("gegessen/weggeworfen",new JScrollPane((new JTable(modelEntsorgtVerkostet))));
 		tabs.add("Ofen",new JScrollPane(new JTable(modelImOfen)));
 		tabs.add("Packungen",new JScrollPane(new JTable(modelPackungen)));
+		tabs.add("Aufträge", new JScrollPane(new JTable(modelAuftraege)));
 		this.add(tabs);
 		ZutatenLagerAnzeigenThread zutatenLagerAnzeigenThread = new ZutatenLagerAnzeigenThread(zutatenManager, this);
 		zutatenLagerAnzeigenThread.start();
@@ -94,6 +98,24 @@ public class ZutatenLagerAnzeige extends JPanel {
 			row++;
 		}
 		return newData;
+	}
+	
+	private String[][] auftraegeMapToDataArray(List<IAuftrag> auftraege){
+		String[][] newData = new String[auftraege.size()][auftraegeColumnames.length];
+		int row = 0;
+		for(IAuftrag z: auftraege){
+			int colum = 0;
+			newData[row][colum++] = z.getID();
+			newData[row][colum++] = z.getStatus();
+			newData[row][colum++] = z.getGesamtPackungszahl();
+			newData[row][colum++] = z.getNormaleLebkuchenAnzahl();
+			newData[row][colum++] = z.getSchokoLebkuchenAnzahl();
+			newData[row][colum++] = z.getNussLebkuchenAnzahl();
+			row++;
+		}
+		return newData;
+		
+		
 	}
 
 	public void setData(final List<Zutat> zutaten,final int mehlcount,final int honigcount,final int eiercount,final int schokocount, final int nuessecount,final List<ILebkuchen> lebkuchen) {
@@ -156,6 +178,18 @@ public class ZutatenLagerAnzeige extends JPanel {
 				modelPackungen.setDataVector(lebkuchenMapToDataArray(packungen), lebkuchenColumnames);
 				modelPackungen.fireTableDataChanged();
 				tabs.setTitleAt(3, "verpackte Lebkuchen : " + packungen.size());
+			}
+		});
+	}
+	
+	public void setDataAuftraege(final List<IAuftrag> auftraege) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				modelPackungen.setDataVector(auftraegeMapToDataArray(auftraege), auftraegeColumnames);
+				modelPackungen.fireTableDataChanged();
+				tabs.setTitleAt(4, "Aufträge : " + auftraege.size());
 			}
 		});
 	}
