@@ -38,6 +38,8 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	
 	private Long verpackungsID;
 	
+	private Long auftragsID;
+	
 	public Lebkuchen(ZutatXVSMImpl honig, ZutatXVSMImpl mehl, ZutatXVSMImpl ei1, ZutatXVSMImpl ei2, long chargeID, String baeckerID){
 		this.honig=honig;
 		this.mehl=mehl;
@@ -171,11 +173,14 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	public void setSorte(LebkuchenSorte sorte){
 		this.sorte =sorte;
 	}
+	
+	public void setAuftragsId(Long auftragsId){
+		this.auftragsID = auftragsId;
+	}
 
 	@Override
-	public String getAuftragsId() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getAuftragsId() {	
+		return auftragsID==null?"-":auftragsID.toString();
 	}
 
 }
