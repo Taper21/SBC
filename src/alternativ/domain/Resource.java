@@ -11,7 +11,6 @@ import alternativ.mitarbeiter.AlternativLieferant;
 
 public abstract class Resource implements Serializable {
 	
-	private static AtomicInteger id = new AtomicInteger(0);
 	
 	private static final long serialVersionUID = 1L;
 
@@ -23,9 +22,8 @@ public abstract class Resource implements Serializable {
 		return uid;
 	}
 	
-	static String getNextId(){
-		return ""+id.incrementAndGet(); 
-	}
+	abstract String getNextId();
+	
 	
 	@Override
 	public String toString() {

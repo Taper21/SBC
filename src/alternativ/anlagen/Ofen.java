@@ -50,9 +50,9 @@ public class Ofen extends Anlage {
 //			}
 				
 			//ofen akzeptiert keine halben charges 
-			if(!charge.isVoll()){
-				return false ;
-			}
+//			if(!charge.isVoll()){
+//				return false ;
+//			}
 			
 			//solange kein platz im ofen:
 			while(MAX_LEBKUCHEN-lebkuchenAnzahl.get()<charge.size()){

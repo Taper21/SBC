@@ -1,39 +1,71 @@
 package alternativ.domain;
 
 import java.rmi.server.UID;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import alternativ.domain.Lebkuchen.Status;
 
 import domain.ILebkuchen;
 
+public class Lebkuchen extends Resource implements ILebkuchen {
 
-
-public class Lebkuchen extends Resource implements ILebkuchen{
-	
 	private static final long serialVersionUID = 1L;
 	private Status status;
 	private String chargeUid;
-	private String honigUid;
-	private String mehlUid;
-	private String ei1Uid;
-	private String ei2Uid;
 	private String baeckerId;
 	private String logistikMitarbeiterId;
 	private String qualitaetsMitarbeiterId;
 	private String packungId;
+	private Set<AlternativZutat> alles;
+	private String ei1Uid;
+	private String ei2Uid;
+	private String honigUid;
+	private String mehlUid;
+	private String nuesseUid;
+	private String schokoladeUid;
 
-	public Lebkuchen(Status status, Resource honig, Resource mehl,
-			Resource ei1, Resource ei2, String baeckerId) {
-		super();
-		this.status = status;
-//		this.chargeUid = chargeUid;
-		this.honigUid = honig.uid;
-		this.mehlUid = mehl.uid;
-		this.ei1Uid = ei1.uid;
-		this.ei2Uid = ei2.uid;
+	public Lebkuchen(Status gefertigt, Set<AlternativZutat> alles, String baeckerId) {
+		status = gefertigt;
+		this.alles = alles;
 		this.baeckerId = baeckerId;
+		boolean hastSchon = false;
+		for (AlternativZutat x : alles) {
+			switch (x.getZutatTypEnum()) {
+			case EI:
+				if (ei1Uid == null) {
+					ei1Uid = x.getUID();
+				} else {
+					ei2Uid = x.getUID();
+				}
+				break;
+			case HONIG:
+				honigUid = x.getUID();
+				break;
+			case MEHL:
+				mehlUid = x.getUID();
+				break;
+			case NUESSE:
+				if(hastSchon){
+					throw new IllegalArgumentException("Zuviele Zutaten");
+				}
+				hastSchon = true;
+				nuesseUid = x.getUID();
+				break;
+			case SCHOKOLADE:
+				if(hastSchon){
+					throw new IllegalArgumentException("Zuviele Zutaten");
+				}
+				hastSchon = true;
+				
+				schokoladeUid = x.getUID();
+				break;
+			}
+		}
 	}
 
-	public enum Status{
-		GEFERTIGT,IN_OFEN,GEBACKEN,KONTROLLIERT,WEGGESCHMISSEN, GEGESSEN;
+	public enum Status {
+		GEFERTIGT, IN_OFEN, GEBACKEN, KONTROLLIERT, WEGGESCHMISSEN, GEGESSEN;
 	}
 
 	@Override
@@ -70,7 +102,7 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 	public String getChargeId() {
 		return chargeUid.toString();
 	}
-	
+
 	public void setChargeId(String chargeUid) {
 		this.chargeUid = chargeUid;
 	}
@@ -103,8 +135,9 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 	}
 
 	public void setVerpackungId(String packungId) {
-		this.packungId= packungId;
+		this.packungId = packungId;
 	}
+
 	@Override
 	public String getVerpackungId() {
 		return packungId;
@@ -120,6 +153,11 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 	public String getNussId() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	static AtomicInteger id = new AtomicInteger(0);
+	@Override
+	String getNextId() {
+		return ""+id.incrementAndGet();
 	}
 
 	@Override

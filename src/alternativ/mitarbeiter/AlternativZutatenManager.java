@@ -77,14 +77,12 @@ public class AlternativZutatenManager implements GUIDataManager {
 
 	@Override
 	public List<Zutat> getAllSchokolade() {
-		// TODO Auto-generated method stub
-		return null;
+		return lager.getAllSchokolade();
 	}
 
 	@Override
 	public List<Zutat> getAllNuesse() {
-		// TODO Auto-generated method stub
-		return null;
+		return lager.getAllNuesse();
 	}
 
 	@Override

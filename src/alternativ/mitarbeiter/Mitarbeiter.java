@@ -56,7 +56,7 @@ public abstract class Mitarbeiter {
 	public  Resource nimmObjectVonAnlage(AnlageInterface anlage, Object optionalParameter){
 		try {
 			Resource object = anlage.objectHolen(optionalParameter);
-			logger.info("hole " +object + " mit param "+ optionalParameter + " von " +anlage.getClass().getSimpleName());
+			logger.info("hole " +object + " mit param "+ optionalParameter + " von " +anlage.getName());
 			return object; 
 		} catch (RemoteException | InterruptedException  e) {
 			if(e instanceof ConnectException){
@@ -71,7 +71,7 @@ public abstract class Mitarbeiter {
 	
 	public boolean gibObjectAnAnlage(AnlageInterface anlage, Resource resource){
 		try {
-			logger.info("gib "+ resource + " an anlage. " + anlage.getClass().getSimpleName());
+			logger.info("gib "+ resource + " an anlage. " + anlage.getName());
 			return anlage.objectLiefern(resource);
 		} catch (RemoteException | InterruptedException e) {
 			if(e instanceof ConnectException){

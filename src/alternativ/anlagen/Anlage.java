@@ -23,9 +23,11 @@ import alternativ.domain.Resource;
 public abstract class Anlage implements AnlageInterface {
 	
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+	private String name;
 	
 	public Anlage(String name){
         try {
+        	this.name = name;
         	Registry registry = null;
         	try {
         		registry = LocateRegistry.createRegistry(1099);
@@ -42,6 +44,11 @@ public abstract class Anlage implements AnlageInterface {
             logger.error(name + " exception:");
             e.printStackTrace();
         }
+	}
+	
+	@Override
+	public String getName() {
+		return name;
 	}
 	
 	

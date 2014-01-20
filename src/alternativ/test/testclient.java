@@ -14,6 +14,7 @@ import alternativ.anlagen.AnlageInterface;
 public class testclient extends Thread implements Remote, Serializable {
 	private Itestserver server;
 	private boolean b;
+	int i=0;
 	
 	public testclient(boolean b){
 		this.b = b;
@@ -24,7 +25,11 @@ public class testclient extends Thread implements Remote, Serializable {
 	@Override
 	public void run() {
 		while(true){try {
+			i++;
 			System.out.println(this.b + "      "+			server.getInt(b)				);
+			if(i>5&& b){
+				return;
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}}
@@ -33,7 +38,12 @@ public class testclient extends Thread implements Remote, Serializable {
 	public static void main(String[] args){
 //		new testclient(true).start();
 //		new testclient(false).start();
-		new testclient(true).test();
+//		new testclient(true).test();
+		Object s;
+		String string = new String("maama");
+		s = string;
+		System.out.println(s.toString());
+		System.out.println(string.toString());
 	}
 
 	private void test() {
