@@ -24,7 +24,7 @@ import domain.ZutatTypEnum;
 
 public class NeueLieferantenPanel extends JPanel {
 	
-	ZutatTypEnum[] zutatenArray = {ZutatTypEnum.HONIG,ZutatTypEnum.MEHL,ZutatTypEnum.EI};
+	ZutatTypEnum[] zutatenArray = {ZutatTypEnum.HONIG,ZutatTypEnum.MEHL,ZutatTypEnum.EI,ZutatTypEnum.SCHOKOLADE,ZutatTypEnum.NUESSE};
 	
 	JTextField anzahlTextfield = new JTextField(5);
 	JComboBox zutatComboBox = new JComboBox(zutatenArray);

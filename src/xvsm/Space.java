@@ -160,6 +160,10 @@ public class Space {
 				break;
 			case MEHL:targetLager = Standort.MEHLLAGER;
 				break;
+			case NUESSE:targetLager = Standort.NUESSELAGER;
+				break;
+			case SCHOKOLADE:targetLager = Standort.SCHOKOLADENLAGER;
+				break;
 			default: targetLager = Standort.MEHLLAGER;
 		}
 		return targetLager;

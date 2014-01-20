@@ -25,6 +25,8 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 	private static ArrayList<Zutat> eier = new ArrayList<Zutat>();
 	private static ArrayList<Zutat> honig= new ArrayList<Zutat>();
 	private static ArrayList<Zutat> mehl= new ArrayList<Zutat>();
+	private static ArrayList<Zutat> schoko= new ArrayList<Zutat>();
+	private static ArrayList<Zutat> nuesse= new ArrayList<Zutat>();
 	
 	
 	@Override
@@ -70,9 +72,7 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 		} catch (MzsCoreException e) {
 			e.printStackTrace();
 		} //}
-		
 		return null;
-	
 	}
 
 	@Override
@@ -104,8 +104,6 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 		}
 	}
 	
-	
-
 	@Override
 	public List<ILebkuchen> getEntsorgtVerkostet() {
 		List<ILebkuchen> liste = new ArrayList<ILebkuchen>(getAllLebkuchenWithStatus(Standort.ENTSORGT));
@@ -123,6 +121,28 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 		return new ArrayList<ILebkuchen>(getAllLebkuchenWithStatus(Standort.VERPACKT));
 	}
 
+	@Override
+	public List<Zutat> getAllSchokolade() {
+		List<Zutat> alleSchokolade = getAllZutatenByTyp(ZutatTypEnum.SCHOKOLADE);
+		if(alleSchokolade==null){
+			return schoko;
+		}else{
+			schoko = new ArrayList<Zutat>();
+			schoko.addAll(alleSchokolade);
+			return schoko;
+		}
+	}
 
+	@Override
+	public List<Zutat> getAllNuesse() {
+		List<Zutat> alleNuesse = getAllZutatenByTyp(ZutatTypEnum.NUESSE);
+		if(alleNuesse==null){
+			return nuesse;
+		}else{
+			nuesse = new ArrayList<Zutat>();
+			nuesse.addAll(alleNuesse);
+			return nuesse;
+		}
+	}
 
 }

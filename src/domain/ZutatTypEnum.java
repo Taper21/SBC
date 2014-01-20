@@ -1,7 +1,7 @@
 package domain;
 
 public enum ZutatTypEnum {
-	HONIG("Honig"),MEHL("Mehl"),EI("Eier");
+	HONIG("Honig"),MEHL("Mehl"),EI("Eier"),NUESSE("Nüsse"),SCHOKOLADE("Schokolade");
 	
 	private String name;
 	

@@ -74,5 +74,17 @@ public class AlternativZutatenManager implements GUIDataManager {
 		return fertigePackungenLager.getAllLebkuchen();
 	}
 
+	@Override
+	public List<Zutat> getAllSchokolade() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Zutat> getAllNuesse() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

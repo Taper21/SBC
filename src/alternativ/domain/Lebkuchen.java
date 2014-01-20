@@ -109,4 +109,16 @@ public class Lebkuchen extends Resource implements ILebkuchen{
 	public String getVerpackungId() {
 		return packungId;
 	}
+
+	@Override
+	public String getSchokoId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNussId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

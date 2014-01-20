@@ -92,14 +92,14 @@ public class ZutatenLagerAnzeige extends JPanel {
 		return newData;
 	}
 
-	public void setData(final List<Zutat> zutaten,final int mehlcount,final int honigcount,final int eiercount,final List<ILebkuchen> lebkuchen) {
+	public void setData(final List<Zutat> zutaten,final int mehlcount,final int honigcount,final int eiercount,final int schokocount, final int nuessecount,final List<ILebkuchen> lebkuchen) {
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
 				data = zutatenMapToDataArray(zutaten);
-				columnames = new String[]{"ID","Mehl("+mehlcount+") Honig("+honigcount+") Eier("+eiercount+")","ID Lieferant ("+")"};
+				columnames = new String[]{"ID","Mehl("+mehlcount+") Honig("+honigcount+") Eier("+eiercount+") Schockolade("+schokocount+") Nüsse("+nuessecount+")","ID Lieferant ("+")"};
 				model.setDataVector(data, columnames);
 				model.fireTableDataChanged();
 				lebkuchenModel.setDataVector(lebkuchenMapToDataArray(lebkuchen), lebkuchenColumnames);

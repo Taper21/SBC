@@ -14,6 +14,8 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	private ZutatXVSMImpl mehl;
 	private ZutatXVSMImpl ei1;
 	private ZutatXVSMImpl ei2;
+	private ZutatXVSMImpl schoko;
+	private ZutatXVSMImpl nuss;
 	private String status;
 	
 	private static long idCounter = 0;
@@ -137,6 +139,24 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	@Override
 	public String getVerpackungId() {
 		return verpackungsID==null ? "-" : this.verpackungsID+"";
+	}
+
+	@Override
+	public String getSchokoId() {
+		return schoko==null ? "-" : schoko.getId();
+	}
+
+	@Override
+	public String getNussId() {
+		return nuss == null ? "-" : nuss.getId();
+	}
+	
+	public void setSchoko(ZutatXVSMImpl schoko){
+		this.schoko = schoko;
+	}
+	
+	public void setNuss(ZutatXVSMImpl nuss){
+		this.nuss = nuss;
 	}
 
 }

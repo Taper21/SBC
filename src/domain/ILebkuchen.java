@@ -7,6 +7,8 @@ public interface ILebkuchen {
 	String getMehlId();
 	String getEi1Id();
 	String getEi2Id();
+	String getSchokoId();
+	String getNussId();
 	String getChargeId();
 	String getBaeckerId();
 	String getLogistikMitarbeiterId();

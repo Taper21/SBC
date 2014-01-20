@@ -15,6 +15,8 @@ import org.mozartspaces.core.MzsConstants;
 import org.mozartspaces.core.MzsCoreException;
 import org.mozartspaces.core.TransactionReference;
 
+import domain.ZutatTypEnum;
+
 import xvsm.Lebkuchen;
 
 
@@ -22,6 +24,11 @@ public class Baecker {
 	
 	private String id;
 	private long chargeID = 0;
+	private ZutatXVSMImpl nextExtraZutat = null;
+	private boolean nextExtraGewaehlt = false;
+	private TransactionReference schokoTransaction;
+	private TransactionReference nussTransaction;
+	
 	
 	List<Lebkuchen> charge;
 	
@@ -81,6 +88,78 @@ public class Baecker {
 		
 	}
 	
+	private ZutatXVSMImpl getExtraZutat(){
+		if(!nextExtraGewaehlt){
+			ArrayList<ZutatXVSMImpl> moeglichOptionen = new ArrayList<ZutatXVSMImpl>();
+			moeglichOptionen.add(null);
+			ZutatXVSMImpl schoko = tryExtraZutat(Standort.SCHOKOLADENLAGER, schokoTransaction);
+			ZutatXVSMImpl nuss = tryExtraZutat(Standort.NUESSELAGER, nussTransaction);
+			if(schoko != null){
+				moeglichOptionen.add(schoko);
+			}
+			if(nuss!=null){
+				moeglichOptionen.add(nuss);
+			}
+			int randomindex = new Random().nextInt(moeglichOptionen.size());
+			nextExtraZutat = moeglichOptionen.get(randomindex);
+			if(nextExtraZutat!=null){
+				if(nextExtraZutat.getZutatTypEnum().equals(ZutatTypEnum.SCHOKOLADE)){
+					try {
+						Space.getCapi().commitTransaction(schokoTransaction);
+					} catch (MzsCoreException e) {
+						e.printStackTrace();
+					}
+				}else if(nextExtraZutat.getZutatTypEnum().equals(ZutatTypEnum.NUESSE)){
+					try {
+						Space.getCapi().commitTransaction(nussTransaction);
+					} catch (MzsCoreException e) {
+						e.printStackTrace();
+					}
+				}
+			nextExtraGewaehlt=true;
+			moeglichOptionen.remove(randomindex);
+			for(ZutatXVSMImpl z: moeglichOptionen){
+				if(z!=null){
+					if(z.getZutatTypEnum().equals(ZutatTypEnum.SCHOKOLADE)){
+						try {
+							Space.getCapi().rollbackTransaction(schokoTransaction);
+						} catch (MzsCoreException e) {
+							e.printStackTrace();
+						}
+					}else if(z.getZutatTypEnum().equals(ZutatTypEnum.NUESSE)){
+						try {
+							Space.getCapi().rollbackTransaction(nussTransaction);
+						} catch (MzsCoreException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}}
+		}
+		return nextExtraZutat;
+	}
+	
+	private ZutatXVSMImpl tryExtraZutat(Standort vonLager, TransactionReference tx){
+		try{
+		URI uri = new URI("xvsm://localhost:9876");
+		 tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
+		 List<FifoSelector> selector = new ArrayList<FifoSelector>();
+		 selector.add(FifoCoordinator.newSelector(1));
+		 List<ZutatXVSMImpl> alleSchoko = Space.getCapi().take(Space.createOrLookUpContainer(vonLager), selector, MzsConstants.RequestTimeout.TRY_ONCE, tx, IsolationLevel.REPEATABLE_READ,null);
+		 ZutatXVSMImpl schokolade = alleSchoko.iterator().next();
+		 return schokolade;
+		}catch(Exception e){
+			try {
+				Space.getCapi().rollbackTransaction(tx);
+			} catch (MzsCoreException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return null;
+		}
+	}
+
+	
 	private Lebkuchen entnehmenZutatenFuer1Lebkuchen(){
 		TransactionReference tx =null;
 		try{
@@ -98,6 +177,15 @@ public class Baecker {
 			ZutatXVSMImpl ei1 = alleEier1.iterator().next();
 			ZutatXVSMImpl ei2 = alleEier2.iterator().next();
 			lebkuchen = new Lebkuchen(honig, mehl, ei1, ei2, chargeID, id);
+			ZutatXVSMImpl extra = getExtraZutat();
+			if(extra != null){
+				switch(extra.getZutatTypEnum()){
+					case NUESSE: lebkuchen.setNuss(extra);
+						break;
+					case SCHOKOLADE: lebkuchen.setSchoko(extra);
+						break;
+				}
+			}
 			long zubereitungszeit = ((new Random().nextLong())%1000)+1000;
 			Thread.sleep(zubereitungszeit);
 			Space.getCapi().write(Space.createOrLookUpContainer(Standort.LEBKUCHEN_GEFERTIGT), 1000, tx,new Entry(lebkuchen,LindaCoordinator.newCoordinationData()));
