@@ -14,6 +14,10 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	private ZutatXVSMImpl mehl;
 	private ZutatXVSMImpl ei1;
 	private ZutatXVSMImpl ei2;
+	
+	@Index
+	private LebkuchenSorte sorte;
+	
 	private ZutatXVSMImpl schoko;
 	private ZutatXVSMImpl nuss;
 	private String status;
@@ -23,7 +27,7 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	private long id;
 	
 	@Index
-	private long chargeID;
+	private Long chargeID;
 	
 	@Index
 	private String baeckerID;
@@ -49,6 +53,11 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 		this.chargeID = chargeID;
 		this.baeckerID = baeckerID;
 	}
+	
+	//For LindaSelector
+		public Lebkuchen(LebkuchenSorte sorte){
+			this.sorte=sorte;
+		}
 	
 	public ZutatXVSMImpl getHonigZutat(){
 		return honig;
@@ -157,6 +166,10 @@ public class Lebkuchen implements Serializable,ILebkuchen{
 	
 	public void setNuss(ZutatXVSMImpl nuss){
 		this.nuss = nuss;
+	}
+	
+	public void setSorte(LebkuchenSorte sorte){
+		this.sorte =sorte;
 	}
 
 }
