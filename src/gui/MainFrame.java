@@ -19,8 +19,8 @@ import xvsm.Space;
 
 public class MainFrame extends JFrame {
 
-	private static String ort;
-	private static int port ;
+	public static String ort;
+	public static int port ;
 
 	public MainFrame() throws HeadlessException {
 		super(getOrt() + " - " + port);
