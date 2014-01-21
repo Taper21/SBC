@@ -31,9 +31,10 @@ import gui.MainFrame;
 
 public class Space {
 	
-	 private static MzsCore core = null;
+
 	 private static Capi capi = null;
 	 private static int port = 9876;
+	 private static MzsCore  core= null;
 	
 //	 public static ContainerReference lookUpOrCreateContainer(String name) throws MzsCoreException{
 //		 return CapiUtil.lookupOrCreateContainer(name, null,null , null, getCapi());
@@ -64,9 +65,10 @@ public class Space {
 	 private static MzsCore connectSpace(){
 		 MzsCore core;
 		 try{
-			 core = DefaultMzsCore.newInstance(getPort());
+			 core = DefaultMzsCore.newInstance(0);
 			 return core;
 		 }catch(Exception e){
+			 e.printStackTrace();
 			 return null;
 		 }
 	 }
@@ -127,7 +129,7 @@ public class Space {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 core.shutdown(true);
+		 connectOrCreateSpace().shutdown(true);
 	 }
 	/**
 	 * @param args
@@ -162,7 +164,7 @@ public class Space {
 		 capi.destroyContainer(Space.createOrLookUpContainer(Standort.HONIGLAGER), null); 
 		 
 		 // shutdown the core 
-		 core.shutdown(true); 
+		 connectOrCreateSpace().shutdown(true); 
 	}
 	
 	public static Standort getLager(ZutatTypEnum zutatTypEnum){

@@ -42,11 +42,19 @@ public class Auftrag implements Serializable, IAuftrag {
 	public Long getLongID() {
 		return id;
 	}
+	
+	public void setStatus(AuftragStatus status){
+		this.auftragStatus = status;;
+	}
 
 	@Override
 	public String getStatus() {
 		if(auftragStatus.equals(AuftragStatus.FERTIG)){
-			return "Erledigt";
+			if(erledigt<0){
+				return "Verschoben" + erledigt;
+			}else{
+				return "Erledigt";
+			}
 		}else{
 			if(erledigt==0){
 				return "Unbearbeitet";
@@ -89,6 +97,12 @@ public class Auftrag implements Serializable, IAuftrag {
 			this.auftragStatus=AuftragStatus.UNFERTIG;
 		}
 		return this.auftragStatus;
+	}
+	
+	
+	//For Linda
+	public void setErledigt(Integer erledigt){
+		this.erledigt = erledigt;
 	}
 
 }

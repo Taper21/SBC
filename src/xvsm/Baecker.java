@@ -171,7 +171,7 @@ public class Baecker {
 		TransactionReference tx =null;
 		try{
 		URI uri = new URI("xvsm://localhost:" + Space.getPort());
-		 tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
+		 tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri);
 		Lebkuchen lebkuchen =null;
 		List<FifoSelector> selector = new ArrayList<FifoSelector>();
 		selector.add(FifoCoordinator.newSelector(1));
