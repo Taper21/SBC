@@ -1,3 +1,3 @@
 cd ..\..\target
 
-start java -cp SBC-0.0.1-SNAPSHOT.jar gui.MainFrame
+start java -cp SBC-0.0.1-SNAPSHOT.jar gui.MainFrame Wien 666

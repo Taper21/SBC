@@ -52,15 +52,22 @@ public class Baecker extends Mitarbeiter {
 			baecker.holeChargeVonOfen();
 		}
 	}
-
-
-
-
+	
+	public void start(){
+		while(!close){
+			getResources();
+			teigMischen();
+			backen();
+			holeChargeVonOfen();
+		}
+	}
+	
 	private void holeChargeVonOfen() {
 		Charge fertigeCharge;
 		if(warteAufCharge){
 			try {
-				Thread.sleep(BACKZEIT);
+				//Benchmark
+//				Thread.sleep(BACKZEIT);
 				logger.info("warte auf charge:" + chargeZumAbholen);
 				warteAufCharge = false;
 				try {

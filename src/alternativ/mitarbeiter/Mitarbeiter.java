@@ -14,9 +14,9 @@ import alternativ.anlagen.AnlageInterface;
 import alternativ.domain.Resource;
 
 public abstract class Mitarbeiter {
-	
+
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	protected AnlageInterface quelle;
 	protected AnlageInterface ziel;
 	protected AnlageInterface weiteresZiel;
@@ -26,8 +26,8 @@ public abstract class Mitarbeiter {
 	protected boolean close;
 
 	private String ort;
-	
-	public Mitarbeiter(String quelle, String ziel, String weiteresZiel ,String id, String ort){
+
+	public Mitarbeiter(String quelle, String ziel, String weiteresZiel, String id, String ort) {
 		this.id = id;
 		this.ort = ort;
 		this.quelle = bindAnlage(quelle);
@@ -36,38 +36,37 @@ public abstract class Mitarbeiter {
 	}
 
 	protected AnlageInterface bindAnlage(String rmiName) {
-		if(rmiName == null){
+		if (rmiName == null) {
 			return null;
 		}
-		rmiName = rmiName+" "+getOrt();
-		try{ 
+		rmiName = rmiName + " " + getOrt();
+		try {
 			Registry registry = null;
-        	try {
-        		registry = LocateRegistry.createRegistry(1099);
-        	    // This call will throw an exception if the registry does not already exist
-        	}
-        	catch (RemoteException e) { 
-        		registry = LocateRegistry.getRegistry(1099);
-        	}
-	        return (AnlageInterface) registry.lookup(rmiName);
-	    } catch (Exception e) {
-	        logger.error("Mitarbeiter exception:");
-	        e.printStackTrace();
-	    }
+			try {
+				registry = LocateRegistry.createRegistry(1099);
+				// This call will throw an exception if the registry does not already exist
+			} catch (RemoteException e) {
+				registry = LocateRegistry.getRegistry(1099);
+			}
+			return (AnlageInterface) registry.lookup(rmiName);
+		} catch (Exception e) {
+			logger.error("Mitarbeiter exception:");
+			e.printStackTrace();
+		}
 		return null;
 	}
-	
-	private  String getOrt(){
+
+	private String getOrt() {
 		return ort;
 	}
 
-	public  Resource nimmObjectVonAnlage(AnlageInterface anlage, Object optionalParameter){
+	public Resource nimmObjectVonAnlage(AnlageInterface anlage, Object optionalParameter) {
 		try {
 			Resource object = anlage.objectHolen(optionalParameter);
-			logger.info("hole " +object + " mit param "+ optionalParameter + " von " +anlage.getName());
-			return object; 
-		} catch (RemoteException | InterruptedException  e) {
-			if(e instanceof ConnectException){
+			logger.info("hole " + object + " mit param " + optionalParameter + " von " + anlage.getName());
+			return object;
+		} catch (RemoteException | InterruptedException e) {
+			if (e instanceof ConnectException) {
 				close = true;
 			}
 			logger.error(e.getMessage());
@@ -75,14 +74,15 @@ public abstract class Mitarbeiter {
 		}
 		return null;
 	}
+
 	public abstract void verarbeiteZutat();
-	
-	public boolean gibObjectAnAnlage(AnlageInterface anlage, Resource resource){
+
+	public boolean gibObjectAnAnlage(AnlageInterface anlage, Resource resource) {
 		try {
-			logger.info("gib "+ resource + " an anlage. " + anlage.getName());
+			logger.info("gib " + resource + " an anlage. " + anlage.getName());
 			return anlage.objectLiefern(resource);
 		} catch (RemoteException | InterruptedException e) {
-			if(e instanceof ConnectException){
+			if (e instanceof ConnectException) {
 				close = true;
 			}
 			logger.error(e.getMessage());
@@ -90,23 +90,27 @@ public abstract class Mitarbeiter {
 		}
 		return false;
 	}
-	
-	public Logger getLogger(){
+
+	public Logger getLogger() {
 		return logger;
 	}
-	
-	public String getId(){
+
+	public String getId() {
 		return this.id;
 	}
-	
-	public  boolean checkInstance(Class<?> type, Object param){
-		if(param==null){
+
+	public boolean checkInstance(Class<?> type, Object param) {
+		if (param == null) {
 			return false;
 		}
 		boolean returnValue = type == param.getClass();
-		if(!returnValue){
-			logger.error("expected type. " + type +" got type: " + param.getClass());
+		if (!returnValue) {
+			logger.error("expected type. " + type + " got type: " + param.getClass());
 		}
 		return returnValue;
+	}
+
+	public void stop() {
+		close = true;
 	}
 }

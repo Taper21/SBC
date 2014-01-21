@@ -100,5 +100,14 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 	}
 
 
+	public void start() {
+		while(!close){
+			nimmCharge();
+			kosteLebkuchen();
+			gibLebkuchenZuLogistik();
+		}
+	}
+
+
 
 }

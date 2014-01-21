@@ -101,5 +101,14 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 
 	}
 
+	public void start() {
+		while (!close) {
+			holeLebkuchenFuerPackung();
+			// logistikMitarbeiter.verpackeLebkuchen();
+			// logistikMitarbeiter.fertigePackungAbliefern();
+		}// TODO Auto-generated method stub
+		
+	}
+
 
 }
