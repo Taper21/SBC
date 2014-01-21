@@ -32,13 +32,10 @@ public class Logistik extends Anlage {
 	public ConcurrentLinkedQueue<Charge> abfallEimer = new ConcurrentLinkedQueue<Charge>();
 	public ConcurrentLinkedQueue<Lebkuchen> abgebissen = new ConcurrentLinkedQueue<Lebkuchen>();
 
-	public Logistik() {
-		super(LOGISTIK);
+	public Logistik(String standort) {
+		super(LOGISTIK+" "+standort);
 	}
 
-	public static void main(String[] args) {
-		new Logistik();
-	}
 
 	@Override
 	public synchronized boolean objectLiefern(Resource t) throws RemoteException {
@@ -217,6 +214,15 @@ public class Logistik extends Anlage {
 		allLebkuchen.addAll(nuss);
 		allLebkuchen.addAll(schoko);
 		allLebkuchen.addAll(abgebissen);
+		return allLebkuchen;
+	}
+
+	public List<ILebkuchen> getAllKontrolliert() {
+		List<ILebkuchen> allLebkuchen = new ArrayList<ILebkuchen>();
+		
+		allLebkuchen.addAll(normal);
+		allLebkuchen.addAll(nuss);
+		allLebkuchen.addAll(schoko);
 		return allLebkuchen;
 	}
 

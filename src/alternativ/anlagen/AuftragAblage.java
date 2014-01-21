@@ -18,8 +18,8 @@ public class AuftragAblage extends Anlage {
 	
 	public static final String AUFTRAGABLAGE = "AuftragAblage";
 
-	public AuftragAblage() {
-		super(AUFTRAGABLAGE);
+	public AuftragAblage(String standort) {
+		super(AUFTRAGABLAGE+" "+standort);
 	}
 
 	@Override

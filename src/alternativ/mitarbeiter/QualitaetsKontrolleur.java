@@ -23,16 +23,17 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 	private Charge zuPruefendeCharge;
 	private long ausscheidungsRate;
 	private boolean zweiteKontrolle = true;
+	private String ort;
 
 
-	public QualitaetsKontrolleur(String id, String ausscheidungsRate){
-		super(Qualitaetskontrolle.QUALITAETSKONTROLLE, Logistik.LOGISTIK, null,id);
+	public QualitaetsKontrolleur(String id, String ausscheidungsRate, String ort){
+		super(Qualitaetskontrolle.QUALITAETSKONTROLLE, Logistik.LOGISTIK, null,id, ort);
 		this.ausscheidungsRate = Long.parseLong(ausscheidungsRate);
 	}
 	
 	
 	public static void main(String[] args) {
-		QualitaetsKontrolleur qualitaetsKontrolleur = new QualitaetsKontrolleur(args[0], args[1]);
+		QualitaetsKontrolleur qualitaetsKontrolleur = new QualitaetsKontrolleur(args[0], args[1], args[2]);
 		qualitaetsKontrolleur.getLogger().info("QualitaetsKontrolleur started mit id: " + qualitaetsKontrolleur.getId());
 		while(!qualitaetsKontrolleur.close){
 			qualitaetsKontrolleur.nimmCharge();
@@ -69,7 +70,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 	private void kontrolle() {
 		if(zweiteKontrolle){
 			zweiteKontrolle = false;
-			if((new Random().nextLong()%100)<=ausscheidungsRate){
+			if((Math.abs(new Random().nextLong())%100)<=ausscheidungsRate){
 				zuPruefendeCharge.setSchmecktSchlecht();
 			}else{
 				zuPruefendeCharge.setStatus(Charge.Status.OK);
@@ -97,6 +98,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 	public void verarbeiteZutat() {
 		
 	}
+
 
 
 }

@@ -12,16 +12,18 @@ import javax.swing.text.TabExpander;
 
 import domain.GUIDataManager;
 
-import alternativ.mitarbeiter.AlternativZutatenManager;
+import alternativ.mitarbeiter.FabrikManager;
 
 import xvsm.GUIDataMangerXVSMImpl;
 
 public class MainFrame extends JFrame {
 
+	private static String ort;
+
 	public MainFrame() throws HeadlessException {
-		super("Lebkuchenfabrik");
+		super(getOrt());
 		GUIDataManager spaced = new GUIDataMangerXVSMImpl();
-		GUIDataManager alternativ = new AlternativZutatenManager();
+		GUIDataManager alternativ = new FabrikManager();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setLayout(new BorderLayout());
@@ -38,7 +40,12 @@ public class MainFrame extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		ort=args[0];
 		new MainFrame();
+	}
+
+	public static String getOrt() {
+		return ort;
 	}
 
 }

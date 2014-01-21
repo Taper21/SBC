@@ -24,9 +24,12 @@ public abstract class Mitarbeiter {
 	private String id;
 
 	protected boolean close;
+
+	private String ort;
 	
-	public Mitarbeiter(String quelle, String ziel, String weiteresZiel ,String id){
+	public Mitarbeiter(String quelle, String ziel, String weiteresZiel ,String id, String ort){
 		this.id = id;
+		this.ort = ort;
 		this.quelle = bindAnlage(quelle);
 		this.ziel = bindAnlage(ziel);
 		this.weiteresZiel = bindAnlage(weiteresZiel);
@@ -36,7 +39,8 @@ public abstract class Mitarbeiter {
 		if(rmiName == null){
 			return null;
 		}
-		try{
+		rmiName = rmiName+" "+getOrt();
+		try{ 
 			Registry registry = null;
         	try {
         		registry = LocateRegistry.createRegistry(1099);
@@ -53,6 +57,10 @@ public abstract class Mitarbeiter {
 		return null;
 	}
 	
+	private  String getOrt(){
+		return ort;
+	}
+
 	public  Resource nimmObjectVonAnlage(AnlageInterface anlage, Object optionalParameter){
 		try {
 			Resource object = anlage.objectHolen(optionalParameter);

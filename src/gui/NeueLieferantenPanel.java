@@ -76,7 +76,7 @@ public class NeueLieferantenPanel extends JPanel {
 						XVSMLieferant lieferant = new XVSMLieferant(l.getAnzahl(), l.getZutatTypEnum());
 						lieferant.start();
 					}else{
-						AlternativLieferant lieferant = new AlternativLieferant(l.getAnzahl(), l.getZutatTypEnum());
+						AlternativLieferant lieferant = new AlternativLieferant(l.getAnzahl(), l.getZutatTypEnum(), MainFrame.getOrt());
 						lieferant.start();
 					}
 					

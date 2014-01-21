@@ -28,13 +28,10 @@ public class FertigePackungenLager extends Anlage {
 	
 	public Queue<Packung> fertig = new ConcurrentLinkedQueue<Packung>();
 	
-	public FertigePackungenLager() {
-		super(FERTIGEPACKUNGENLAGER);
+	public FertigePackungenLager(String standort) {
+		super(FERTIGEPACKUNGENLAGER+" "+standort);
 	}
 	
-	public static void main(String[] args) {
-    	new FertigePackungenLager();
-    }
 
 	@Override
 	public boolean objectLiefern(Resource t) throws RemoteException {
