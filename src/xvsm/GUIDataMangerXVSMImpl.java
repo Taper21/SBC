@@ -155,7 +155,7 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 			int schokoLebkuchen, int nussLebkuchen) {
 		Auftrag auftag = new Auftrag(auftragID++, packungungen, normaleLebkuchen, nussLebkuchen,schokoLebkuchen);
 		try {
-			Space.getCapi().write(new Entry(auftag,FifoCoordinator.newCoordinationData()), Space.createOrLookUpContainer(Standort.UNBEARBEITETE_AUFTRAEGE));
+			Space.getCapi().write(new Entry(auftag,LindaCoordinator.newCoordinationData()), Space.createOrLookUpContainer(Standort.UNFERTIGE_AUFTRAEGE));
 		} catch (MzsCoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,8 +168,10 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 		try {
 			List<FifoSelector> selector = new ArrayList<FifoSelector>();
 			selector.add(FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL));
-			List<Auftrag> liste=  Space.getCapi().read(Space.createOrLookUpContainer(Standort.UNBEARBEITETE_AUFTRAEGE),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
+			List<Auftrag> liste=  Space.getCapi().read(Space.createOrLookUpContainer(Standort.UNFERTIGE_AUFTRAEGE),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
 			ArrayList<IAuftrag> auftragliste= new ArrayList<IAuftrag>();
+			auftragliste.addAll(liste);
+			liste=  Space.getCapi().read(Space.createOrLookUpContainer(Standort.FERTIGE_AUFTRAEGE),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
 			auftragliste.addAll(liste);
 			return auftragliste;
 		} catch (MzsCoreException e) {

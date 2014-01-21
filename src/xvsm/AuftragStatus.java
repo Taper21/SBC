@@ -2,7 +2,7 @@ package xvsm;
 
 public enum AuftragStatus {
 
-	UNBEARBEITET("Unbearbeitet"),BEARBEITET("Bearbeitet"),FERTIG("Fertig");
+	UNFERTIG("Unfertig"),FERTIG("Fertig");
 	
 	private String name;
 	
