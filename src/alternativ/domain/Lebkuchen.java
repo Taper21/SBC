@@ -4,6 +4,8 @@ import java.rmi.server.UID;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang.StringUtils;
+
 import alternativ.domain.Lebkuchen.Status;
 
 import domain.ILebkuchen;
@@ -145,24 +147,31 @@ public class Lebkuchen extends Resource implements ILebkuchen {
 
 	@Override
 	public String getSchokoId() {
-		// TODO Auto-generated method stub
-		return null;
+		return schokoladeUid;
 	}
 
 	@Override
 	public String getNussId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	static AtomicInteger id = new AtomicInteger(0);
-	@Override
-	String getNextId() {
-		return ""+id.incrementAndGet();
+		return nuesseUid;
 	}
 
 	@Override
 	public String getAuftragsId() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Type getType() {
+		if(StringUtils.isEmpty(getSchokoId())){
+			if(StringUtils.isEmpty(getNussId())){
+				return Type.Normal;
+			}
+			return Type.Nuss;
+		}
+		return Type.Schoko;
+	}
+	
+	public enum Type {
+		Schoko, Nuss, Normal;
 	}
 }
