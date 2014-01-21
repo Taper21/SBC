@@ -49,12 +49,15 @@ public class Kontrolleur {
 				for(Lebkuchen l: charge){
 					l.setKontrolleurID(id);
 				}
+				Standort status = Standort.KONTROLLIERT;
+				if(counter%2==0){
 				Lebkuchen kostprobe =charge.remove(0);
 				kostprobe.setStatus("Verkostet");
 				Space.getCapi().write(Space.createOrLookUpContainer(Standort.VERKOSTET), MzsConstants.RequestTimeout.DEFAULT, tx, new Entry(kostprobe,FifoCoordinator.newCoordinationData()));
-				Standort status = Standort.KONTROLLIERT;
-				if(counter%2==0 && !isKontrolleOK()){
+				status = Standort.KONTROLLIERT;
+				if(!isKontrolleOK()){
 					status = Standort.ENTSORGT;
+				}
 				}
 				List<Entry> entries = new ArrayList<Entry>();
 				for(Lebkuchen l : charge){
@@ -76,7 +79,7 @@ public class Kontrolleur {
 	}
 	
 	private boolean isKontrolleOK(){
-		return (new Random().nextLong()%rate)!=0;
+		return (Math.abs((new Random().nextLong()%100))>=rate);
 	}
 	
 	/**
