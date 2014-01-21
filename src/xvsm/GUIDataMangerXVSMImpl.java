@@ -182,7 +182,7 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 
 	@Override
 	public List<ILebkuchen> getAllKontrolliert() {
-		return new ArrayList<ILebkuchen>();
+		return  new ArrayList<ILebkuchen>(getAllLebkuchenWithStatus(Standort.KONTROLLIERT));
 	}
 
 }
