@@ -40,10 +40,11 @@ public class Kontrolleur {
 			tx = Space.getCapi().createTransaction(500,uri );
 			List<FifoSelector> selector = new ArrayList<FifoSelector>();
 			selector.add(FifoCoordinator.newSelector(1));
-			Space.getCapi().read(Space.createOrLookUpContainer(Standort.GEBACKEN), selector, MzsConstants.RequestTimeout.DEFAULT, tx, IsolationLevel.REPEATABLE_READ, null);
+			//Space.getCapi().read(Space.createOrLookUpContainer(Standort.GEBACKEN), selector, MzsConstants.RequestTimeout.DEFAULT, tx, IsolationLevel.REPEATABLE_READ, null);
 			Iterator<Serializable> it = Space.getCapi().read(Space.createOrLookUpContainer(Standort.GEBACKEN), FifoCoordinator.newSelector(1), MzsConstants.RequestTimeout.TRY_ONCE, tx).iterator();
 			if(it.hasNext()){
 				Lebkuchen template = (Lebkuchen) it.next();
+				template.setSorte(null);
 				List<Lebkuchen> charge = Space.getCapi().take(Space.createOrLookUpContainer(Standort.GEBACKEN), LindaCoordinator.newSelector(template, MzsConstants.Selecting.COUNT_ALL), MzsConstants.RequestTimeout.TRY_ONCE, tx);
 				for(Lebkuchen l: charge){
 					l.setKontrolleurID(id);
@@ -75,7 +76,7 @@ public class Kontrolleur {
 	}
 	
 	private boolean isKontrolleOK(){
-		return (new Random().nextLong()%rate)==0;
+		return (new Random().nextLong()%rate)!=0;
 	}
 	
 	/**
