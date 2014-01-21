@@ -7,6 +7,8 @@ import java.util.List;
 import org.mozartspaces.capi3.FifoCoordinator;
 import org.mozartspaces.capi3.FifoCoordinator.FifoSelector;
 import org.mozartspaces.capi3.IsolationLevel;
+import org.mozartspaces.capi3.LindaCoordinator;
+import org.mozartspaces.core.Entry;
 import org.mozartspaces.core.MzsConstants;
 import org.mozartspaces.core.MzsCoreException;
 import org.mozartspaces.core.aspects.AbstractContainerAspect;
@@ -28,6 +30,8 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 	private static ArrayList<Zutat> mehl= new ArrayList<Zutat>();
 	private static ArrayList<Zutat> schoko= new ArrayList<Zutat>();
 	private static ArrayList<Zutat> nuesse= new ArrayList<Zutat>();
+	
+	private static long auftragID = 0;
 	
 	
 	@Override
@@ -149,13 +153,28 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 	@Override
 	public void erzeugeAuftrag(int packungungen, int normaleLebkuchen,
 			int schokoLebkuchen, int nussLebkuchen) {
-		// TODO Auto-generated method stub
+		Auftrag auftag = new Auftrag(auftragID++, packungungen, normaleLebkuchen, nussLebkuchen,schokoLebkuchen);
+		try {
+			Space.getCapi().write(new Entry(auftag,FifoCoordinator.newCoordinationData()), Space.createOrLookUpContainer(Standort.UNBEARBEITETE_AUFTRAEGE));
+		} catch (MzsCoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public List<IAuftrag> getAllAuftraege() {
-		// TODO Auto-generated method stub
+		try {
+			List<FifoSelector> selector = new ArrayList<FifoSelector>();
+			selector.add(FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL));
+			List<Auftrag> liste=  Space.getCapi().read(Space.createOrLookUpContainer(Standort.UNBEARBEITETE_AUFTRAEGE),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
+			ArrayList<IAuftrag> auftragliste= new ArrayList<IAuftrag>();
+			auftragliste.addAll(liste);
+			return auftragliste;
+		} catch (MzsCoreException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

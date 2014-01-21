@@ -187,8 +187,8 @@ public class ZutatenLagerAnzeige extends JPanel {
 
 			@Override
 			public void run() {
-				modelPackungen.setDataVector(auftraegeMapToDataArray(auftraege), auftraegeColumnames);
-				modelPackungen.fireTableDataChanged();
+				modelAuftraege.setDataVector(auftraegeMapToDataArray(auftraege), auftraegeColumnames);
+				modelAuftraege.fireTableDataChanged();
 				tabs.setTitleAt(4, "Aufträge : " + auftraege.size());
 			}
 		});
