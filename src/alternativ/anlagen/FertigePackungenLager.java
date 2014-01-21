@@ -17,6 +17,8 @@ import domain.ILebkuchen;
 
 import alternativ.domain.AlternativZutat;
 import alternativ.domain.Charge;
+import alternativ.domain.Lebkuchen;
+import alternativ.domain.Lebkuchen.Status;
 import alternativ.domain.Packung;
 import alternativ.domain.Resource;
 
@@ -40,6 +42,9 @@ public class FertigePackungenLager extends Anlage {
 			Packung packung = (Packung) t;
 			logger.info("FertigePackungenLager bekommt eine Packung id: " + packung.getUID());
 			fertig.add(packung);
+			for(Lebkuchen l:packung.getAllLebkuchen()){
+				l.setStatus(Status.VERPACKT);
+			}
 			return true;
 		}
 		return false;

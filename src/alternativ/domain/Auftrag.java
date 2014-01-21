@@ -1,5 +1,7 @@
 package alternativ.domain;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import domain.IAuftrag;
 
 public class Auftrag extends Resource implements IAuftrag {
@@ -9,7 +11,7 @@ public class Auftrag extends Resource implements IAuftrag {
 	private int nuss;
 	private int schoko;
 	private int anzahl;
-	private int erledigt;
+	private AtomicInteger erledigt = new AtomicInteger();
 
 	public Auftrag(int normal, int nuss, int schoko, int anzahl){
 		if(normal+schoko+nuss!=6){
@@ -28,7 +30,8 @@ public class Auftrag extends Resource implements IAuftrag {
 
 	@Override
 	public String getStatus() {
-		return erledigt+"";
+		int checkStatus = erledigt.get();
+		return checkStatus==0?"nicht angefangen": checkStatus==anzahl?"fertig":"nichtfertig";
 	}
 
 	@Override
@@ -63,14 +66,13 @@ public class Auftrag extends Resource implements IAuftrag {
 		return nuss;
 	}
 
-	public void addErledigt(int erledigt) {
-		this.erledigt += erledigt;
+	public void addErledigt() {
+		this.erledigt.incrementAndGet();
 	}
 
 	@Override
 	public String getErledigtePackungen() {
-		// TODO Auto-generated method stub
-		return null;
+		return erledigt+"";
 	}
 
 }

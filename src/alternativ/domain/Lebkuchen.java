@@ -26,6 +26,7 @@ public class Lebkuchen extends Resource implements ILebkuchen {
 	private String mehlUid;
 	private String nuesseUid;
 	private String schokoladeUid;
+	private String auftragUid;
 
 	public Lebkuchen(Status gefertigt, Set<AlternativZutat> alles, String baeckerId) {
 		status = gefertigt;
@@ -67,7 +68,7 @@ public class Lebkuchen extends Resource implements ILebkuchen {
 	}
 
 	public enum Status {
-		GEFERTIGT, IN_OFEN, GEBACKEN, KONTROLLIERT, WEGGESCHMISSEN, GEGESSEN;
+		GEFERTIGT, IN_OFEN, GEBACKEN, KONTROLLIERT, WEGGESCHMISSEN, GEGESSEN, WARTE_AUF_VERPACKUNG, VERPACKT;
 	}
 
 	@Override
@@ -157,8 +158,7 @@ public class Lebkuchen extends Resource implements ILebkuchen {
 
 	@Override
 	public String getAuftragsId() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAuftragUid();
 	}
 
 	public Type getType() {
@@ -171,6 +171,14 @@ public class Lebkuchen extends Resource implements ILebkuchen {
 		return Type.Schoko;
 	}
 	
+	public String getAuftragUid() {
+		return auftragUid;
+	}
+
+	public void setAuftragUid(String auftragUid) {
+		this.auftragUid = auftragUid;
+	}
+
 	public enum Type {
 		Schoko, Nuss, Normal;
 	}
