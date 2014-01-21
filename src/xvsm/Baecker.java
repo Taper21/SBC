@@ -197,7 +197,7 @@ public class Baecker {
 			}else{
 				lebkuchen.setSorte(LebkuchenSorte.LEBKUCHEN);
 			}
-			long zubereitungszeit = 200;//((new Random().nextLong())%1000)+1000;
+			long zubereitungszeit = ((new Random().nextLong())%1000)+1000;
 			Thread.sleep(zubereitungszeit);
 			Space.getCapi().write(Space.createOrLookUpContainer(Standort.LEBKUCHEN_GEFERTIGT), 1000, tx,new Entry(lebkuchen,LindaCoordinator.newCoordinationData()));
 			Space.getCapi().commitTransaction(tx);
@@ -245,8 +245,7 @@ public class Baecker {
 				System.out.println("Deletions : " + d);
 				Space.getCapi().commitTransaction(tx);
 				tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri);
-//				Thread.sleep(10000);
-				Thread.sleep(100);
+				Thread.sleep(10000);
 				Space.getCapi().write(chargeToEntryList(), Space.createOrLookUpContainer(Standort.GEBACKEN), MzsConstants.RequestTimeout.TRY_ONCE, tx);
 				d = Space.getCapi().delete(Space.createOrLookUpContainer(Standort.OFEN), Arrays.asList(LindaCoordinator.newSelector(template, MzsConstants.Selecting.COUNT_ALL)), MzsConstants.RequestTimeout.TRY_ONCE, tx);
 				System.out.println("Deletions : " + d);
