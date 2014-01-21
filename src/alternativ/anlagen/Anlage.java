@@ -57,7 +57,7 @@ public abstract class Anlage implements AnlageInterface {
 		if(param == null){
 			return false;
 		}
-		boolean returnValue = type == param.getClass();
+		boolean returnValue = type.isAssignableFrom(param.getClass());
 		if(!returnValue){
 			logger.error("expected type. " + type +" got type: " + param.getClass());
 		}

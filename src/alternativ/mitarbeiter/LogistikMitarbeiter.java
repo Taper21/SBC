@@ -5,13 +5,15 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
+import alternativ.anlagen.AuftragAblage;
 import alternativ.anlagen.FertigePackungenLager;
 import alternativ.anlagen.Logistik;
+import alternativ.domain.Auftraege;
+import alternativ.domain.Auftrag;
 import alternativ.domain.Charge;
 import alternativ.domain.Lebkuchen;
 import alternativ.domain.Packung;
 import alternativ.domain.Resource;
-import alternativ.domain.Vorschlag;
 
 public class LogistikMitarbeiter extends Mitarbeiter {
 
@@ -20,7 +22,7 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	Queue<Packung> fertigePackungen = new ConcurrentLinkedDeque<Packung>();
 
 	public LogistikMitarbeiter(String id) {
-		super(Logistik.LOGISTIK, FertigePackungenLager.FERTIGEPACKUNGENLAGER, null, id);
+		super(Logistik.LOGISTIK, FertigePackungenLager.FERTIGEPACKUNGENLAGER, AuftragAblage.AUFTRAGABLAGE, id);
 	}
 
 	public static void main(String args[]) {
@@ -28,8 +30,8 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 		logistikMitarbeiter.logger.info("logistikMitarbeiter id: " + logistikMitarbeiter.getId() + " started.");
 		while (!logistikMitarbeiter.close) {
 			logistikMitarbeiter.holeLebkuchenFuerPackung();
-			logistikMitarbeiter.verpackeLebkuchen();
-			logistikMitarbeiter.fertigePackungAbliefern();
+			// logistikMitarbeiter.verpackeLebkuchen();
+			// logistikMitarbeiter.fertigePackungAbliefern();
 		}
 	}
 
@@ -43,17 +45,27 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	}
 
 	private void holeLebkuchenFuerPackung() {
-		Resource r=null;
-		while(r!=null){
-			r = nimmObjectVonAnlage(quelle, vorschlagMitPriority());
+		Packung r = null;
+		Auftraege nimmObjectVonAnlage = (Auftraege) nimmObjectVonAnlage(weiteresZiel, null);
+		List<Auftrag> priority = nimmObjectVonAnlage.getPriority();
+		r = (Packung) nimmObjectVonAnlage(quelle, priority);
+		if (r == null) {
+			return;
 		}
-
-	}
-
-	private List<Vorschlag> vorschlagMitPriority() {
-		ArrayList<Vorschlag> vorschlaege = new ArrayList<Vorschlag>();
-		vorschlaege.add(new Vorschlag(2, 2, 2));
-		return vorschlaege;
+		if (r.getAllLebkuchen().size() == 6) {
+			for (Lebkuchen l : r.getAllLebkuchen()) {
+				l.setLogistikMitarbeiterId(this.getId());
+				l.setVerpackungId(r.getUID());
+			}
+			for(Auftrag auftrag:priority){
+				if(r.getAuftragId() == auftrag.getID()){
+					gibObjectAnAnlage(weiteresZiel, auftrag);
+				}
+			}
+			gibObjectAnAnlage(ziel, r);
+		} else {
+			System.out.println("FATAL ERROR PACKUNG HAS WRONG NUMBER OF LEBKUCHEN IN LOGISTIKMITARBEITER");
+		}
 	}
 
 	private void verpackeLebkuchen() {

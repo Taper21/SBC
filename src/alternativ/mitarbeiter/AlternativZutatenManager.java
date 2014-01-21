@@ -3,6 +3,7 @@ package alternativ.mitarbeiter;
 import java.util.ArrayList;
 import java.util.List;
 
+import alternativ.anlagen.AuftragAblage;
 import alternativ.anlagen.Blech;
 import alternativ.anlagen.FertigePackungenLager;
 import alternativ.anlagen.Logistik;
@@ -25,6 +26,7 @@ public class AlternativZutatenManager implements GUIDataManager {
 	private Logistik logistik;
 	private FertigePackungenLager fertigePackungenLager;
 	private Blech blech;
+	private AuftragAblage aufgabenAblage;
 
 	public AlternativZutatenManager(){
 		this.lager = new ZutatenLager();
@@ -33,6 +35,7 @@ public class AlternativZutatenManager implements GUIDataManager {
 		this.qualitaetskontrolle = new Qualitaetskontrolle();
 		this.logistik = new Logistik();
 		this.fertigePackungenLager = new FertigePackungenLager();
+		this.aufgabenAblage = new AuftragAblage();
 	}
 
 	@Override
@@ -86,16 +89,14 @@ public class AlternativZutatenManager implements GUIDataManager {
 	}
 
 	@Override
-	public void erzeugeAuftrag(int packungungen, int normaleLebkuchen,
+	public void erzeugeAuftrag(int packungen, int normaleLebkuchen,
 			int schokoLebkuchen, int nussLebkuchen) {
-		// TODO Auto-generated method stub
-		
+		aufgabenAblage.submitAuftrag(packungen, normaleLebkuchen, schokoLebkuchen, nussLebkuchen);
 	}
 
 	@Override
 	public List<IAuftrag> getAllAuftraege() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<IAuftrag>();
 	}
 
 

@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang.StringUtils;
+
 import domain.GUIDataManager;
 import domain.Lieferant;
 import domain.ZutatTypEnum;
@@ -47,10 +49,15 @@ public class NeuenAuftragPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					int anzahl = Integer.parseInt(anzahlTextfield.getText());
-					int schoko = Integer.parseInt(schokoTextfield.getText());
-					int nuss = Integer.parseInt(nussTextfield.getText());
-					int normal = Integer.parseInt(normalTextfield.getText());
+					String text = anzahlTextfield.getText();
+					StringUtils.isEmpty(text);
+					int anzahl = StringUtils.isEmpty(text)?0:Integer.parseInt(text);
+					text = schokoTextfield.getText();
+					int schoko = StringUtils.isEmpty(text)?0:Integer.parseInt(text);
+					text = nussTextfield.getText();
+					int nuss = StringUtils.isEmpty(text)?0:Integer.parseInt(text);
+					text = normalTextfield.getText();
+					int normal = StringUtils.isEmpty(text)?0:Integer.parseInt(text);
 					if(schoko+nuss+normal == 6){
 						fehlermeldung.setVisible(false);
 						if(spaceBasedCheckBox.isSelected()){
@@ -65,8 +72,6 @@ public class NeuenAuftragPanel extends JPanel {
 						
 				}catch(NumberFormatException nfx){
 					fehlermeldung.setText("Nur Zahlen als Eingabe möglich");
-					fehlermeldung.setVisible(true);
-				}catch(Exception ex){
 					fehlermeldung.setVisible(true);
 				}
 			}
