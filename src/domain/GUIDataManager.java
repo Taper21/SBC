@@ -17,5 +17,6 @@ public interface GUIDataManager {
 	public List<ILebkuchen> getPackungen();
 	public void erzeugeAuftrag(int packungungen, int normaleLebkuchen, int schokoLebkuchen, int nussLebkuchen);
 	public List<IAuftrag> getAllAuftraege();
+	public List<ILebkuchen> getAllKontrolliert();
 
 }

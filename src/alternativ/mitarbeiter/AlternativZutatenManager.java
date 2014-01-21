@@ -99,5 +99,10 @@ public class AlternativZutatenManager implements GUIDataManager {
 		return aufgabenAblage.getAllAuftraege();
 	}
 
+	@Override
+	public List<ILebkuchen> getAllKontrolliert() {
+		return logistik.getAllLebkuchen();
+	}
+
 
 }

@@ -49,6 +49,7 @@ public class ZutatenLagerAnzeigenThread extends Thread {
 		zutatenLagerAnzeige.setDataOfen(zutatenManager.getImOfen());
 		zutatenLagerAnzeige.setDataPackungen(zutatenManager.getPackungen());
 		zutatenLagerAnzeige.setDataAuftraege(zutatenManager.getAllAuftraege());
+		zutatenLagerAnzeige.setDataKontrolliert(zutatenManager.getAllKontrolliert());
 	}
 	
 	

@@ -20,6 +20,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.apache.commons.lang.StringUtils;
+
 
 import alternativ.domain.Lebkuchen;
 
@@ -47,6 +49,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 	private DefaultTableModel modelImOfen= new DefaultTableModel();
 	protected DefaultTableModel modelPackungen= new DefaultTableModel();
 	private DefaultTableModel modelAuftraege = new DefaultTableModel();
+	private DefaultTableModel modelKontrolliert = new DefaultTableModel();
 	
 
 	public ZutatenLagerAnzeige(GUIDataManager zutatenManager, String name) {
@@ -55,6 +58,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 		tabs.add("alle",lebkuchenScrollPaneInProduction);
 		tabs.add("gegessen/weggeworfen",new JScrollPane((new JTable(modelEntsorgtVerkostet))));
 		tabs.add("Ofen",new JScrollPane(new JTable(modelImOfen)));
+		tabs.add("Kontrolliert", new JScrollPane(new JTable(modelKontrolliert)));
 		tabs.add("Packungen",new JScrollPane(new JTable(modelPackungen)));
 		tabs.add("Aufträge", new JScrollPane(new JTable(modelAuftraege)));
 		this.add(tabs);
@@ -178,7 +182,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 			public void run() {
 				modelPackungen.setDataVector(lebkuchenMapToDataArray(packungen), lebkuchenColumnames);
 				modelPackungen.fireTableDataChanged();
-				tabs.setTitleAt(3, "verpackte Lebkuchen : " + packungen.size());
+				tabs.setTitleAt(4, "verpackte Lebkuchen : " + packungen.size());
 			}
 		});
 	}
@@ -190,7 +194,34 @@ public class ZutatenLagerAnzeige extends JPanel {
 			public void run() {
 				modelAuftraege.setDataVector(auftraegeMapToDataArray(auftraege), auftraegeColumnames);
 				modelAuftraege.fireTableDataChanged();
-				tabs.setTitleAt(4, "Aufträge : " + auftraege.size());
+				tabs.setTitleAt(5, "Aufträge : " + auftraege.size());
+			}
+		});
+	}
+
+
+
+	public void setDataKontrolliert(final List<ILebkuchen> allKontrolliert) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				modelKontrolliert.setDataVector(lebkuchenMapToDataArray(allKontrolliert), lebkuchenColumnames);
+				modelKontrolliert.fireTableDataChanged();
+				int normal = 0;
+				int schoki=0;
+				int nuss=0;
+				for(ILebkuchen l:allKontrolliert){
+					if(StringUtils.isEmpty(l.getSchokoId())){
+						schoki++;
+					}else 
+					if(StringUtils.isEmpty(l.getNussId())){
+						nuss++;
+					} else {
+						normal ++;
+					}
+				}
+				tabs.setTitleAt(3, "Kontrolliert: " + allKontrolliert.size() + " No:" +normal+ " S:" +schoki+ " Nu:"+nuss);
 			}
 		});
 	}

@@ -178,4 +178,9 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 		return null;
 	}
 
+	@Override
+	public List<ILebkuchen> getAllKontrolliert() {
+		return new ArrayList<ILebkuchen>();
+	}
+
 }
