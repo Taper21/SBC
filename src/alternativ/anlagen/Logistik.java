@@ -114,7 +114,7 @@ public class Logistik extends Anlage {
 				return makeDefaultPriorityPackage();
 			} else {
 				for (Auftrag vItem : vorschlag) {
-					if (!vItem.getGesamtPackungszahl().equals(vItem.getErledigtePackungen())) {
+					if (!vItem.getGesamtPackungszahl().equals(vItem.getErledigtePackungen()) && !vItem.isBeendet()) {
 						if (normal.size() >= vItem.getNormal() && nuss.size() >= vItem.getNuss()
 								&& schoko.size() >= vItem.getSchoko()) {
 							System.out.println("Auftragspackung wird angelegt " + vItem.getID());

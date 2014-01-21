@@ -2,6 +2,8 @@ package alternativ.domain;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang.StringUtils;
+
 import domain.IAuftrag;
 
 public class Auftrag extends Resource implements IAuftrag {
@@ -12,6 +14,9 @@ public class Auftrag extends Resource implements IAuftrag {
 	private int schoko;
 	private int anzahl;
 	private AtomicInteger erledigt = new AtomicInteger();
+	private String status = "nicht angefangen";
+	private boolean angefangen = false;
+	private boolean beendet;
 
 	public Auftrag(int normal, int nuss, int schoko, int anzahl){
 		if(normal+schoko+nuss!=6){
@@ -30,8 +35,7 @@ public class Auftrag extends Resource implements IAuftrag {
 
 	@Override
 	public String getStatus() {
-		int checkStatus = erledigt.get();
-		return checkStatus==0?"nicht angefangen": checkStatus==anzahl?"fertig":"nichtfertig";
+		return status;
 	}
 
 	@Override
@@ -67,12 +71,35 @@ public class Auftrag extends Resource implements IAuftrag {
 	}
 
 	public void addErledigt() {
+		setStatus(" angefangen");
+		angefangen=true;
 		this.erledigt.incrementAndGet();
+		if(erledigt.get()==anzahl){
+			setBeendet(true);
+			setStatus(" erledigt");
+		}
 	}
 
 	@Override
 	public String getErledigtePackungen() {
 		return erledigt+"";
 	}
+
+	public boolean isAngefangen() {
+		return angefangen;
+	}
+
+	public void setStatus(String string) {
+		this.status = string;
+	}
+
+	public void setBeendet(boolean beendet) {
+		this.beendet = beendet;
+	}
+	
+	public boolean isBeendet(){
+		return beendet;
+	}
+
 
 }

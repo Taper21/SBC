@@ -65,7 +65,7 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 			for(Auftrag auftrag:priority){
 				System.out.println("gib Auftrag " + auftrag.getID() + " an auftragablage, packungAuftragId " + packungVonLogistik.getAuftragId());
 				if(auftrag.getID().equals(packungVonLogistik.getAuftragId())){
-					gibObjectAnAnlage(weiteresZiel, auftrag);
+					gibObjectAnAnlage(weiteresZiel, packungVonLogistik);
 				}
 			}
 			gibObjectAnAnlage(ziel, packungVonLogistik);

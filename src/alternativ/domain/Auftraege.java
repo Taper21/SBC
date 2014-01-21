@@ -15,4 +15,22 @@ public class Auftraege extends Resource {
 	}
 
 	private final List<Auftrag> priority;
+
+	public List<Auftrag> getNichtAngefangeneAuftraege() {
+		List<Auftrag> returnValue = new ArrayList<Auftrag>();
+		for(Auftrag auftrag: priority){
+			if(!auftrag.isAngefangen()&&!auftrag.isBeendet()){
+				returnValue.add(auftrag);
+			}
+		}
+		return returnValue;
+	}
+
+	public Auftrag getNichtAngefangenerAuftrag() {
+		List<Auftrag> possible = getNichtAngefangeneAuftraege();
+		if(!possible.isEmpty()){
+			return possible.get(0);
+		}
+		return null;
+	}
 }
