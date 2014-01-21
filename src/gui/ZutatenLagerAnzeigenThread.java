@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.swing.SwingUtilities;
 
+import domain.IAuftrag;
 import domain.Zutat;
 import domain.ZutatTypEnum;
 import domain.GUIDataManager;
@@ -47,6 +48,7 @@ public class ZutatenLagerAnzeigenThread extends Thread {
 		zutatenLagerAnzeige.setData(zutatenManager.getEntsorgtVerkostet());
 		zutatenLagerAnzeige.setDataOfen(zutatenManager.getImOfen());
 		zutatenLagerAnzeige.setDataPackungen(zutatenManager.getPackungen());
+		zutatenLagerAnzeige.setDataAuftraege(zutatenManager.getAllAuftraege());
 	}
 	
 	

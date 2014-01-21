@@ -14,6 +14,7 @@ import org.mozartspaces.notifications.Notification;
 import org.mozartspaces.notifications.NotificationListener;
 import org.mozartspaces.notifications.Operation;
 
+import domain.IAuftrag;
 import domain.ILebkuchen;
 import domain.Zutat;
 import domain.ZutatTypEnum;
@@ -143,6 +144,19 @@ public class GUIDataMangerXVSMImpl implements GUIDataManager {
 			nuesse.addAll(alleNuesse);
 			return nuesse;
 		}
+	}
+
+	@Override
+	public void erzeugeAuftrag(int packungungen, int normaleLebkuchen,
+			int schokoLebkuchen, int nussLebkuchen) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<IAuftrag> getAllAuftraege() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

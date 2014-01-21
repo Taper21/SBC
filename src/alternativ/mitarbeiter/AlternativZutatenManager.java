@@ -11,6 +11,7 @@ import alternativ.anlagen.Qualitaetskontrolle;
 import alternativ.anlagen.ZutatenLager;
 import alternativ.domain.Lebkuchen;
 
+import domain.IAuftrag;
 import domain.ILebkuchen;
 import domain.Zutat;
 import domain.ZutatTypEnum;
@@ -82,6 +83,19 @@ public class AlternativZutatenManager implements GUIDataManager {
 	@Override
 	public List<Zutat> getAllNuesse() {
 		return lager.getAllNuesse();
+	}
+
+	@Override
+	public void erzeugeAuftrag(int packungungen, int normaleLebkuchen,
+			int schokoLebkuchen, int nussLebkuchen) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<IAuftrag> getAllAuftraege() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

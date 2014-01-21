@@ -6,14 +6,18 @@ import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
 
+import domain.GUIDataManager;
+
 public class LieferantenPanel extends JPanel {
 
-	public LieferantenPanel() {
-		super(new GridLayout(0, 2));
+	public LieferantenPanel(GUIDataManager spaced, GUIDataManager alternativ) {
+		super(new GridLayout(0, 3));
 		this.setPreferredSize(new Dimension(0 , 100));
-		LieferantenAnzeigePanel right = new LieferantenAnzeigePanel();
-		NeueLieferantenPanel left =new NeueLieferantenPanel(right); 
+		LieferantenAnzeigePanel middle = new LieferantenAnzeigePanel();
+		NeueLieferantenPanel left =new NeueLieferantenPanel(middle); 
+		NeuenAuftragPanel right = new NeuenAuftragPanel( spaced,  alternativ);
 		this.add(left);
+		this.add(middle);
 		this.add(right);
 	}
 	
