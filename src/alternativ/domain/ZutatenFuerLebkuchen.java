@@ -17,9 +17,5 @@ public class ZutatenFuerLebkuchen extends Resource {
 		return zutaten;
 	}
 
-	static AtomicInteger id = new AtomicInteger(0);
-	@Override
-	String getNextId() {
-		return ""+id.incrementAndGet();
-	}
+	
 }

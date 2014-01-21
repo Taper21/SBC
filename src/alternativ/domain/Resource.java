@@ -22,12 +22,16 @@ public abstract class Resource implements Serializable {
 		return uid;
 	}
 	
-	abstract String getNextId();
+	static AtomicInteger id = new AtomicInteger(0);
+	final private String getNextId() {
+		return ""+id.incrementAndGet();
+	}
 	
 	
 	@Override
-	public String toString() {
+	final public String toString() {
 		return this.getClass().getSimpleName() + " " + getUID();
 	}
+	
 
 }

@@ -91,10 +91,6 @@ public class Charge extends Resource implements Serializable {
 		}
 		return "";
 	}
-	static AtomicInteger id = new AtomicInteger(0);
-	@Override
-	String getNextId() {
-		return ""+id.incrementAndGet();
-	}
+	
 
 }

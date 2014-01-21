@@ -17,13 +17,19 @@ import alternativ.domain.AlternativZutat;
 import alternativ.domain.Charge;
 import alternativ.domain.Lebkuchen;
 import alternativ.domain.Lebkuchen.Status;
+import alternativ.domain.Packung;
 import alternativ.domain.Resource;
+import alternativ.domain.Vorschlag;
 
 public class Logistik extends Anlage {
 
 	public static final String LOGISTIK = "Logistik";
 	
 	public ConcurrentLinkedQueue<Charge> charges = new ConcurrentLinkedQueue<Charge>();
+	public ConcurrentLinkedQueue<Lebkuchen> schoko = new ConcurrentLinkedQueue<Lebkuchen>();
+	public ConcurrentLinkedQueue<Lebkuchen> nuss = new ConcurrentLinkedQueue<Lebkuchen>();
+	public ConcurrentLinkedQueue<Lebkuchen> normal = new ConcurrentLinkedQueue<Lebkuchen>();
+	
 	public ConcurrentLinkedQueue<Charge> abfallEimer = new ConcurrentLinkedQueue<Charge>();
 	public ConcurrentLinkedQueue<Lebkuchen> abgebissen = new ConcurrentLinkedQueue<Lebkuchen>();
 	
@@ -52,6 +58,7 @@ public class Logistik extends Anlage {
 			case NICHT_KONTROLLIERT:
 				charges.add(charge);
 			logger.info("OK/NICHT_KONTROLLIERT");
+				split(charge);
 				break;
 			default:
 				break;
@@ -61,6 +68,16 @@ public class Logistik extends Anlage {
 			return true;
 			}
 		return false;
+	}
+
+	private void split(Charge charge) {
+		for(Lebkuchen l:charge.getAll()){
+			switch(l.getType()){
+			case Normal: normal.add(l); break;
+			case Nuss: nuss.add(l); break;
+			case Schoko: schoko.add(l); break;
+			}
+		}
 	}
 
 	private void removeAbgebissen(Charge charge) {
@@ -79,6 +96,41 @@ public class Logistik extends Anlage {
 	@Override
 	synchronized public Resource objectHolen(Object optionalParameter)
 			throws RemoteException, InterruptedException {
+		if(checkInstance(List.class, optionalParameter)){
+			List<Vorschlag> vorschlag = (List<Vorschlag>) optionalParameter;
+			if(vorschlag.isEmpty()){
+				if(normal.size()>1&&nuss.size()>1&&schoko.size()>1){
+					Packung packung = new Packung();
+					packung.add(normal.poll());
+					packung.add(normal.poll());
+					packung.add(nuss.poll());
+					packung.add(nuss.poll());
+					packung.add(schoko.poll());
+					packung.add(schoko.poll());
+					return packung;
+				}
+				if(normal.size()>2&&nuss.size()>2){
+					Packung packung = new Packung();
+					packung.add(normal.poll());
+					packung.add(normal.poll());
+					packung.add(normal.poll());
+					packung.add(nuss.poll());
+					packung.add(nuss.poll());
+					packung.add(nuss.poll());
+					return packung;
+				}
+				if(normal.size()>2&&schoko.size()>2){
+					Packung packung = new Packung();
+					packung.add(normal.poll());
+					packung.add(normal.poll());
+					packung.add(normal.poll());
+					packung.add(schoko.poll());
+					packung.add(schoko.poll());
+					packung.add(schoko.poll());
+					return packung;
+				}
+			}
+		}
 		Charge poll = charges.poll();
 		poll = warteBisZutatVorhanden(poll, charges);
 		return poll;

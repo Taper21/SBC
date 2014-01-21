@@ -21,9 +21,5 @@ public class Packung extends Resource {
 		return lebkuchen;
 	}
 
-	static AtomicInteger id = new AtomicInteger(0);
-	@Override
-	String getNextId() {
-		return ""+id.incrementAndGet();
-	}
+	
 }
