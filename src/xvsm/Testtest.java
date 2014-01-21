@@ -42,24 +42,28 @@ public class Testtest implements NotificationListener{
 //		container = capi.lookupContainer("Test",uri,5000,null);
 //		System.out.println("UND GEHT: " + capi.read(container).get(0));
 		
-		while(true){
-			List<Lebkuchen> ofen = Space.getCapi().read(Space.createOrLookUpContainer(Standort.OFEN),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
-			List<Lebkuchen> gefertigt = Space.getCapi().read(Space.createOrLookUpContainer(Standort.LEBKUCHEN_GEFERTIGT),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
-			List<Lebkuchen> gebacken = Space.getCapi().read(Space.createOrLookUpContainer(Standort.GEBACKEN),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
-			System.out.println("Ofen:");
-			for(Lebkuchen l: ofen){
-				System.out.println(l);
-			}
-			System.out.println("Gefertigt:");
-			for(Lebkuchen l: gefertigt){
-				System.out.println(l);
-			}
-			System.out.println("Gebacken:");
-			for(Lebkuchen l: gebacken){
-				System.out.println(l);
-			}
-			Thread.sleep(2500);
-		}
+//		while(true){
+//			List<Lebkuchen> ofen = Space.getCapi().read(Space.createOrLookUpContainer(Standort.OFEN),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
+//			List<Lebkuchen> gefertigt = Space.getCapi().read(Space.createOrLookUpContainer(Standort.LEBKUCHEN_GEFERTIGT),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
+//			List<Lebkuchen> gebacken = Space.getCapi().read(Space.createOrLookUpContainer(Standort.GEBACKEN),FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL),MzsConstants.RequestTimeout.INFINITE,null);
+//			System.out.println("Ofen:");
+//			for(Lebkuchen l: ofen){
+//				System.out.println(l);
+//			}
+//			System.out.println("Gefertigt:");
+//			for(Lebkuchen l: gefertigt){
+//				System.out.println(l);
+//			}
+//			System.out.println("Gebacken:");
+//			for(Lebkuchen l: gebacken){
+//				System.out.println(l);
+//			}
+//			Thread.sleep(2500);
+//		}
+		
+		Space.setPort(Integer.parseInt(args[0]));
+		Space.connectOrCreateSpace();
+		Space.shutdownSpace();
 	}
 
 	@Override

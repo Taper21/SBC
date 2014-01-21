@@ -25,9 +25,10 @@ public class Kontrolleur {
 	private Long rate;
 	private static long counter = 1;
 	
-	public Kontrolleur(String id, Long rate){
+	public Kontrolleur(String id, Long rate, int port){
 		this.id = id;
 		this.rate = rate;
+		Space.setPort(port);
 		while(true){
 			kontrolliere();
 		}
@@ -36,7 +37,7 @@ public class Kontrolleur {
 	private void kontrolliere(){
 		TransactionReference tx =null;
 		try{
-			URI uri = new URI("xvsm://localhost:9876");
+			URI uri = new URI("xvsm://localhost:"+ Space.getPort());
 			tx = Space.getCapi().createTransaction(500,uri );
 			List<FifoSelector> selector = new ArrayList<FifoSelector>();
 			selector.add(FifoCoordinator.newSelector(1));
@@ -88,7 +89,7 @@ public class Kontrolleur {
 	public static void main(String[] args) {
 		try{
 //		new Kontrolleur("1", Long.parseLong("2"));
-		new Kontrolleur(args[0], Long.parseLong(args[1]));
+		new Kontrolleur(args[0], Long.parseLong(args[1]),Integer.parseInt(args[2]));
 		}catch(Exception e){
 			System.out.println("Bitte uebergeben Sie die Arumente 'id' 'rate'");
 		}

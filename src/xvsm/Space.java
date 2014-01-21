@@ -33,10 +33,19 @@ public class Space {
 	
 	 private static MzsCore core = null;
 	 private static Capi capi = null;
+	 private static int port = 9876;
 	
 //	 public static ContainerReference lookUpOrCreateContainer(String name) throws MzsCoreException{
 //		 return CapiUtil.lookupOrCreateContainer(name, null,null , null, getCapi());
 //	 }
+	 
+	 public static int getPort(){
+		 return port;
+	 }
+	 
+	 public static void setPort(int newport){
+		 port = newport;
+	 }
 	 
 	 public static MzsCore getCore(){
 		 return core;
@@ -45,7 +54,7 @@ public class Space {
 	 private static MzsCore createSpace(){
 		 MzsCore core;
 		 try{
-			 core = DefaultMzsCore.newInstance();
+			 core = DefaultMzsCore.newInstance(getPort());
 			 return core;
 		 }catch(Exception e){
 			 return null;
@@ -55,7 +64,7 @@ public class Space {
 	 private static MzsCore connectSpace(){
 		 MzsCore core;
 		 try{
-			 core = DefaultMzsCore.newInstance(0);
+			 core = DefaultMzsCore.newInstance(getPort());
 			 return core;
 		 }catch(Exception e){
 			 return null;
@@ -85,7 +94,7 @@ public class Space {
 	 private static ContainerReference createContainer(String name){
 		 URI uri;
 		try {
-			uri = new URI("xvsm://localhost:9876");
+			uri = new URI("xvsm://localhost:" + getPort());
 			return getCapi().createContainer(name, uri, MzsConstants.Container.UNBOUNDED,Arrays.asList(new FifoCoordinator()),Arrays.asList(new LindaCoordinator()),null); 
 		} catch (Exception e) {
 			return null;
@@ -95,7 +104,7 @@ public class Space {
 	 private static ContainerReference lookupContainer(String name){
 		 URI uri;
 		try {
-			uri = new URI("xvsm://localhost:9876");
+			uri = new URI("xvsm://localhost:" + getPort());
 			return getCapi().lookupContainer(name, uri, 200,null);
 		} catch (Exception e) {
 			return null;
@@ -112,7 +121,12 @@ public class Space {
 	 }
 	 
 	 public static void shutdownSpace() throws MzsCoreException{
-		 capi.shutdown(null);
+		 try {
+			capi.shutdown(new URI("xvsm://localhost:" + getPort()));
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 core.shutdown(true);
 	 }
 	/**

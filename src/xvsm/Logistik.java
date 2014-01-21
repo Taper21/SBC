@@ -16,8 +16,9 @@ public class Logistik {
 	private String id;
 	private static long verpackungsID =0;
 	
-	public Logistik(String id) throws InterruptedException{
+	public Logistik(String id, int port) throws InterruptedException{
 		this.id = id;
+		Space.setPort(port);
 		while(true){
 			if(!tryVerpackeAuftraege()){
 				if(!tryVerpacke3Sorten(2,2,2,null)){
@@ -70,7 +71,7 @@ public class Logistik {
 	private boolean tryVerpacke3Sorten(int anzahlSchoko, int anzahlNuss, int anzahlNormal, Long auftragsID){
 		TransactionReference tx =null;
 		try{
-			URI uri = new URI("xvsm://localhost:9876");
+			URI uri = new URI("xvsm://localhost:" + Space.getPort());
 			tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
 		Lebkuchen schoko = new Lebkuchen(LebkuchenSorte.SCHOKOLEBKUCHEN);
 		Lebkuchen nuss = new Lebkuchen(LebkuchenSorte.NUSSLEBKUCHEN);
@@ -115,7 +116,7 @@ public class Logistik {
 	private boolean tryVerpacke2Sorten(LebkuchenSorte sorte1, LebkuchenSorte sorte2){
 		TransactionReference tx =null;
 		try{
-			URI uri = new URI("xvsm://localhost:9876");
+			URI uri = new URI("xvsm://localhost:" + Space.getPort());
 			tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
 		Lebkuchen templatesorte1 = new Lebkuchen(sorte1);
 		Lebkuchen templatesorte2 = new Lebkuchen(sorte2);
@@ -149,7 +150,7 @@ public class Logistik {
 	private boolean tryVerpacke1Sorten(LebkuchenSorte sorte){
 		TransactionReference tx =null;
 		try{
-			URI uri = new URI("xvsm://localhost:9876");
+			URI uri = new URI("xvsm://localhost:" + Space.getPort());
 			tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
 		Lebkuchen templatesorte1 = new Lebkuchen(sorte);
 		List<Lebkuchen> alleSorte1 = Space.getCapi().take(Space.createOrLookUpContainer(Standort.KONTROLLIERT), LindaCoordinator.newSelector(templatesorte1, 6), MzsConstants.RequestTimeout.TRY_ONCE, tx);
@@ -193,7 +194,7 @@ public class Logistik {
 	private boolean tryVerpackeAuftrag(Auftrag template){
 		TransactionReference tx =null;
 		try{
-			URI uri = new URI("xvsm://localhost:9876");
+			URI uri = new URI("xvsm://localhost:"+Space.getPort());
 			tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
 			List<Auftrag> auftragTmp = Space.getCapi().take(Space.createOrLookUpContainer(Standort.UNFERTIGE_AUFTRAEGE), LindaCoordinator.newSelector(template, 1), MzsConstants.RequestTimeout.TRY_ONCE, tx);
 			Auftrag auftrag = auftragTmp.iterator().next();
@@ -231,7 +232,7 @@ public class Logistik {
 	 * @throws InterruptedException 
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		new Logistik(args[0]);
+		new Logistik(args[0], Integer.parseInt(args[1]));
 //		new Logistik("L");
 
 	}

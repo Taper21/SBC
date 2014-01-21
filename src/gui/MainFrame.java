@@ -15,11 +15,14 @@ import domain.GUIDataManager;
 import alternativ.mitarbeiter.AlternativZutatenManager;
 
 import xvsm.GUIDataMangerXVSMImpl;
+import xvsm.Space;
 
 public class MainFrame extends JFrame {
 
-	public MainFrame() throws HeadlessException {
+	public MainFrame(String[] args) throws HeadlessException {
 		super("Lebkuchenfabrik");
+		int port = Integer.parseInt(args[1]);
+		Space.setPort(port);
 		GUIDataManager spaced = new GUIDataMangerXVSMImpl();
 		GUIDataManager alternativ = new AlternativZutatenManager();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -38,7 +41,7 @@ public class MainFrame extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new MainFrame();
+		new MainFrame(args);
 	}
 
 }

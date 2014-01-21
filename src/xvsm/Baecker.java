@@ -33,9 +33,9 @@ public class Baecker {
 	List<Lebkuchen> charge;
 	
 	
-	public Baecker(String id){
+	public Baecker(String id, int port){
 		this.id = id;
-		
+		Space.setPort(port);
 		while(true){
 			fertigen();
 			backeCharge();
@@ -48,7 +48,7 @@ public class Baecker {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Baecker(args[0]);
+		new Baecker(args[0], Integer.parseInt(args[1]));
 	}
 	
 	private void fertigen(){
@@ -142,7 +142,7 @@ public class Baecker {
 	private ZutatXVSMImpl tryExtraZutat(Standort vonLager){
 		TransactionReference tez =null;
 		try{
-		URI uri = new URI("xvsm://localhost:9876");
+		URI uri = new URI("xvsm://localhost:" + Space.getPort());
 		if(vonLager == Standort.NUESSELAGER){
 			nussTransaction = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
 			tez = nussTransaction;
@@ -170,7 +170,7 @@ public class Baecker {
 	private Lebkuchen entnehmenZutatenFuer1Lebkuchen(){
 		TransactionReference tx =null;
 		try{
-		URI uri = new URI("xvsm://localhost:9876");
+		URI uri = new URI("xvsm://localhost:" + Space.getPort());
 		 tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
 		Lebkuchen lebkuchen =null;
 		List<FifoSelector> selector = new ArrayList<FifoSelector>();
@@ -234,7 +234,7 @@ public class Baecker {
 		TransactionReference tx=null;
 		while(!gebacken){
 			try{
-				URI uri = new URI("xvsm://localhost:9876"); 
+				URI uri = new URI("xvsm://localhost:" + Space.getPort()); 
 				while((10-Space.getCapi().read(Space.createOrLookUpContainer(Standort.OFEN), FifoCoordinator.newSelector(FifoSelector.COUNT_MAX), MzsConstants.RequestTimeout.INFINITE, null).size())<charge.size()){
 					Thread.sleep(200);
 				}
