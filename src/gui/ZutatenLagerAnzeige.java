@@ -37,7 +37,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 	private JTable zutatenTable = new JTable(model);
 	JScrollPane scrollpane =new JScrollPane(zutatenTable);
 	String[] lebkuchenColumnames = new String[]{"ID","Status","Charge-ID", "Mehl-ID", "Honig-ID", "Ei1-ID", "Ei2-ID","Schocko-ID", "Nuss-ID", "Bäcker-ID", "Logistikmitarbeiter-ID", "QualitätMitarbeiter-ID", "Verpackung-ID","Auftrags-ID"};
-	String[] auftraegeColumnames = new String[]{"Auftrags-ID","Status","Anzahl(Packungen)","Normale-Lebkuchen","Schokolebkuchen","Nusslebkuchen"};
+	String[] auftraegeColumnames = new String[]{"Auftrags-ID","Status","Anzahl(Packungen)", "Packungen Erledigt","Normale-Lebkuchen","Schokolebkuchen","Nusslebkuchen"};
 	private DefaultTableModel modelEntsorgtVerkostet = new DefaultTableModel();
 	String [][] lebkuchenData =new String[][]{{"","",""}};
 	private DefaultTableModel lebkuchenModel = new DefaultTableModel(lebkuchenData,lebkuchenColumnames);
@@ -108,6 +108,7 @@ public class ZutatenLagerAnzeige extends JPanel {
 			newData[row][colum++] = z.getID();
 			newData[row][colum++] = z.getStatus();
 			newData[row][colum++] = z.getGesamtPackungszahl();
+			newData[row][colum++] = z.getErledigtePackungen();
 			newData[row][colum++] = z.getNormaleLebkuchenAnzahl();
 			newData[row][colum++] = z.getSchokoLebkuchenAnzahl();
 			newData[row][colum++] = z.getNussLebkuchenAnzahl();

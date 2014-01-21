@@ -52,4 +52,10 @@ public class Auftrag implements Serializable, IAuftrag {
 		return schokoLebkuchenAnzahl==null?"-":schokoLebkuchenAnzahl.toString();
 	}
 
+	@Override
+	public String getErledigtePackungen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

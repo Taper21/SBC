@@ -67,4 +67,10 @@ public class Auftrag extends Resource implements IAuftrag {
 		this.erledigt += erledigt;
 	}
 
+	@Override
+	public String getErledigtePackungen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

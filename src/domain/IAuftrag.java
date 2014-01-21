@@ -8,5 +8,6 @@ public interface IAuftrag {
 	public String getNormaleLebkuchenAnzahl();
 	public String getNussLebkuchenAnzahl();
 	public String getSchokoLebkuchenAnzahl();
+	public String getErledigtePackungen();
 
 }

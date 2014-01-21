@@ -62,6 +62,7 @@ public class Logistik {
 //			}
 //		}
 //	}
+
 	
 	private boolean tryVerpacke3Sorten(){
 		TransactionReference tx =null;
@@ -162,6 +163,14 @@ public class Logistik {
 			return false;
 		}
 	}
+	
+//	private boolean tryVerpackeAuftraege(){
+//		TransactionReference tx =null;
+//		try{
+//			URI uri = new URI("xvsm://localhost:9876");
+//			tx = Space.getCapi().createTransaction(MzsConstants.TransactionTimeout.INFINITE,uri );
+//		List<Auftrag> alleSorte1 = Space.getCapi().take(Space.createOrLookUpContainer(Standort.BEARBEITETE_AUFTRAEGE), FifoCoordinator.newSelector(MzsConstants.Selecting.COUNT_ALL), MzsConstants.RequestTimeout.TRY_ONCE, tx);
+//	}
 
 
 	/**
