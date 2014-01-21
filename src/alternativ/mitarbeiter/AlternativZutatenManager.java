@@ -96,7 +96,7 @@ public class AlternativZutatenManager implements GUIDataManager {
 
 	@Override
 	public List<IAuftrag> getAllAuftraege() {
-		return new ArrayList<IAuftrag>();
+		return aufgabenAblage.getAllAuftraege();
 	}
 
 

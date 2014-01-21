@@ -45,24 +45,28 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	}
 
 	private void holeLebkuchenFuerPackung() {
-		Packung r = null;
+		Packung packungVonLogistik = null;
 		Auftraege nimmObjectVonAnlage = (Auftraege) nimmObjectVonAnlage(weiteresZiel, null);
 		List<Auftrag> priority = nimmObjectVonAnlage.getPriority();
-		r = (Packung) nimmObjectVonAnlage(quelle, priority);
-		if (r == null) {
+		packungVonLogistik = (Packung) nimmObjectVonAnlage(quelle, priority);
+		if (packungVonLogistik == null) {
+			System.out.println("should not happen in a row, got no packung");
 			return;
 		}
-		if (r.getAllLebkuchen().size() == 6) {
-			for (Lebkuchen l : r.getAllLebkuchen()) {
+		if (packungVonLogistik.getAllLebkuchen().size() == 6) {
+			for (Lebkuchen l : packungVonLogistik.getAllLebkuchen()) {
 				l.setLogistikMitarbeiterId(this.getId());
-				l.setVerpackungId(r.getUID());
+				l.setVerpackungId(packungVonLogistik.getUID());
+				l.setAuftragUid(packungVonLogistik.getAuftragId());
 			}
+			System.out.println("priority size: " + priority.size());
 			for(Auftrag auftrag:priority){
-				if(r.getAuftragId() == auftrag.getID()){
+				System.out.println("gib Auftrag " + auftrag.getID() + " an auftragablage, packungAuftragId " + packungVonLogistik.getAuftragId());
+				if(auftrag.getID().equals(packungVonLogistik.getAuftragId())){
 					gibObjectAnAnlage(weiteresZiel, auftrag);
 				}
 			}
-			gibObjectAnAnlage(ziel, r);
+			gibObjectAnAnlage(ziel, packungVonLogistik);
 		} else {
 			System.out.println("FATAL ERROR PACKUNG HAS WRONG NUMBER OF LEBKUCHEN IN LOGISTIKMITARBEITER");
 		}

@@ -76,7 +76,7 @@ public class QualitaetsKontrolleur extends Mitarbeiter {
 				zuPruefendeCharge.setStatusOfLebkuchen(Lebkuchen.Status.KONTROLLIERT);
 			}
 		}else{
-			zuPruefendeCharge.setStatus(Charge.Status.NICHT_KONTROLLIERT);
+			zuPruefendeCharge.setStatus(Charge.Status.OK);
 			zweiteKontrolle = true;
 		}
 	}

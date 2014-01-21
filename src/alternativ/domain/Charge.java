@@ -60,7 +60,7 @@ public class Charge extends Resource implements Serializable {
 	}
 
 	public enum Status {
-		ABFALL,NICHT_KONTROLLIERT,OK;
+		ABFALL,OK;
 	}
 
 	public Status getStatus() {
