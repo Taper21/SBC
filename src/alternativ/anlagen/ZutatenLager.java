@@ -45,8 +45,8 @@ public class ZutatenLager extends Anlage implements Serializable {
 	private LinkedBlockingQueue<AlternativZutat> nuesse = new LinkedBlockingQueue<AlternativZutat>();
 	public static final String ZUTATEN_LAGER = "ZutatenLager";
 
-	public ZutatenLager() {
-		super(ZUTATEN_LAGER);
+	public ZutatenLager(String standort) {
+		super(ZUTATEN_LAGER+" "+standort);
 	}
 
 	@Override
@@ -77,9 +77,6 @@ public class ZutatenLager extends Anlage implements Serializable {
 		return false;
 	}
 
-	public static void main(String[] args) {
-		new ZutatenLager();
-	}
 
 	@Override
 	synchronized public Resource objectHolen(Object requestedType) throws RemoteException, InterruptedException {

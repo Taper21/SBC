@@ -23,13 +23,10 @@ public class Qualitaetskontrolle extends Anlage {
 	
 	public Queue<Charge> charges = new ConcurrentLinkedQueue<Charge>();
 	
-	public Qualitaetskontrolle() {
-		super(QUALITAETSKONTROLLE);
+	public Qualitaetskontrolle(String standort) {
+		super(QUALITAETSKONTROLLE+" "+standort);
 	}
 	
-	public static void main(String[] args) {
-    	new Qualitaetskontrolle();
-    }
 
 	@Override
 	public boolean objectLiefern(Resource t) throws RemoteException {

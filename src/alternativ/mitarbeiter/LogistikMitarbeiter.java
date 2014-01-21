@@ -20,13 +20,15 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	public static int LEBKUCHEN_PRO_VERPACKUNG = 6;
 	Queue<Lebkuchen> zuVerpackendeLebkuchen = new ConcurrentLinkedDeque<Lebkuchen>();
 	Queue<Packung> fertigePackungen = new ConcurrentLinkedDeque<Packung>();
+	private String ort;
 
-	public LogistikMitarbeiter(String id) {
-		super(Logistik.LOGISTIK, FertigePackungenLager.FERTIGEPACKUNGENLAGER, AuftragAblage.AUFTRAGABLAGE, id);
+	public LogistikMitarbeiter(String id, String ort) {
+		super(Logistik.LOGISTIK, FertigePackungenLager.FERTIGEPACKUNGENLAGER, AuftragAblage.AUFTRAGABLAGE, id, ort);
+		this.ort=ort;
 	}
 
 	public static void main(String args[]) {
-		LogistikMitarbeiter logistikMitarbeiter = new LogistikMitarbeiter(args[0]);
+		LogistikMitarbeiter logistikMitarbeiter = new LogistikMitarbeiter(args[0], args[1]);
 		logistikMitarbeiter.logger.info("logistikMitarbeiter id: " + logistikMitarbeiter.getId() + " started.");
 		while (!logistikMitarbeiter.close) {
 			logistikMitarbeiter.holeLebkuchenFuerPackung();
@@ -98,5 +100,6 @@ public class LogistikMitarbeiter extends Mitarbeiter {
 	public void verarbeiteZutat() {
 
 	}
+
 
 }

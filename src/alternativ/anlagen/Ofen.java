@@ -27,13 +27,11 @@ public class Ofen extends Anlage {
 
 	public static final String OFEN = "Ofen";
 	
-	public Ofen() {
-		super(OFEN);
-	}
 	
-	public static void main(String[] args) {
-    	new Ofen();
-    }
+	public Ofen(String standort) {
+		super(OFEN+" "+standort );
+	}
+
 
 	@Override
 	public boolean objectLiefern(Resource t) throws RemoteException, InterruptedException {

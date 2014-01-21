@@ -12,8 +12,8 @@ public class Blech extends Anlage {
 	
 	public static String BLECH = "Blech"; 
 
-	public Blech() {
-		super(BLECH);
+	public Blech(String standort) {
+		super(BLECH+" "+standort);
 	}
 
 	private ConcurrentHashMap<String,Charge> bleche = new ConcurrentHashMap<String, Charge>();

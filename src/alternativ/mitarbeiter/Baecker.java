@@ -33,15 +33,17 @@ public class Baecker extends Mitarbeiter {
 	private String chargeZumAbholen;
 	private AnlageInterface blech;
 	private ZutatenFuerLebkuchen listOfAlles;
+	private String ort;
 
-	public Baecker(String id){
-		super(ZutatenLager.ZUTATEN_LAGER, Ofen.OFEN, Qualitaetskontrolle.QUALITAETSKONTROLLE,id);
+	public Baecker(String id, String ort){
+		super(ZutatenLager.ZUTATEN_LAGER, Ofen.OFEN, Qualitaetskontrolle.QUALITAETSKONTROLLE,id, ort);
 		blech = bindAnlage(Blech.BLECH);
+		this.ort = ort;
 	}
 	
 	
 	public static void main(String[] args) {
-		Baecker baecker = new Baecker(args[0]);
+		Baecker baecker = new Baecker(args[0], args[1]);
 		baecker.getLogger().info("Bäcker started mit id: " + baecker.getId());
 		while(!baecker.close){
 			baecker.getResources();
@@ -121,5 +123,6 @@ public class Baecker extends Mitarbeiter {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

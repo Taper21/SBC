@@ -1,7 +1,11 @@
 package alternativ.mitarbeiter;
 
+import gui.MainFrame;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import alternativ.anlagen.AuftragAblage;
 import alternativ.anlagen.Blech;
@@ -18,7 +22,7 @@ import domain.Zutat;
 import domain.ZutatTypEnum;
 import domain.GUIDataManager;
 
-public class AlternativZutatenManager implements GUIDataManager {
+public class FabrikManager implements GUIDataManager {
 	
 	private ZutatenLager lager;
 	private Ofen ofen;
@@ -28,14 +32,18 @@ public class AlternativZutatenManager implements GUIDataManager {
 	private Blech blech;
 	private AuftragAblage aufgabenAblage;
 
-	public AlternativZutatenManager(){
-		this.lager = new ZutatenLager();
-		this.blech = new Blech();
-		this.ofen = new Ofen();
-		this.qualitaetskontrolle = new Qualitaetskontrolle();
-		this.logistik = new Logistik();
-		this.fertigePackungenLager = new FertigePackungenLager();
-		this.aufgabenAblage = new AuftragAblage();
+	public FabrikManager(){
+		String standort = MainFrame.getOrt();
+		if(StringUtils.isEmpty(standort)){
+			throw new IllegalArgumentException("Firma braucht standort");
+		}
+		this.lager = new ZutatenLager(standort);
+		this.blech = new Blech(standort);
+		this.ofen = new Ofen(standort);
+		this.qualitaetskontrolle = new Qualitaetskontrolle(standort);
+		this.logistik = new Logistik(standort);
+		this.fertigePackungenLager = new FertigePackungenLager(standort);
+		this.aufgabenAblage = new AuftragAblage(standort);
 	}
 
 	@Override
@@ -101,7 +109,7 @@ public class AlternativZutatenManager implements GUIDataManager {
 
 	@Override
 	public List<ILebkuchen> getAllKontrolliert() {
-		return logistik.getAllLebkuchen();
+		return logistik.getAllKontrolliert();
 	}
 
 

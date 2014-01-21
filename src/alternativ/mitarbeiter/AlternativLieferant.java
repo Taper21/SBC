@@ -18,9 +18,11 @@ public class AlternativLieferant extends AbstractLieferant {
 	private static final long serialVersionUID = 1L;
 	private int gesamt;
 	Logger logger = LoggerFactory.getLogger(AlternativLieferant.class);
+	private String ort;
 
-	public AlternativLieferant(int anzahl, ZutatTypEnum zutatTyp) {
+	public AlternativLieferant(int anzahl, ZutatTypEnum zutatTyp, String ort) {
 		super(anzahl, zutatTyp);
+		this.ort = ort;
 	}
 
 
@@ -29,7 +31,7 @@ public class AlternativLieferant extends AbstractLieferant {
 		AlternativZutat zutat = new AlternativZutat(zutatTypEnum, getId());
 		logger.info("Lieferant " + getId() + " abgeladen typ: " +zutat.getZutatTypEnum()+" id: " +zutat.getStringId() +" gesamt: " + ++gesamt);
 	        try {
-	            String name = "ZutatenLager";
+	            String name = "ZutatenLager" + " "+ ort;
 	            Registry registry = LocateRegistry.getRegistry(null);
 	            AnlageInterface comp = (AnlageInterface) registry.lookup(name);
 	            comp.objectLiefern(zutat); 

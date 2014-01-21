@@ -12,19 +12,20 @@ import javax.swing.text.TabExpander;
 
 import domain.GUIDataManager;
 
-import alternativ.mitarbeiter.AlternativZutatenManager;
+import alternativ.mitarbeiter.FabrikManager;
 
 import xvsm.GUIDataMangerXVSMImpl;
 import xvsm.Space;
 
 public class MainFrame extends JFrame {
 
-	public MainFrame(String[] args) throws HeadlessException {
-		super("Lebkuchenfabrik");
-		int port = Integer.parseInt(args[1]);
-		Space.setPort(port);
+	private static String ort;
+	private static int port ;
+
+	public MainFrame() throws HeadlessException {
+		super(getOrt() + " - " + port);
 		GUIDataManager spaced = new GUIDataMangerXVSMImpl();
-		GUIDataManager alternativ = new AlternativZutatenManager();
+		GUIDataManager alternativ = new FabrikManager();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setLayout(new BorderLayout());
@@ -41,7 +42,16 @@ public class MainFrame extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new MainFrame(args);
+
+		ort=args[0];
+		port= Integer.parseInt(args[1]);
+		Space.setPort(port);
+		new MainFrame();
 	}
+
+	public static String getOrt() {
+		return ort;
+	}
+	
 
 }

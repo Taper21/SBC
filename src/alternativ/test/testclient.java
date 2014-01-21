@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -39,11 +40,22 @@ public class testclient extends Thread implements Remote, Serializable {
 //		new testclient(true).start();
 //		new testclient(false).start();
 //		new testclient(true).test();
-		Object s;
-		String string = new String("maama");
-		s = string;
-		System.out.println(s.toString());
-		System.out.println(string.toString());
+//		Object s;
+//		String string = new String("maama");
+//		s = string;
+//		System.out.println(s.toString());
+//		System.out.println(string.toString());
+		int positive = 0;
+		int negative = 0;
+		for(int i = 0; i<1000; i++){
+			boolean x = (Math.abs(new Random().nextLong()%100))<=50;
+			if(x)
+				positive++;
+			else
+				negative++;
+			System.out.println(x);
+		}
+		System.out.println(positive +" : " + negative);
 	}
 
 	private void test() {
