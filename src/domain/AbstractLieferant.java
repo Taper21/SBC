@@ -30,7 +30,7 @@ public abstract class AbstractLieferant extends Thread implements Serializable{
 		long abladeZeit = (Math.abs(new Random().nextInt())%1000)+1000L;
 		for(int i = 0; i< anzahl ; i++){
 			//Benchmark
-//			Thread.sleep(abladeZeit);
+			Thread.sleep(abladeZeit);
 			zutatAbladen(zutatTyp);
 		}
 		

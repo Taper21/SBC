@@ -67,7 +67,7 @@ public class Baecker extends Mitarbeiter {
 		if(warteAufCharge){
 			try {
 				//Benchmark
-//				Thread.sleep(BACKZEIT);
+				Thread.sleep(BACKZEIT);
 				logger.info("warte auf charge:" + chargeZumAbholen);
 				warteAufCharge = false;
 				try {

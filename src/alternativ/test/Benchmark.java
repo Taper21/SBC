@@ -36,35 +36,37 @@ public class Benchmark {
 		{
 			e.printStackTrace();
 		}
-		new Thread(new Runnable() {
+		new Thread(){
 			
 			@Override
 			public void run() {
 				System.out.println("start");
 				baecker.start();
 			}
-		}).start();
-		new Thread(new Runnable() {
+		}.start();
+		new Thread(){
 			
 			@Override
 			public void run() {
+				System.out.println("start");
 				baecker2.start();
 			}
-		}).start();
-		new Thread(new Runnable() {
+		}.start();
+		new Thread(){
 			
 			@Override
 			public void run() {
+				System.out.println("start");
 				qualitaetsKontrolleur.start();
 			}
-		}).start();
-		new Thread(new Runnable() {
+		}.start();
+		new Thread(){
 			
 			@Override
 			public void run() {
 				logistikMitarbeiter.start();
 			}
-		}).start();
+		}.start();
 		
 		System.out.println("Nur noch 60 Sekunden");
 		Thread.sleep(60000);

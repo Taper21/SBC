@@ -25,12 +25,12 @@ public class Charge extends Resource implements Serializable {
 			return false;
 		}
 		charge.add(lebkuchen);
-//		try {
-			//Benchmark
-//			Thread.sleep((new Random().nextInt()%1000) + 1000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+//			Benchmark
+			Thread.sleep((new Random().nextInt()%1000) + 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 	
