@@ -1,1 +1,1 @@
-java -cp ./../../target/SBC-0.0.1-SNAPSHOT.jar xvsm.Baecker B2
+java -cp ./../../target/SBC-0.0.1-SNAPSHOT.jar xvsm.Baecker B2 9876

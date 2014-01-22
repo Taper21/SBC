@@ -1,0 +1,1 @@
+java -cp ./../../../target/SBC-0.0.1-SNAPSHOT.jar alternativ.anlagen.LoadBalancer Wien Linz

@@ -1,0 +1,1 @@
+java -cp ./../../../target/SBC-0.0.1-SNAPSHOT.jar alternativ.mitarbeiter.QualitaetsKontrolleur 1 10 Wien

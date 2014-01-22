@@ -1,1 +1,1 @@
-java -cp ./../../target/SBC-0.0.1-SNAPSHOT.jar xvsm.Logistik L2
+java -cp ./../../target/SBC-0.0.1-SNAPSHOT.jar xvsm.Logistik L2 9876
